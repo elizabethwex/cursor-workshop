@@ -1,0 +1,99 @@
+---
+const STORAGE_KEY = "cursor-workshop-checklist";
+
+const defaultItems = [
+  { id: "github-account", label: "Created a GitHub account" },
+  { id: "cloned-repo", label: "Cloned a repo" },
+  { id: "opened-cursor", label: "Opened a repo in Cursor" },
+  { id: "ran-localhost", label: "Ran a project on localhost (npm install + npm run dev)" },
+  { id: "command-palette", label: "Used the Command Palette (Cmd/Ctrl+Shift+P)" },
+  { id: "cursor-chat", label: "Used Cursor chat to ask a question" },
+];
+---
+
+<div class="checklist-progress" id="checklist-progress" role="status" aria-live="polite">
+  <!-- Filled by script -->
+</div>
+
+<ul class="checklist-list" id="checklist-list">
+  {defaultItems.map((item) => (
+    <li class="checklist-item" data-id={item.id}>
+      <input
+        type="checkbox"
+        id={`check-${item.id}`}
+        data-id={item.id}
+        aria-label={item.label}
+      />
+      <label for={`check-${item.id}`}>{item.label}</label>
+    </li>
+  ))}
+</ul>
+
+<button type="button" class="checklist-reset" id="checklist-reset">
+  Reset checklist
+</button>
+
+<script>
+  const STORAGE_KEY = "cursor-workshop-checklist";
+  const progressEl = document.getElementById("checklist-progress");
+  const listEl = document.getElementById("checklist-list");
+  const resetBtn = document.getElementById("checklist-reset");
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveState(state) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {}
+  }
+
+  function updateProgress() {
+    const state = loadState();
+    const total = listEl?.querySelectorAll('input[type="checkbox"]').length ?? 0;
+    const done = Object.values(state).filter(Boolean).length;
+    if (progressEl) {
+      progressEl.textContent = `${done} of ${total} complete`;
+    }
+  }
+
+  function bindChecklist() {
+    if (!listEl) return;
+    const state = loadState();
+    listEl.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+      const id = input.getAttribute("data-id");
+      if (id) input.checked = !!state[id];
+      const item = input.closest(".checklist-item");
+      if (item) item.classList.toggle("done", input.checked);
+
+      input.addEventListener("change", () => {
+        const id = input.getAttribute("data-id");
+        if (!id) return;
+        const newState = { ...loadState(), [id]: input.checked };
+        saveState(newState);
+        item?.classList.toggle("done", input.checked);
+        updateProgress();
+      });
+    });
+    updateProgress();
+  }
+
+  resetBtn?.addEventListener("click", () => {
+    saveState({});
+    listEl?.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+      input.checked = false;
+    });
+    listEl?.querySelectorAll(".checklist-item").forEach((item) => {
+      item.classList.remove("done");
+    });
+    updateProgress();
+  });
+
+  bindChecklist();
+</script>

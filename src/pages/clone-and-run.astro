@@ -1,0 +1,46 @@
+---
+import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import StepCard from "../components/StepCard.astro";
+import CopyButton from "../components/CopyButton.astro";
+---
+
+<WorkshopLayout title="Clone and run" description="Clone this repo and run it on localhost.">
+  <h1>Clone and run</h1>
+  <p>
+    Follow these steps to copy this workshop to your computer and run it in your browser. This is the same flow you’ll use for other projects: clone, open in Cursor, install, run.
+  </p>
+
+  <StepCard number={1} title="Clone the repo">
+    <p>
+      Open a terminal (or use the one inside Cursor: Terminal → New Terminal). Then run the command below. Replace <code>your-username</code> with the GitHub username or org that owns this repo.
+    </p>
+    <CopyButton text="git clone https://github.com/your-username/cursor-workshop.git" />
+    <p>This creates a folder called <code>cursor-workshop</code> with all the project files.</p>
+  </StepCard>
+
+  <StepCard number={2} title="Open the folder in Cursor">
+    <p>
+      In Cursor: <strong>File → Open Folder</strong> (or Cmd+O / Ctrl+O). Choose the <code>cursor-workshop</code> folder you just cloned.
+    </p>
+  </StepCard>
+
+  <StepCard number={3} title="Install dependencies">
+    <p>
+      In the terminal (you can use the one at the bottom of Cursor), run:
+    </p>
+    <CopyButton text="npm install" />
+    <p>This downloads the packages the project needs. Wait until it finishes.</p>
+  </StepCard>
+
+  <StepCard number={4} title="Start the dev server">
+    <p>In the same terminal, run:</p>
+    <CopyButton text="npm run dev" />
+    <p>
+      The site will start. You should see a message like “Local: http://localhost:4321” (or another port). Open that link in your browser – you’re now viewing the workshop from your own computer.
+    </p>
+  </StepCard>
+
+  <p>
+    You’ve just run a project on <strong>localhost</strong>. Next: <a href="/cursor-workshop/explore-cursor/">Explore Cursor</a> to learn the interface, or jump to the <a href="/cursor-workshop/checklist/">Checklist</a> to track your progress.
+  </p>
+</WorkshopLayout>

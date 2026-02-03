@@ -1,0 +1,59 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Onboard to Cursor and GitHub with this interactive workshop." } = Astro.props;
+
+const navLinks = [
+  { href: "/cursor-workshop/", label: "Welcome" },
+  { href: "/cursor-workshop/github/", label: "GitHub basics" },
+  { href: "/cursor-workshop/clone-and-run/", label: "Clone and run" },
+  { href: "/cursor-workshop/explore-cursor/", label: "Explore Cursor" },
+  { href: "/cursor-workshop/checklist/", label: "Checklist" },
+  { href: "/cursor-workshop/resources/", label: "Resources" },
+];
+
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/cursor-workshop";
+const isCurrent = (href: string) => {
+  const h = href.replace(/\/$/, "") || "/cursor-workshop";
+  return pathname === h;
+};
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title} | Cursor Workshop</title>
+  </head>
+  <body>
+    <nav class="workshop-nav" aria-label="Workshop navigation">
+      <div class="workshop-nav-inner">
+        <h2 class="workshop-nav-title">
+          <a href="/cursor-workshop/">Cursor Workshop</a>
+        </h2>
+        <ul class="workshop-nav-links">
+          {navLinks.map((link) => (
+            <li>
+              <a href={link.href} aria-current={isCurrent(link.href) ? "page" : undefined}>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+    <main>
+      <slot />
+    </main>
+    <footer class="workshop-footer">
+      <p>Cursor Workshop – get up to speed with Cursor and GitHub.</p>
+    </footer>
+  </body>
+</html>

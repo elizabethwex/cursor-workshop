@@ -1,0 +1,50 @@
+---
+interface Props {
+  text: string;
+  label?: string;
+}
+
+const { text, label = "Copy" } = Astro.props;
+const id = `copy-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class="command-block">
+  <code id={`${id}-code`}>{text}</code>
+  <button
+    type="button"
+    class="copy-btn"
+    data-copy-target={id}
+    aria-label={label === "Copy" ? "Copy command" : label}
+  >
+    {label}
+  </button>
+  <span class="copy-live sr-only" aria-live="polite" aria-atomic="true"></span>
+</div>
+
+<script>
+  document.addEventListener("click", async (e) => {
+    const btn = (e.target as HTMLElement).closest(".copy-btn");
+    if (!btn) return;
+    const targetId = btn.getAttribute("data-copy-target");
+    if (!targetId) return;
+    const codeEl = document.getElementById(`${targetId}-code`);
+    if (!codeEl) return;
+    const text = codeEl.textContent?.trim() ?? "";
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      const block = btn.closest(".command-block");
+      const live = block?.querySelector(".copy-live");
+      if (live) live.textContent = "Copied to clipboard.";
+      setTimeout(() => {
+        btn.textContent = "Copy";
+        btn.classList.remove("copied");
+        if (live) live.textContent = "";
+      }, 2000);
+    } catch {
+      btn.textContent = "Copy failed";
+      setTimeout(() => (btn.textContent = "Copy"), 2000);
+    }
+  });
+</script>
