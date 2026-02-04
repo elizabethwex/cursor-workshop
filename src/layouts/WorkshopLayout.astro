@@ -19,6 +19,11 @@ const { title, description = "Onboard to Cursor and GitHub with this interactive
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css" />
     <title>{title} | Cursor Workshop</title>
     {bootOverlay && (
       <script is:inline>
@@ -31,33 +36,10 @@ const { title, description = "Onboard to Cursor and GitHub with this interactive
   </head>
   <body>
     <SystemShell ambient={ambient}>
-    <header class="workshop-header system-shell-header">
-      <h1 class="workshop-header-title">
-        <a href="/cursor-workshop/">Cursor Workshop</a>
-      </h1>
-      <div class="workshop-header-strip">
-        <div class="workshop-status-strip" id="workshop-status-strip" aria-live="polite">
-          <span class="workshop-status-item" id="workshop-status-repo">Repo: —</span>
-          <span class="workshop-status-item" id="workshop-status-localhost">Localhost: —</span>
-        </div>
-        <div class="workshop-theme-intensity-wrap">
-          <button
-            type="button"
-            id="theme-intensity-btn"
-            class="workshop-theme-intensity-btn"
-            aria-label="Theme intensity: medium"
-            title="Theme intensity: Medium"
-          >
-            <span class="workshop-theme-intensity-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                <rect x="4" y="12" width="3" height="5" rx="1" fill="currentColor" opacity="0.5"/>
-                <rect x="8.5" y="8" width="3" height="9" rx="1" fill="currentColor" opacity="0.8"/>
-                <rect x="13" y="4" width="3" height="13" rx="1" fill="currentColor"/>
-              </svg>
-            </span>
-          </button>
-        </div>
-      </div>
+    <header class="workshop-app-bar" role="banner">
+      <a href="/cursor-workshop/" class="workshop-app-bar__home" aria-label="Back to desktop">
+        <img src="/cursor-workshop/icons/amiga/home.svg" alt="" width="32" height="32" />
+      </a>
     </header>
 
     <div class="workshop-app">
@@ -66,17 +48,11 @@ const { title, description = "Onboard to Cursor and GitHub with this interactive
       </main>
     </div>
 
-    <footer class="workshop-footer-bar">
-      <a href="/cursor-workshop/" class="workshop-btn workshop-btn--secondary" aria-label="Back to desktop">
-        Back to desktop
-      </a>
-    </footer>
     </SystemShell>
 
     <script>
       (function () {
         const VISITED_KEY = "cursor-workshop-visited-steps";
-        const CHECKLIST_KEY = "cursor-workshop-checklist";
 
         function getVisited(): string[] {
           try {
@@ -93,75 +69,64 @@ const { title, description = "Onboard to Cursor and GitHub with this interactive
           } catch {}
         }
 
-        function getChecklistState(): Record<string, boolean> {
-          try {
-            const raw = localStorage.getItem(CHECKLIST_KEY);
-            return raw ? JSON.parse(raw) : {};
-          } catch {
-            return {};
-          }
-        }
-
         const pathname = window.location.pathname.replace(/\/$/, "") || "/cursor-workshop";
         const visited = getVisited();
         if (!visited.includes(pathname)) {
           visited.push(pathname);
           setVisited(visited);
         }
+      })();
+    </script>
+    <script>
+      (function () {
+        const HOME = "/cursor-workshop/";
 
-        function refreshStatusStrip() {
-          const state = getChecklistState();
-          const repoEl = document.getElementById("workshop-status-repo");
-          const localhostEl = document.getElementById("workshop-status-localhost");
-          const repoConnected = !!(state["cloned-repo"] || state["opened-cursor"]);
-          const localhostOnline = !!state["ran-localhost"];
-          if (repoEl) repoEl.textContent = repoConnected ? "Repo: Connected" : "Repo: —";
-          if (localhostEl) localhostEl.textContent = localhostOnline ? "Localhost: Online" : "Localhost: —";
-          if (repoEl) repoEl.classList.toggle("workshop-status--on", repoConnected);
-          if (localhostEl) localhostEl.classList.toggle("workshop-status--on", localhostOnline);
+        function isTextInput(el: EventTarget | null): boolean {
+          if (!el || !(el instanceof HTMLElement)) return false;
+          const tag = el.tagName.toLowerCase();
+          if (tag === "input" || tag === "textarea") return true;
+          return el.isContentEditable === true;
         }
 
-        refreshStatusStrip();
-        window.addEventListener("workshop-checklist-update", () => {
-          refreshStatusStrip();
+        document.addEventListener("keydown", (e) => {
+          if (e.key !== "r" && e.key !== "R") return;
+          if (e.ctrlKey || e.metaKey || e.altKey) return;
+          if (isTextInput(e.target as EventTarget | null)) return;
+          e.preventDefault();
+          window.location.href = HOME;
         });
+      })();
+    </script>
+    <script>
+      (function () {
+        function isInteractiveClickTarget(el: EventTarget | null): boolean {
+          if (!el || !(el instanceof Element)) return false;
+          const node = el as Element;
+          const tag = node.tagName.toLowerCase();
+          const role = node.getAttribute("role");
+          if (tag === "a" || tag === "button") return true;
+          if (tag === "input" && ["submit", "button", "checkbox", "radio"].includes((node as HTMLInputElement).type)) return true;
+          if (role === "button" || role === "link" || role === "menuitem" || role === "tab") return true;
+          const clickable = node.closest("a, button, [role=button], [role=link]");
+          return !!clickable;
+        }
 
-        const THEME_INTENSITY_KEY = "cursor-workshop-theme-intensity";
-        const INTENSITIES = ["low", "medium", "high"] as const;
+        const CLICK_SOUND_URL = "/cursor-workshop/sounds/mouse-click.mp3";
+        let clickAudio: HTMLAudioElement | null = null;
 
-        function getThemeIntensity(): "low" | "medium" | "high" {
+        function playClickSound() {
           try {
-            const v = localStorage.getItem(THEME_INTENSITY_KEY);
-            if (v === "low" || v === "high") return v;
-          } catch {}
-          return "medium";
+            if (typeof window === "undefined") return;
+            if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+            if (!clickAudio) clickAudio = new Audio(CLICK_SOUND_URL);
+            clickAudio.currentTime = 0;
+            clickAudio.play();
+          } catch (_) {}
         }
 
-        function setThemeIntensity(value: "low" | "medium" | "high") {
-          try {
-            localStorage.setItem(THEME_INTENSITY_KEY, value);
-          } catch {}
-          document.documentElement.setAttribute("data-theme-intensity", value);
-        }
-
-        function updateThemeButtonLabel(value: "low" | "medium" | "high") {
-          const btn = document.getElementById("theme-intensity-btn");
-          if (!btn) return;
-          const label = value.charAt(0).toUpperCase() + value.slice(1);
-          btn.setAttribute("aria-label", `Theme intensity: ${label}`);
-          btn.setAttribute("title", `Theme intensity: ${label}`);
-        }
-
-        const themeBtn = document.getElementById("theme-intensity-btn");
-        themeBtn?.addEventListener("click", () => {
-          const current = getThemeIntensity();
-          const idx = INTENSITIES.indexOf(current);
-          const next = INTENSITIES[(idx + 1) % INTENSITIES.length];
-          setThemeIntensity(next);
-          updateThemeButtonLabel(next);
-        });
-
-        updateThemeButtonLabel(getThemeIntensity());
+        document.addEventListener("click", (e) => {
+          if (isInteractiveClickTarget(e.target)) playClickSound();
+        }, true);
       })();
     </script>
     <script>

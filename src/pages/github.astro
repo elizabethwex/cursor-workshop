@@ -2,6 +2,7 @@
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import StepTasks from "../components/StepTasks.astro";
+import CollapsibleSection from "../components/CollapsibleSection.astro";
 import content from "../content/steps/02-github-basics.ts";
 ---
 
@@ -39,7 +40,7 @@ import content from "../content/steps/02-github-basics.ts";
       <p>You do need to understand how changes move through the system.</p>
     </section>
 
-    <section class="step-card" aria-labelledby="getting-access">
+    <CollapsibleSection id="getting-access" title="Getting Access at WEX" stepCard={true}>
       <h2 id="getting-access">Getting Access at WEX</h2>
       <p>GitHub access at WEX is managed through enterprise accounts and teams.</p>
 
@@ -71,9 +72,9 @@ import content from "../content/steps/02-github-basics.ts";
         <li>Safer collaboration across groups</li>
       </ul>
       <p>If you’re unsure which team you should belong to, check with your design lead.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="core-concepts">
+    <CollapsibleSection id="core-concepts" title="Core Concepts (Expanded)" stepCard={true}>
       <h2 id="core-concepts">Core Concepts (Expanded)</h2>
       <p>These concepts will come up often. Understanding them now will make everything else easier.</p>
 
@@ -126,9 +127,9 @@ import content from "../content/steps/02-github-basics.ts";
       </ul>
       <p>Opening a PR does not mean your change is final.</p>
       <p>It means it’s ready for review.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="github-pages">
+    <CollapsibleSection id="github-pages" title="GitHub Pages (Why This App Has a Public URL)" stepCard={true}>
       <h2 id="github-pages">GitHub Pages (Why This App Has a Public URL)</h2>
       <p>GitHub can host static sites using <strong>GitHub Pages</strong>.</p>
       <p>This allows a repository to:</p>
@@ -139,9 +140,9 @@ import content from "../content/steps/02-github-basics.ts";
       </ul>
       <p>This workshop app is hosted using GitHub Pages.</p>
       <p>Later, you’ll run the same app locally on your machine.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="ssh">
+    <CollapsibleSection id="ssh" title="Connecting Cursor to GitHub (SSH)" stepCard={true}>
       <h2 id="ssh">Connecting Cursor to GitHub (SSH)</h2>
       <p>To work smoothly with GitHub, Cursor needs a secure way to authenticate.</p>
       <p>This is done using an <strong>SSH key</strong>.</p>
@@ -182,9 +183,9 @@ import content from "../content/steps/02-github-basics.ts";
       </ul>
       <p>Once set up, SSH mostly disappears into the background.</p>
       <p>That’s the goal.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="not-expected">
+    <CollapsibleSection id="not-expected" title="What You're Not Expected to Do Yet" stepCard={true}>
       <h2 id="not-expected">What You’re Not Expected to Do Yet</h2>
       <p>You are not required to:</p>
       <ul>
@@ -193,9 +194,9 @@ import content from "../content/steps/02-github-basics.ts";
         <li>Understand every configuration file</li>
       </ul>
       <p>Those skills come with use, not onboarding.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="complete-module">
+    <CollapsibleSection id="complete-module" title="Complete This Module" stepCard={true}>
       <h2 id="complete-module">Complete This Module</h2>
       <p>Once you:</p>
       <ul>
@@ -205,7 +206,7 @@ import content from "../content/steps/02-github-basics.ts";
       </ul>
       <p>You’re ready to move on.</p>
       <p>The next module will guide you through running this project locally.</p>
-    </section>
+    </CollapsibleSection>
 
     <StepTasks moduleId="github-basics" tasks={content.tasks} />
 
@@ -217,9 +218,6 @@ import content from "../content/steps/02-github-basics.ts";
         <button type="button" id="github-mark-complete-btn" class="workshop-btn workshop-btn--primary">
           Mark GitHub basics complete
         </button>
-        <a id="github-back-to-desktop" href="/cursor-workshop/" class="workshop-btn workshop-btn--secondary" aria-label="Back to Desktop" hidden>
-          Back to Desktop
-        </a>
       </div>
     </section>
 
@@ -234,14 +232,12 @@ import content from "../content/steps/02-github-basics.ts";
 
   const btn = document.getElementById("github-mark-complete-btn");
   const confirmEl = document.getElementById("github-mark-complete-confirm");
-  const backLink = document.getElementById("github-back-to-desktop");
 
   function showConfirmation() {
     if (confirmEl) {
       confirmEl.hidden = false;
       confirmEl.setAttribute("aria-live", "polite");
     }
-    if (backLink) backLink.hidden = false;
     if (btn) btn.hidden = true;
   }
 

@@ -1,14 +1,12 @@
 ---
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
-import BootOverlay from "../components/BootOverlay.astro";
 import SystemMessage from "../components/SystemMessage.astro";
+import CollapsibleSection from "../components/CollapsibleSection.astro";
 import content from "../content/steps/01-welcome.ts";
 ---
 
-<WorkshopLayout title="Welcome" description="Welcome to the Cursor Access Program. Confirm enrollment to unlock the next module." bootOverlay={true}>
-  <BootOverlay />
-
-  <div id="welcome-content" class="welcome-content">
+<WorkshopLayout title="Welcome" description="Welcome to the Cursor Access Program. Confirm enrollment to unlock the next module.">
+  <div id="welcome-content" class="welcome-content welcome-page-ambient">
     <header class="welcome-page-header">
       <h1>Welcome</h1>
       <p class="welcome-meta" aria-label="Module information">
@@ -37,14 +35,14 @@ import content from "../content/steps/01-welcome.ts";
           <li>{item}</li>
         ))}
       </ul>
-      <p>{content.welcomeSection.paragraphs[1]}</p>
-      <p>{content.welcomeSection.paragraphs[2]}</p>
     </section>
 
-    <hr class="welcome-hr" />
+    <CollapsibleSection id="welcome-more" title="More about this module" stepCard={true}>
+      <p>{content.welcomeSection.paragraphs[1]}</p>
+      <p>{content.welcomeSection.paragraphs[2]}</p>
+    </CollapsibleSection>
 
-    <section class="welcome-section" aria-labelledby="what-this-is-heading">
-      <h2 id="what-this-is-heading">What This Program Is</h2>
+    <CollapsibleSection id="what-this-is" title="What This Program Is" stepCard={true}>
       <p>{content.whatThisIsSection.paragraphs[0]}</p>
       <p>{content.whatThisIsSection.paragraphs[1]}</p>
       <p>{content.whatThisIsSection.learnListIntro}</p>
@@ -55,12 +53,9 @@ import content from "../content/steps/01-welcome.ts";
       </ul>
       <p>{content.whatThisIsSection.paragraphs[2]}</p>
       <p>{content.whatThisIsSection.paragraphs[3]}</p>
-    </section>
+    </CollapsibleSection>
 
-    <hr class="welcome-hr" />
-
-    <section class="welcome-section" aria-labelledby="prerequisites-heading">
-      <h2 id="prerequisites-heading">Prerequisites</h2>
+    <CollapsibleSection id="prerequisites" title="Prerequisites" stepCard={true}>
       <p>{content.prerequisitesSection.intro}</p>
       <ul class="welcome-prereqs-list">
         {content.prerequisitesSection.items.map((item) => (
@@ -75,18 +70,13 @@ import content from "../content/steps/01-welcome.ts";
         ))}
       </ul>
       <p>{content.prerequisitesSection.footer}</p>
-    </section>
+    </CollapsibleSection>
 
-    <hr class="welcome-hr" />
-
-    <section class="welcome-section" aria-labelledby="how-progress-heading">
-      <h2 id="how-progress-heading">How Progress Works</h2>
+    <CollapsibleSection id="how-progress" title="How Progress Works" stepCard={true}>
       {content.howProgressWorksSection.paragraphs.map((p) => (
         <p>{p}</p>
       ))}
-    </section>
-
-    <hr class="welcome-hr" />
+    </CollapsibleSection>
 
     <section class="welcome-section welcome-begin-enrollment" aria-labelledby="begin-enrollment-heading">
       <h2 id="begin-enrollment-heading">Begin Enrollment</h2>
@@ -111,34 +101,6 @@ import content from "../content/steps/01-welcome.ts";
       </div>
     </section>
   </div>
-
-  <script>
-    (function () {
-      const BOOT_SEEN_KEY = "cursor-workshop-has-seen-boot";
-      const welcomeContent = document.getElementById("welcome-content");
-      const bootOverlay = document.getElementById("boot-overlay");
-      const isFirstVisit = document.documentElement.classList.contains("boot-first-visit");
-
-      function addAmbient() {
-        if (welcomeContent) welcomeContent.classList.add("welcome-page-ambient");
-      }
-
-      if (!isFirstVisit) {
-        addAmbient();
-      } else if (bootOverlay) {
-        const BOOT_DISPLAY_MS = 4500;
-        const runTransition = () => {
-          try {
-            localStorage.setItem(BOOT_SEEN_KEY, "1");
-          } catch {}
-          bootOverlay.classList.add("boot-overlay--exiting");
-          document.documentElement.classList.remove("boot-first-visit");
-          bootOverlay.addEventListener("transitionend", () => addAmbient(), { once: true });
-        };
-        setTimeout(runTransition, BOOT_DISPLAY_MS);
-      }
-    })();
-  </script>
 </WorkshopLayout>
 
 <script>

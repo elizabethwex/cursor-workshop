@@ -108,15 +108,28 @@ const ICON_KEY_TO_FILE: Record<string, string> = {
     const a = (e.target as HTMLElement).closest("a.desktop-icon");
     if (!a) return;
     const status = a.getAttribute("data-status");
-    if (status !== "locked") return;
-    e.preventDefault();
-    if (messageEl) {
-      messageEl.classList.add("desktop-locked-message--visible");
-      messageEl.setAttribute("aria-hidden", "false");
-      window.setTimeout(() => {
-        messageEl.classList.remove("desktop-locked-message--visible");
-        messageEl.setAttribute("aria-hidden", "true");
-      }, 4000);
+    if (status === "locked") {
+      e.preventDefault();
+      if (messageEl) {
+        messageEl.classList.add("desktop-locked-message--visible");
+        messageEl.setAttribute("aria-hidden", "false");
+        window.setTimeout(() => {
+          messageEl.classList.remove("desktop-locked-message--visible");
+          messageEl.setAttribute("aria-hidden", "true");
+        }, 4000);
+      }
+      return;
+    }
+    if (status === "available" || status === "complete") {
+      const moduleId = a.getAttribute("data-module-id");
+      const route = a.getAttribute("data-route");
+      const title = a.getAttribute("data-title") ?? "Module";
+      if (moduleId && route) {
+        e.preventDefault();
+        window.dispatchEvent(
+          new CustomEvent("workshop-show-app-boot", { detail: { moduleId, route, title } })
+        );
+      }
     }
   });
 

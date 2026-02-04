@@ -4,6 +4,7 @@ import ContributorWall from "../components/ContributorWall.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import StepTasks from "../components/StepTasks.astro";
 import CursorPrompts from "../components/CursorPrompts.astro";
+import CollapsibleSection from "../components/CollapsibleSection.astro";
 import content from "../content/steps/05-contribution.ts";
 ---
 
@@ -36,7 +37,7 @@ import content from "../content/steps/05-contribution.ts";
       <p>This is how work moves forward.</p>
     </section>
 
-    <section class="step-card" aria-labelledby="what-contribution-is">
+    <CollapsibleSection id="what-contribution-is" title="What a Contribution Is" stepCard={true}>
       <h2 id="what-contribution-is">What a Contribution Is</h2>
       <p>A contribution is a proposed change to a shared system.</p>
       <p>It usually involves:</p>
@@ -46,9 +47,9 @@ import content from "../content/steps/05-contribution.ts";
         <li>Submitting it for review</li>
       </ul>
       <p>The review process exists to protect the system, not to judge you.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="what-youll-do">
+    <CollapsibleSection id="what-youll-do" title="What You'll Do" stepCard={true}>
       <h2 id="what-youll-do">What You’ll Do</h2>
       <p>In this module, you will:</p>
       <ol>
@@ -59,9 +60,9 @@ import content from "../content/steps/05-contribution.ts";
       </ol>
       <p>Once your pull request is open, your contribution is complete.</p>
       <p>It does not need to be merged immediately.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="step-1-branch">
+    <CollapsibleSection id="step-1-branch" title="Step 1: Create a Branch" stepCard={true}>
       <h2 id="step-1-branch">Step 1: Create a Branch</h2>
       <p>Branches give you a safe place to work.</p>
       <p>In Cursor:</p>
@@ -71,9 +72,9 @@ import content from "../content/steps/05-contribution.ts";
         <li>Name your branch something descriptive<br /><span class="text-muted">(For example: <code>add-elizabeth-davis</code>)</span></li>
       </ol>
       <p>Your changes will live here until they’re reviewed.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="step-2-change">
+    <CollapsibleSection id="step-2-change" title="Step 2: Make a Small Change" stepCard={true}>
       <h2 id="step-2-change">Step 2: Make a Small Change</h2>
       <p>Choose one of the following options.</p>
 
@@ -97,9 +98,9 @@ import content from "../content/steps/05-contribution.ts";
 
       <p>If you’re unsure what to change, ask Cursor:</p>
       <blockquote>“What is a safe, beginner-friendly change I can make in this project?”</blockquote>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="step-3-commit">
+    <CollapsibleSection id="step-3-commit" title="Step 3: Commit Your Change" stepCard={true}>
       <h2 id="step-3-commit">Step 3: Commit Your Change</h2>
       <p>Once your change is ready:</p>
       <ol>
@@ -109,9 +110,9 @@ import content from "../content/steps/05-contribution.ts";
         <li>Commit the change</li>
       </ol>
       <p>This records your work.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="step-4-pr">
+    <CollapsibleSection id="step-4-pr" title="Step 4: Submit a Pull Request" stepCard={true}>
       <h2 id="step-4-pr">Step 4: Submit a Pull Request</h2>
       <p>Now it’s time to propose your change.</p>
       <ol>
@@ -121,9 +122,9 @@ import content from "../content/steps/05-contribution.ts";
         <li>Submit the pull request</li>
       </ol>
       <p>That’s it.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="what-happens-next">
+    <CollapsibleSection id="what-happens-next" title="What Happens Next" stepCard={true}>
       <h2 id="what-happens-next">What Happens Next</h2>
       <p>Your pull request may receive:</p>
       <ul>
@@ -133,9 +134,9 @@ import content from "../content/steps/05-contribution.ts";
       </ul>
       <p>This is normal.</p>
       <p>Feedback is part of collaboration, not correction.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="if-unclear">
+    <CollapsibleSection id="if-unclear" title="If Something Feels Unclear" stepCard={true}>
       <h2 id="if-unclear">If Something Feels Unclear</h2>
       <p>That’s expected.</p>
       <p>You can:</p>
@@ -145,13 +146,13 @@ import content from "../content/steps/05-contribution.ts";
         <li>Ask Cursor how to fix a problem</li>
       </ul>
       <p>Use the tools you’ve already practiced with.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="complete-module">
+    <CollapsibleSection id="complete-module" title="Complete This Module" stepCard={true}>
       <h2 id="complete-module">Complete This Module</h2>
       <p>Once your pull request is open, you’ve completed the program’s core workflow.</p>
       <p>Regardless of outcome, you’ve participated correctly.</p>
-    </section>
+    </CollapsibleSection>
 
     <StepTasks moduleId="contribution" tasks={content.tasks} />
 
@@ -165,9 +166,6 @@ import content from "../content/steps/05-contribution.ts";
         <button type="button" id="contribution-mark-complete-btn" class="workshop-btn workshop-btn--primary">
           Confirm contribution submitted
         </button>
-        <a id="contribution-back-to-desktop" href="/cursor-workshop/" class="workshop-btn workshop-btn--secondary" aria-label="Return to Desktop" hidden>
-          Return to Desktop
-        </a>
       </div>
     </section>
 
@@ -182,14 +180,12 @@ import content from "../content/steps/05-contribution.ts";
 
   const btn = document.getElementById("contribution-mark-complete-btn");
   const confirmEl = document.getElementById("contribution-mark-complete-confirm");
-  const backLink = document.getElementById("contribution-back-to-desktop");
 
   function showConfirmation() {
     if (confirmEl) {
       confirmEl.hidden = false;
       confirmEl.setAttribute("aria-live", "polite");
     }
-    if (backLink) backLink.hidden = false;
     if (btn) btn.hidden = true;
   }
 
