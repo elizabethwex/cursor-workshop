@@ -1,0 +1,167 @@
+---
+import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import BootOverlay from "../components/BootOverlay.astro";
+import SystemMessage from "../components/SystemMessage.astro";
+import content from "../content/steps/01-welcome.ts";
+---
+
+<WorkshopLayout title="Welcome" description="Welcome to the Cursor Access Program. Confirm enrollment to unlock the next module." bootOverlay={true}>
+  <BootOverlay />
+
+  <div id="welcome-content" class="welcome-content">
+    <header class="welcome-page-header">
+      <h1>Welcome</h1>
+      <p class="welcome-meta" aria-label="Module information">
+        <strong>Module:</strong> {content.moduleMeta.module}<br />
+        <strong>Access Requirement:</strong> {content.moduleMeta.accessRequirement}<br />
+        <strong>Completion Unlocks:</strong> {content.moduleMeta.completionUnlocks}
+      </p>
+    </header>
+
+    <hr class="welcome-hr" />
+
+    <div class="welcome-system-messages">
+      {content.systemMessages.map((msg) => (
+        <SystemMessage message={msg} typed={true} />
+      ))}
+    </div>
+
+    <hr class="welcome-hr" />
+
+    <section class="welcome-section" aria-labelledby="welcome-section-heading">
+      <h2 id="welcome-section-heading">{content.welcomeSection.title}</h2>
+      <p>{content.welcomeSection.paragraphs[0]}</p>
+      <p>{content.welcomeSection.learnListIntro}</p>
+      <ul>
+        {content.welcomeSection.learnList.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <p>{content.welcomeSection.paragraphs[1]}</p>
+      <p>{content.welcomeSection.paragraphs[2]}</p>
+    </section>
+
+    <hr class="welcome-hr" />
+
+    <section class="welcome-section" aria-labelledby="what-this-is-heading">
+      <h2 id="what-this-is-heading">What This Program Is</h2>
+      <p>{content.whatThisIsSection.paragraphs[0]}</p>
+      <p>{content.whatThisIsSection.paragraphs[1]}</p>
+      <p>{content.whatThisIsSection.learnListIntro}</p>
+      <ul>
+        {content.whatThisIsSection.learnList.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <p>{content.whatThisIsSection.paragraphs[2]}</p>
+      <p>{content.whatThisIsSection.paragraphs[3]}</p>
+    </section>
+
+    <hr class="welcome-hr" />
+
+    <section class="welcome-section" aria-labelledby="prerequisites-heading">
+      <h2 id="prerequisites-heading">Prerequisites</h2>
+      <p>{content.prerequisitesSection.intro}</p>
+      <ul class="welcome-prereqs-list">
+        {content.prerequisitesSection.items.map((item) => (
+          <li>
+            {item.url ? (
+              <a href={item.url} target="_blank" rel="noopener noreferrer">{item.text}</a>
+            ) : (
+              item.text
+            )}
+            {item.note ? <span class="welcome-prereq-note"> ({item.note})</span> : null}
+          </li>
+        ))}
+      </ul>
+      <p>{content.prerequisitesSection.footer}</p>
+    </section>
+
+    <hr class="welcome-hr" />
+
+    <section class="welcome-section" aria-labelledby="how-progress-heading">
+      <h2 id="how-progress-heading">How Progress Works</h2>
+      {content.howProgressWorksSection.paragraphs.map((p) => (
+        <p>{p}</p>
+      ))}
+    </section>
+
+    <hr class="welcome-hr" />
+
+    <section class="welcome-section welcome-begin-enrollment" aria-labelledby="begin-enrollment-heading">
+      <h2 id="begin-enrollment-heading">Begin Enrollment</h2>
+      <p>{content.beginEnrollmentSection.intro}</p>
+      <p>This will update your access level.</p>
+
+      <h3 class="welcome-action-heading">Action</h3>
+      <p><strong>{content.beginEnrollmentSection.actionLabel}</strong></p>
+
+      <div id="welcome-enrollment-actions" class="welcome-enrollment-actions">
+        <button type="button" id="welcome-confirm-enrollment-btn" class="workshop-btn workshop-btn--primary">
+          {content.beginEnrollmentSection.actionLabel}
+        </button>
+      </div>
+
+      <div id="welcome-enrollment-confirm" class="welcome-enrollment-confirm" aria-live="polite" hidden>
+        <p class="welcome-confirm-label"><em>{content.beginEnrollmentSection.confirmationTitle}</em></p>
+        <p class="welcome-confirm-msg">{content.beginEnrollmentSection.confirmationMessage}</p>
+        <a id="welcome-back-to-desktop" href={`${import.meta.env.BASE_URL}`} class="workshop-btn workshop-btn--secondary">
+          Back to Desktop
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      const BOOT_SEEN_KEY = "cursor-workshop-has-seen-boot";
+      const welcomeContent = document.getElementById("welcome-content");
+      const bootOverlay = document.getElementById("boot-overlay");
+      const isFirstVisit = document.documentElement.classList.contains("boot-first-visit");
+
+      function addAmbient() {
+        if (welcomeContent) welcomeContent.classList.add("welcome-page-ambient");
+      }
+
+      if (!isFirstVisit) {
+        addAmbient();
+      } else if (bootOverlay) {
+        const BOOT_DISPLAY_MS = 4500;
+        const runTransition = () => {
+          try {
+            localStorage.setItem(BOOT_SEEN_KEY, "1");
+          } catch {}
+          bootOverlay.classList.add("boot-overlay--exiting");
+          document.documentElement.classList.remove("boot-first-visit");
+          bootOverlay.addEventListener("transitionend", () => addAmbient(), { once: true });
+        };
+        setTimeout(runTransition, BOOT_DISPLAY_MS);
+      }
+    })();
+  </script>
+</WorkshopLayout>
+
+<script>
+  import { markModuleComplete, isModuleComplete } from "../lib/progress";
+
+  const btn = document.getElementById("welcome-confirm-enrollment-btn");
+  const confirmBlock = document.getElementById("welcome-enrollment-confirm");
+  const actionsBlock = document.getElementById("welcome-enrollment-actions");
+
+  function showConfirmation() {
+    if (confirmBlock) {
+      confirmBlock.hidden = false;
+    }
+    if (actionsBlock) actionsBlock.hidden = true;
+  }
+
+  if (isModuleComplete("welcome")) {
+    showConfirmation();
+  } else if (btn) {
+    btn.addEventListener("click", () => {
+      markModuleComplete("welcome");
+      window.dispatchEvent(new CustomEvent("workshop-progress-update"));
+      showConfirmation();
+    });
+  }
+</script>

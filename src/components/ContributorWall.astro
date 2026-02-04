@@ -1,0 +1,27 @@
+---
+interface Contributor {
+  name: string;
+  avatarUrl?: string;
+}
+
+import contributorsData from "../data/contributors.json";
+const contributors: Contributor[] = Array.isArray(contributorsData) ? contributorsData : [];
+---
+
+<section class="contributor-wall" aria-label="Contributors">
+  <h2 class="contributor-wall-title">Contributors</h2>
+  <ul class="contributor-wall-list">
+    {contributors.map((c) => (
+      <li class="contributor-wall-item">
+        {c.avatarUrl ? (
+          <img src={c.avatarUrl} alt="" class="contributor-wall-avatar" width="64" height="64" loading="lazy" />
+        ) : (
+          <span class="contributor-wall-avatar contributor-wall-avatar--placeholder" aria-hidden="true">
+            {c.name.charAt(0).toUpperCase()}
+          </span>
+        )}
+        <span class="contributor-wall-name">{c.name}</span>
+      </li>
+    ))}
+  </ul>
+</section>

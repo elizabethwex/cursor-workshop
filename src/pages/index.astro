@@ -1,28 +1,81 @@
 ---
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import Desktop from "../components/Desktop.astro";
 ---
 
-<WorkshopLayout title="Welcome" description="Get up to speed with Cursor and GitHub.">
-  <h1>Welcome to the Cursor Workshop</h1>
-  <p>
-    This workshop helps you get started with <strong>Cursor</strong> and <strong>GitHub</strong>. By the end, you’ll have cloned this repo, opened it in Cursor, run it on your computer, and explored the basics of both tools.
-  </p>
+<WorkshopLayout title="Desktop" description="Cursor Access Program – main access point. Select an available module to continue.">
+  <div class="launcher-screen" aria-label="Module launcher">
+    <Desktop />
 
-  <h2>What you’ll learn</h2>
-  <ul>
-    <li>What GitHub is and why we use it</li>
-    <li>How to clone a repo and run it locally</li>
-    <li>How to find your way around Cursor (sidebar, command palette, chat)</li>
-    <li>A simple checklist so you can track your progress</li>
-  </ul>
+    <div class="desktop-overview" id="desktop-overview">
+      <header class="desktop-overview-header">
+        <h1 class="desktop-overview-title">Cursor Access Program</h1>
+        <p class="desktop-overview-status-line" aria-live="polite">
+          <strong>Access Level:</strong> <span id="desktop-access-level">Unregistered</span><br />
+          <strong>Status:</strong> <span id="desktop-status">Awaiting enrollment</span>
+        </p>
+        <p class="desktop-overview-cta"><em>Select an available module to continue.</em></p>
+      </header>
 
-  <h2>What you need</h2>
-  <ul>
-    <li><strong>Cursor</strong> – <a href="https://cursor.com" target="_blank" rel="noopener noreferrer">Download Cursor</a> if you haven’t already.</li>
-    <li><strong>GitHub account</strong> – You’ll create one in the next section if you don’t have it yet.</li>
-  </ul>
+      <hr class="desktop-overview-hr" />
 
-  <p>
-    Ready? Start with <a href="/cursor-workshop/github/">GitHub basics</a>, then follow <a href="/cursor-workshop/clone-and-run/">Clone and run</a> to get this workshop running on your machine.
-  </p>
+      <section class="desktop-overview-section" aria-labelledby="desktop-overview-heading">
+        <h2 id="desktop-overview-heading">Desktop Overview</h2>
+        <p>This is the main access point for the Cursor Access Program.</p>
+        <p>Each icon represents a system module.<br />Modules become available as your access level increases.</p>
+        <p>You may return here at any time.</p>
+      </section>
+
+      <hr class="desktop-overview-hr" />
+
+      <section class="desktop-overview-section" aria-labelledby="desktop-system-notes-heading">
+        <h2 id="desktop-system-notes-heading">System Notes</h2>
+        <ul>
+          <li>Progress is saved automatically.</li>
+          <li>No action is irreversible.</li>
+          <li>Modules may be revisited at any time.</li>
+        </ul>
+      </section>
+
+      <hr class="desktop-overview-hr" />
+
+      <section class="desktop-overview-section" aria-labelledby="desktop-locked-heading">
+        <h2 id="desktop-locked-heading">Locked Modules</h2>
+        <p>Some modules may be visible but unavailable.</p>
+        <p>When this occurs:</p>
+        <p class="desktop-overview-locked-msg"><strong>Module unavailable.</strong> Complete WELCOME to unlock.</p>
+      </section>
+    </div>
+  </div>
 </WorkshopLayout>
+
+<script>
+  import { getProgress } from "../lib/progress";
+
+  function getAccessLevelLabel(progress: { completedModuleIds: string[] }): { level: string; status: string } {
+    const completed = progress.completedModuleIds;
+    const hasWelcome = completed.includes("welcome");
+    const hasClone = completed.includes("clone-and-run");
+    const hasContribution = completed.includes("contribution");
+    const core = ["welcome", "github-basics", "clone-and-run", "explore-cursor", "contribution"];
+    const allCore = core.every((id) => completed.includes(id));
+
+    if (allCore) return { level: "Cleared", status: "Full access granted." };
+    if (hasContribution) return { level: "Contributor", status: "Authorized to modify shared systems." };
+    if (hasClone) return { level: "Operator", status: "System running on your machine." };
+    if (hasWelcome) return { level: "Observer", status: "Program enrollment confirmed." };
+    return { level: "Unregistered", status: "Awaiting enrollment" };
+  }
+
+  function applyDesktopOverviewStatus() {
+    const progress = getProgress();
+    const { level, status } = getAccessLevelLabel(progress);
+    const levelEl = document.getElementById("desktop-access-level");
+    const statusEl = document.getElementById("desktop-status");
+    if (levelEl) levelEl.textContent = level;
+    if (statusEl) statusEl.textContent = status;
+  }
+
+  applyDesktopOverviewStatus();
+  window.addEventListener("workshop-progress-update", applyDesktopOverviewStatus);
+</script>

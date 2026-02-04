@@ -1,17 +1,155 @@
 ---
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
-import Checklist from "../components/Checklist.astro";
+import SystemMessage from "../components/SystemMessage.astro";
+import content from "../content/steps/06-checklist.ts";
+
+const MODULE_ITEMS = [
+  { id: "welcome", label: "Welcome", detail: "Enrollment confirmed" },
+  { id: "github-basics", label: "GitHub Basics", detail: "Access requested and concepts reviewed" },
+  { id: "clone-and-run", label: "Localhost", detail: "Project running locally" },
+  { id: "explore-cursor", label: "Cursor", detail: "Tool explored and used" },
+  { id: "contribution", label: "Contribution", detail: "Pull request submitted" },
+];
 ---
 
-<WorkshopLayout title="Checklist" description="Track your progress through the workshop.">
-  <h1>Checklist</h1>
-  <p>
-    Use this checklist to track what you’ve done. Your progress is saved in your browser, so you can come back later and pick up where you left off.
-  </p>
+<WorkshopLayout title="Checklist" description="Program status and module completion. Access: Any. Completion unlocks Cleared.">
+  <article class="module-page checklist-module">
+    <header class="module-header">
+      <h1>Checklist</h1>
+      <dl class="module-meta" aria-label="Module info">
+        <dt>Module</dt>
+        <dd>CHECKLIST</dd>
+        <dt>Access Requirement</dt>
+        <dd>Any</dd>
+        <dt>Completion Unlocks</dt>
+        <dd>Cleared</dd>
+      </dl>
+    </header>
 
-  <Checklist />
+    <p class="step-intent" aria-label="Status">
+      <em>System status summary.</em>
+    </p>
 
-  <p>
-    When you’re done, head to <a href="/cursor-workshop/resources/">Resources</a> for more links and next steps.
-  </p>
+    <SystemMessage message={content.systemMessage} typed={true} />
+
+    <section class="step-card" aria-labelledby="program-status">
+      <h2 id="program-status">Program Status</h2>
+      <p>This page shows your progress through the Cursor Access Program.</p>
+      <p>Modules are marked complete as you finish them.</p>
+      <p>Progress is saved automatically.</p>
+      <p>You may revisit any module at any time.</p>
+    </section>
+
+    <section class="step-card" aria-labelledby="module-completion">
+      <h2 id="module-completion">Module Completion</h2>
+      <p>Use this checklist to confirm what you’ve already done.</p>
+      <ul class="module-completion-list" id="module-completion-list" aria-label="Module completion">
+        {MODULE_ITEMS.map((item) => (
+          <li class="module-completion-item" data-module-id={item.id}>
+            <span class="module-completion-check" aria-hidden="true">☐</span>
+            <span class="module-completion-label">{item.label} — {item.detail}</span>
+          </li>
+        ))}
+      </ul>
+      <p>Completed items indicate that the core workflow is in place.</p>
+    </section>
+
+    <section class="step-card" aria-labelledby="what-this-means">
+      <h2 id="what-this-means">What This Means</h2>
+      <p>If all core modules are complete, you can now:</p>
+      <ul>
+        <li>Navigate a shared codebase</li>
+        <li>Run projects on your local machine</li>
+        <li>Use Cursor to explore and modify code</li>
+        <li>Propose changes through GitHub</li>
+      </ul>
+      <p>You are no longer onboarding.</p>
+      <p>You are participating.</p>
+    </section>
+
+    <section class="step-card" aria-labelledby="access-level">
+      <h2 id="access-level">Access Level</h2>
+      <p>If all core modules are complete:</p>
+      <p><strong>Access level: <span id="access-level-value">—</span></strong></p>
+      <p id="access-level-note" class="text-muted">Complete core modules to clear access.</p>
+      <p class="access-level-cleared hidden" id="access-level-cleared">This means:</p>
+      <ul class="access-level-cleared hidden" id="access-level-cleared-list">
+        <li>No remaining required actions</li>
+        <li>Full access to program materials</li>
+        <li>Eligibility to contribute as needed</li>
+      </ul>
+    </section>
+
+    <section class="step-card" aria-labelledby="optional-review">
+      <h2 id="optional-review">Optional Review</h2>
+      <p>If something feels unclear:</p>
+      <ul>
+        <li>Reopen the relevant module</li>
+        <li>Ask Cursor questions directly in the code</li>
+        <li>Use the Resources module for reference</li>
+      </ul>
+      <p>There is no penalty for revisiting material.</p>
+    </section>
+
+    <section class="step-card" aria-labelledby="final-state">
+      <h2 id="final-state">Final State</h2>
+      <p>System stable.</p>
+      <p>No pending actions.</p>
+    </section>
+
+    <section class="step-card" aria-label="Action">
+      <a href="/cursor-workshop/" class="workshop-btn workshop-btn--primary">
+        Return to Desktop
+      </a>
+    </section>
+
+    <section class="step-card" aria-labelledby="system-notes">
+      <h2 id="system-notes">System Notes</h2>
+      <ul>
+        <li>Progress reflects interaction, not expertise</li>
+        <li>Familiarity comes from use, not completion</li>
+        <li>The system remains available</li>
+      </ul>
+    </section>
+
+    <p class="module-next-hint">
+      <em>End of module.</em>
+    </p>
+  </article>
 </WorkshopLayout>
+
+<script>
+  import { getProgress } from "../lib/progress";
+
+  const CORE_MODULE_IDS = ["welcome", "github-basics", "clone-and-run", "explore-cursor", "contribution"];
+
+  const listEl = document.getElementById("module-completion-list");
+  const accessValueEl = document.getElementById("access-level-value");
+  const accessNoteEl = document.getElementById("access-level-note");
+  const accessClearedEl = document.getElementById("access-level-cleared");
+  const accessClearedListEl = document.getElementById("access-level-cleared-list");
+
+  function applyProgress() {
+    const progress = getProgress();
+    const completed = new Set(progress.completedModuleIds);
+
+    listEl?.querySelectorAll(".module-completion-item").forEach((li) => {
+      const id = li.getAttribute("data-module-id");
+      const checkEl = li.querySelector(".module-completion-check");
+      if (!id || !checkEl) return;
+      const done = completed.has(id);
+      li.classList.toggle("module-completion-item--done", done);
+      li.setAttribute("aria-checked", done ? "true" : "false");
+      checkEl.textContent = done ? "☑" : "☐";
+    });
+
+    const allComplete = CORE_MODULE_IDS.every((id) => completed.has(id));
+    if (accessValueEl) accessValueEl.textContent = allComplete ? "Cleared" : "In progress";
+    if (accessNoteEl) accessNoteEl.classList.toggle("hidden", allComplete);
+    if (accessClearedEl) accessClearedEl.classList.toggle("hidden", !allComplete);
+    if (accessClearedListEl) accessClearedListEl.classList.toggle("hidden", !allComplete);
+  }
+
+  applyProgress();
+  document.addEventListener("workshop-progress-update", applyProgress);
+</script>

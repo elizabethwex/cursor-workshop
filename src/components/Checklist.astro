@@ -9,6 +9,15 @@ const defaultItems = [
   { id: "command-palette", label: "Used the Command Palette (Cmd/Ctrl+Shift+P)" },
   { id: "cursor-chat", label: "Used Cursor chat to ask a question" },
 ];
+
+const badges = [
+  { id: "github-account", title: "Account Creator", description: "You created a GitHub account", icon: "★" },
+  { id: "cloned-repo", title: "Repo Explorer", description: "You cloned a repo", icon: "◆" },
+  { id: "opened-cursor", title: "Cursor Opener", description: "You opened a repo in Cursor", icon: "◇" },
+  { id: "ran-localhost", title: "Localhost Hero", description: "You ran a project on localhost", icon: "●" },
+  { id: "command-palette", title: "Command Pro", description: "You used the Command Palette", icon: "⌘" },
+  { id: "cursor-chat", title: "Chat Champion", description: "You used Cursor chat", icon: "✦" },
+];
 ---
 
 <div class="checklist-progress" id="checklist-progress" role="status" aria-live="polite">
@@ -22,12 +31,27 @@ const defaultItems = [
         type="checkbox"
         id={`check-${item.id}`}
         data-id={item.id}
+        data-label={item.label}
         aria-label={item.label}
       />
       <label for={`check-${item.id}`}>{item.label}</label>
     </li>
   ))}
 </ul>
+
+<h2>Badges</h2>
+<p>Unlock badges as you complete each skill.</p>
+<ul class="badge-list" id="checklist-badges">
+  {badges.map((badge) => (
+    <li class="badge badge--locked" data-badge-id={badge.id} id={`badge-${badge.id}`}>
+      <span class="badge-icon" aria-hidden="true">{badge.icon}</span>
+      <span class="badge-title">{badge.title}</span>
+      <span class="badge-desc">{badge.description}</span>
+    </li>
+  ))}
+</ul>
+
+<div id="skill-toast" class="skill-toast" aria-live="polite" role="status"></div>
 
 <button type="button" class="checklist-reset" id="checklist-reset">
   Reset checklist
@@ -38,6 +62,7 @@ const defaultItems = [
   const progressEl = document.getElementById("checklist-progress");
   const listEl = document.getElementById("checklist-list");
   const resetBtn = document.getElementById("checklist-reset");
+  const toastEl = document.getElementById("skill-toast");
 
   function loadState() {
     try {
@@ -61,6 +86,32 @@ const defaultItems = [
     if (progressEl) {
       progressEl.textContent = `${done} of ${total} complete`;
     }
+    updateBadges();
+    window.dispatchEvent(new CustomEvent("workshop-checklist-update", { detail: { done, total } }));
+  }
+
+  function updateBadges() {
+    const state = loadState();
+    document.querySelectorAll("[data-badge-id]").forEach((el) => {
+      const id = el.getAttribute("data-badge-id");
+      if (!id) return;
+      if (state[id]) {
+        el.classList.remove("badge--locked");
+        el.classList.add("badge--unlocked");
+      } else {
+        el.classList.add("badge--locked");
+        el.classList.remove("badge--unlocked");
+      }
+    });
+  }
+
+  function showToast(text) {
+    if (!toastEl) return;
+    toastEl.textContent = text;
+    toastEl.classList.add("visible");
+    setTimeout(() => {
+      toastEl.classList.remove("visible");
+    }, 2500);
   }
 
   function bindChecklist() {
@@ -74,10 +125,16 @@ const defaultItems = [
 
       input.addEventListener("change", () => {
         const id = input.getAttribute("data-id");
+        const label = input.getAttribute("data-label");
         if (!id) return;
         const newState = { ...loadState(), [id]: input.checked };
         saveState(newState);
         item?.classList.toggle("done", input.checked);
+        if (input.checked && item) {
+          item.classList.add("checklist-item--just-unlocked");
+          item.addEventListener("animationend", () => item.classList.remove("checklist-item--just-unlocked"), { once: true });
+          if (label) showToast(`Skill unlocked: ${label}`);
+        }
         updateProgress();
       });
     });

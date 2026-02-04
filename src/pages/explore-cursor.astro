@@ -1,46 +1,199 @@
 ---
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import SystemMessage from "../components/SystemMessage.astro";
+import StepTasks from "../components/StepTasks.astro";
+import CursorPrompts from "../components/CursorPrompts.astro";
+import content from "../content/steps/04-explore-cursor.ts";
 ---
 
-<WorkshopLayout title="Explore Cursor" description="Learn the Cursor interface.">
-  <h1>Explore Cursor</h1>
-  <p>
-    Cursor is a code editor with AI built in. Here’s a quick tour of the main areas. Add your own descriptions and screenshots later by editing this page and dropping images into <code>public/images/</code>.
-  </p>
+<WorkshopLayout title="Explore Cursor" description="Learn how Cursor helps you explore and modify code. Completion unlocks CONTRIBUTION.">
+  <article class="module-page cursor-module">
+    <header class="module-header">
+      <h1>Cursor</h1>
+      <dl class="module-meta" aria-label="Module info">
+        <dt>Module</dt>
+        <dd>CURSOR</dd>
+        <dt>Access Requirement</dt>
+        <dd>Operator</dd>
+        <dt>Completion Unlocks</dt>
+        <dd>(No access change)</dd>
+      </dl>
+    </header>
 
-  <h2>Sidebar and file tree</h2>
-  <p>
-    The left sidebar shows your project’s files and folders. Click a file to open it. You can collapse or expand folders to find what you need.
-  </p>
-  <div class="img-placeholder" aria-hidden="true">
-    [Screenshot: Cursor sidebar / file tree – add public/images/cursor-sidebar.png]
-  </div>
+    <p class="step-intent" aria-label="Status">
+      <em>Cursor interface active.</em>
+    </p>
 
-  <h2>Command Palette</h2>
-  <p>
-    The Command Palette lets you run commands and jump to settings without using the menu. <strong>Try it:</strong> Press <kbd>Cmd+Shift+P</kbd> (Mac) or <kbd>Ctrl+Shift+P</kbd> (Windows/Linux), then type “Command Palette” or any command name.
-  </p>
-  <div class="img-placeholder" aria-hidden="true">
-    [Screenshot: Command Palette – add public/images/command-palette.png]
-  </div>
+    <SystemMessage message={content.systemMessage} typed={true} />
 
-  <h2>Cursor Chat</h2>
-  <p>
-    Cursor’s chat lets you ask questions about your code, get explanations, or request changes. Open it from the sidebar or with the shortcut shown in the Cursor menu. You can reference specific files so the AI has context.
-  </p>
-  <div class="img-placeholder" aria-hidden="true">
-    [Screenshot: Cursor chat – add public/images/cursor-chat.png]
-  </div>
+    <section class="step-card" aria-labelledby="working-with-cursor">
+      <h2 id="working-with-cursor">Working With Cursor</h2>
+      <p>Cursor is the tool you’ll use to explore and modify code.</p>
+      <p>It is not here to replace you.</p>
+      <p>It is here to help you move through unfamiliar systems with confidence.</p>
+      <p>You remain in control.</p>
+    </section>
 
-  <h2>Composer</h2>
-  <p>
-    Composer is where you can request multi-file edits or new features. It’s useful when you want to change several files at once or generate something new. You’ll find it in the Cursor UI when you’re ready to try it.
-  </p>
-  <div class="img-placeholder" aria-hidden="true">
-    [Screenshot: Composer – add public/images/composer.png]
-  </div>
+    <section class="step-card" aria-labelledby="what-cursor-is-good-at">
+      <h2 id="what-cursor-is-good-at">What Cursor Is Good At</h2>
+      <p>Cursor is especially useful for:</p>
+      <ul>
+        <li>Explaining unfamiliar files</li>
+        <li>Finding where things are defined</li>
+        <li>Suggesting small, safe changes</li>
+        <li>Helping debug errors</li>
+      </ul>
+      <p>You don’t need to know the right words.</p>
+      <p>You can ask questions in plain language.</p>
+    </section>
 
-  <p>
-    Next: mark off what you’ve done on the <a href="/cursor-workshop/checklist/">Checklist</a>, or check <a href="/cursor-workshop/resources/">Resources</a> for more links.
-  </p>
+    <section class="step-card" aria-labelledby="how-cursor-fits">
+      <h2 id="how-cursor-fits">How Cursor Fits Into Your Workflow</h2>
+      <p>Think of Cursor as:</p>
+      <ul>
+        <li>A guide when you’re lost</li>
+        <li>A translator when code feels dense</li>
+        <li>A second set of eyes when something breaks</li>
+      </ul>
+      <p>It does not make decisions for you.</p>
+      <p>You decide what changes get made.</p>
+    </section>
+
+    <section class="step-card" aria-labelledby="core-actions">
+      <h2 id="core-actions">Core Cursor Actions</h2>
+      <p>You’ll use these actions often. Try each one at least once.</p>
+
+      <h3>Open and Read a File</h3>
+      <ul>
+        <li>Use the file tree to open any file in the project</li>
+        <li>Skim it without trying to understand everything</li>
+      </ul>
+      <p>Understanding comes later.</p>
+
+      <h3>Search the Project</h3>
+      <ul>
+        <li>Use search to find a word or phrase</li>
+        <li>This is often faster than browsing folders</li>
+      </ul>
+      <p>Searching is a valid strategy.</p>
+
+      <h3>Ask Cursor About Code</h3>
+      <p>Select a block of code, then ask Cursor questions like:</p>
+      <ul>
+        <li>“What does this file do?”</li>
+        <li>“How does this affect the UI?”</li>
+        <li>“Is this safe to change?”</li>
+      </ul>
+      <p>Cursor will respond in plain language.</p>
+
+      <h3>Ask for a Small Change</h3>
+      <p>You can also ask Cursor to help you make a change.</p>
+      <p>For example:</p>
+      <ul>
+        <li>“Change this text to be more descriptive”</li>
+        <li>“Update this color value”</li>
+        <li>“Rename this variable to something clearer”</li>
+      </ul>
+      <p>Small changes are encouraged.</p>
+    </section>
+
+    <section class="step-card" aria-labelledby="safe-experiment">
+      <h2 id="safe-experiment">A Safe First Experiment</h2>
+      <p>If you’re unsure where to start, try this:</p>
+      <ol>
+        <li>Find a visible piece of text in the UI</li>
+        <li>Use search to locate it in the code</li>
+        <li>Ask Cursor what file controls it</li>
+        <li>Change the text slightly</li>
+        <li>Save the file and refresh the browser</li>
+      </ol>
+      <p>If the UI updates, everything worked.</p>
+      <p>If it doesn’t, nothing is broken.</p>
+    </section>
+
+    <section class="step-card" aria-labelledby="if-stuck">
+      <h2 id="if-stuck">If You Feel Stuck</h2>
+      <p>That’s expected.</p>
+      <p>When this happens:</p>
+      <ul>
+        <li>Ask Cursor what you’re looking at</li>
+        <li>Ask Cursor where to make a change</li>
+        <li>Ask Cursor to explain an error message</li>
+      </ul>
+      <p>You do not need to solve this alone.</p>
+    </section>
+
+    <section class="step-card" aria-labelledby="not-expected">
+      <h2 id="not-expected">What You’re Not Expected to Do</h2>
+      <p>You are not required to:</p>
+      <ul>
+        <li>Understand the entire codebase</li>
+        <li>Write complex logic</li>
+        <li>Know framework details</li>
+      </ul>
+      <p>Your job is to navigate, not master.</p>
+    </section>
+
+    <section class="step-card" aria-labelledby="complete-module">
+      <h2 id="complete-module">Complete This Module</h2>
+      <p>Once you’ve:</p>
+      <ul>
+        <li>Opened files</li>
+        <li>Used search</li>
+        <li>Asked Cursor at least one question</li>
+        <li>Made or considered a small change</li>
+      </ul>
+      <p>You’re ready to move on.</p>
+      <p>The next module will guide you through making a real contribution.</p>
+    </section>
+
+    <StepTasks moduleId="explore-cursor" tasks={content.tasks} />
+
+    <CursorPrompts prompts={content.cursorPrompts} />
+
+    <section id="cursor-mark-complete" class="welcome-mark-complete module-mark-complete" aria-label="Mark module complete">
+      <p id="cursor-mark-complete-confirm" class="system-message welcome-mark-complete-msg" role="status" aria-live="polite" hidden>
+        Cursor exploration marked complete. Next module available: CONTRIBUTION.
+      </p>
+      <div id="cursor-mark-complete-actions">
+        <button type="button" id="cursor-mark-complete-btn" class="workshop-btn workshop-btn--primary">
+          Mark Cursor exploration complete
+        </button>
+        <a id="cursor-back-to-desktop" href="/cursor-workshop/" class="workshop-btn workshop-btn--secondary" aria-label="Return to Desktop" hidden>
+          Return to Desktop
+        </a>
+      </div>
+    </section>
+
+    <p class="module-next-hint">
+      <em>On completion:</em> Module complete. Access level unchanged. Next module available: CONTRIBUTION.
+    </p>
+  </article>
 </WorkshopLayout>
+
+<script>
+  import { markModuleComplete, isModuleComplete } from "../lib/progress";
+
+  const btn = document.getElementById("cursor-mark-complete-btn");
+  const confirmEl = document.getElementById("cursor-mark-complete-confirm");
+  const backLink = document.getElementById("cursor-back-to-desktop");
+
+  function showConfirmation() {
+    if (confirmEl) {
+      confirmEl.hidden = false;
+      confirmEl.setAttribute("aria-live", "polite");
+    }
+    if (backLink) backLink.hidden = false;
+    if (btn) btn.hidden = true;
+  }
+
+  if (isModuleComplete("explore-cursor")) {
+    showConfirmation();
+  } else if (btn) {
+    btn.addEventListener("click", () => {
+      markModuleComplete("explore-cursor");
+      window.dispatchEvent(new CustomEvent("workshop-progress-update"));
+      showConfirmation();
+    });
+  }
+</script>

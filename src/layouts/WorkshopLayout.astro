@@ -1,27 +1,16 @@
 ---
 import "../styles/global.css";
+import SystemShell from "../components/SystemShell.astro";
 
 interface Props {
   title: string;
   description?: string;
+  bootOverlay?: boolean;
+  /** Toggle subtle scanlines/noise overlay (default true) */
+  ambient?: boolean;
 }
 
-const { title, description = "Onboard to Cursor and GitHub with this interactive workshop." } = Astro.props;
-
-const navLinks = [
-  { href: "/cursor-workshop/", label: "Welcome" },
-  { href: "/cursor-workshop/github/", label: "GitHub basics" },
-  { href: "/cursor-workshop/clone-and-run/", label: "Clone and run" },
-  { href: "/cursor-workshop/explore-cursor/", label: "Explore Cursor" },
-  { href: "/cursor-workshop/checklist/", label: "Checklist" },
-  { href: "/cursor-workshop/resources/", label: "Resources" },
-];
-
-const pathname = Astro.url.pathname.replace(/\/$/, "") || "/cursor-workshop";
-const isCurrent = (href: string) => {
-  const h = href.replace(/\/$/, "") || "/cursor-workshop";
-  return pathname === h;
-};
+const { title, description = "Onboard to Cursor and GitHub with this interactive workshop.", bootOverlay = false, ambient = true } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -31,29 +20,161 @@ const isCurrent = (href: string) => {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title} | Cursor Workshop</title>
+    {bootOverlay && (
+      <script is:inline>
+        (function(){try{if(!localStorage.getItem("cursor-workshop-has-seen-boot"))document.documentElement.classList.add("boot-first-visit");}catch(e){}}());
+      </script>
+    )}
+    <script is:inline>
+      (function(){try{var v=localStorage.getItem("cursor-workshop-theme-intensity");var s=v==="low"||v==="high"?v:"medium";document.documentElement.setAttribute("data-theme-intensity",s);}catch(e){}}());
+    </script>
   </head>
   <body>
-    <nav class="workshop-nav" aria-label="Workshop navigation">
-      <div class="workshop-nav-inner">
-        <h2 class="workshop-nav-title">
-          <a href="/cursor-workshop/">Cursor Workshop</a>
-        </h2>
-        <ul class="workshop-nav-links">
-          {navLinks.map((link) => (
-            <li>
-              <a href={link.href} aria-current={isCurrent(link.href) ? "page" : undefined}>
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+    <SystemShell ambient={ambient}>
+    <header class="workshop-header system-shell-header">
+      <h1 class="workshop-header-title">
+        <a href="/cursor-workshop/">Cursor Workshop</a>
+      </h1>
+      <div class="workshop-header-strip">
+        <div class="workshop-status-strip" id="workshop-status-strip" aria-live="polite">
+          <span class="workshop-status-item" id="workshop-status-repo">Repo: —</span>
+          <span class="workshop-status-item" id="workshop-status-localhost">Localhost: —</span>
+        </div>
+        <div class="workshop-theme-intensity-wrap">
+          <button
+            type="button"
+            id="theme-intensity-btn"
+            class="workshop-theme-intensity-btn"
+            aria-label="Theme intensity: medium"
+            title="Theme intensity: Medium"
+          >
+            <span class="workshop-theme-intensity-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <rect x="4" y="12" width="3" height="5" rx="1" fill="currentColor" opacity="0.5"/>
+                <rect x="8.5" y="8" width="3" height="9" rx="1" fill="currentColor" opacity="0.8"/>
+                <rect x="13" y="4" width="3" height="13" rx="1" fill="currentColor"/>
+              </svg>
+            </span>
+          </button>
+        </div>
       </div>
-    </nav>
-    <main>
-      <slot />
-    </main>
-    <footer class="workshop-footer">
-      <p>Cursor Workshop – get up to speed with Cursor and GitHub.</p>
+    </header>
+
+    <div class="workshop-app">
+      <main class="workshop-main">
+        <slot />
+      </main>
+    </div>
+
+    <footer class="workshop-footer-bar">
+      <a href="/cursor-workshop/" class="workshop-btn workshop-btn--secondary" aria-label="Back to desktop">
+        Back to desktop
+      </a>
     </footer>
+    </SystemShell>
+
+    <script>
+      (function () {
+        const VISITED_KEY = "cursor-workshop-visited-steps";
+        const CHECKLIST_KEY = "cursor-workshop-checklist";
+
+        function getVisited(): string[] {
+          try {
+            const raw = localStorage.getItem(VISITED_KEY);
+            return raw ? JSON.parse(raw) : [];
+          } catch {
+            return [];
+          }
+        }
+
+        function setVisited(paths: string[]) {
+          try {
+            localStorage.setItem(VISITED_KEY, JSON.stringify(paths));
+          } catch {}
+        }
+
+        function getChecklistState(): Record<string, boolean> {
+          try {
+            const raw = localStorage.getItem(CHECKLIST_KEY);
+            return raw ? JSON.parse(raw) : {};
+          } catch {
+            return {};
+          }
+        }
+
+        const pathname = window.location.pathname.replace(/\/$/, "") || "/cursor-workshop";
+        const visited = getVisited();
+        if (!visited.includes(pathname)) {
+          visited.push(pathname);
+          setVisited(visited);
+        }
+
+        function refreshStatusStrip() {
+          const state = getChecklistState();
+          const repoEl = document.getElementById("workshop-status-repo");
+          const localhostEl = document.getElementById("workshop-status-localhost");
+          const repoConnected = !!(state["cloned-repo"] || state["opened-cursor"]);
+          const localhostOnline = !!state["ran-localhost"];
+          if (repoEl) repoEl.textContent = repoConnected ? "Repo: Connected" : "Repo: —";
+          if (localhostEl) localhostEl.textContent = localhostOnline ? "Localhost: Online" : "Localhost: —";
+          if (repoEl) repoEl.classList.toggle("workshop-status--on", repoConnected);
+          if (localhostEl) localhostEl.classList.toggle("workshop-status--on", localhostOnline);
+        }
+
+        refreshStatusStrip();
+        window.addEventListener("workshop-checklist-update", () => {
+          refreshStatusStrip();
+        });
+
+        const THEME_INTENSITY_KEY = "cursor-workshop-theme-intensity";
+        const INTENSITIES = ["low", "medium", "high"] as const;
+
+        function getThemeIntensity(): "low" | "medium" | "high" {
+          try {
+            const v = localStorage.getItem(THEME_INTENSITY_KEY);
+            if (v === "low" || v === "high") return v;
+          } catch {}
+          return "medium";
+        }
+
+        function setThemeIntensity(value: "low" | "medium" | "high") {
+          try {
+            localStorage.setItem(THEME_INTENSITY_KEY, value);
+          } catch {}
+          document.documentElement.setAttribute("data-theme-intensity", value);
+        }
+
+        function updateThemeButtonLabel(value: "low" | "medium" | "high") {
+          const btn = document.getElementById("theme-intensity-btn");
+          if (!btn) return;
+          const label = value.charAt(0).toUpperCase() + value.slice(1);
+          btn.setAttribute("aria-label", `Theme intensity: ${label}`);
+          btn.setAttribute("title", `Theme intensity: ${label}`);
+        }
+
+        const themeBtn = document.getElementById("theme-intensity-btn");
+        themeBtn?.addEventListener("click", () => {
+          const current = getThemeIntensity();
+          const idx = INTENSITIES.indexOf(current);
+          const next = INTENSITIES[(idx + 1) % INTENSITIES.length];
+          setThemeIntensity(next);
+          updateThemeButtonLabel(next);
+        });
+
+        updateThemeButtonLabel(getThemeIntensity());
+      })();
+    </script>
+    <script>
+      import { getModuleByRoute } from "../lib/modules";
+      import { markModuleComplete } from "../lib/progress";
+      const pathname = typeof window !== "undefined" ? window.location.pathname.replace(/\/$/, "") || "/cursor-workshop" : "";
+      if (pathname) {
+        const mod = getModuleByRoute(pathname);
+        if (mod) {
+          markModuleComplete(mod.id);
+          window.dispatchEvent(new CustomEvent("workshop-progress-update"));
+        }
+      }
+    </script>
   </body>
 </html>
