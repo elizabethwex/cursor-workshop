@@ -3,6 +3,7 @@ import WorkshopLayout from "../layouts/WorkshopLayout.astro";
 import CopyButton from "../components/CopyButton.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import StepTasks from "../components/StepTasks.astro";
+import CollapsibleSection from "../components/CollapsibleSection.astro";
 import content from "../content/steps/03-clone-and-run.ts";
 
 const REPO_URL = "https://github.com/elizabethwex/cursor-workshop";
@@ -44,7 +45,7 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       <p>Take it slowly.</p>
     </section>
 
-    <section class="step-card" aria-labelledby="high-level">
+    <CollapsibleSection id="high-level" title="What You're Doing (At a High Level)" stepCard={true}>
       <h2 id="high-level">What You’re Doing (At a High Level)</h2>
       <p>Right now, the code for this project lives on GitHub:</p>
       <p>
@@ -58,9 +59,9 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
         <li>Open it in Cursor so you can see and edit it</li>
         <li>Run it locally to see the UI in your browser</li>
       </ol>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="step-1-clone">
+    <CollapsibleSection id="step-1-clone" title="Step 1: Clone the Repository in Cursor" stepCard={true}>
       <h2 id="step-1-clone">Step 1: Clone the Repository in Cursor</h2>
       <p>Cloning creates a local copy of the project on your computer.</p>
       <p>You will do this <strong>inside Cursor</strong>, not in a separate terminal.</p>
@@ -89,9 +90,9 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
         <li>You are looking at the same code that lives on GitHub</li>
       </ul>
       <p>You haven’t changed anything yet.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="step-2-install">
+    <CollapsibleSection id="step-2-install" title="Step 2: Install Dependencies" stepCard={true}>
       <h2 id="step-2-install">Step 2: Install Dependencies</h2>
       <p>Projects rely on external packages to work.</p>
       <p>These are listed in a file called <code>package.json</code>.</p>
@@ -104,25 +105,25 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       <p>This may take a minute.</p>
       <p>You may see warnings. Warnings are normal.</p>
       <p>If an error appears, pause and read it. Cursor can help you understand what it means.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="step-3-start">
+    <CollapsibleSection id="step-3-start" title="Step 3: Start the App" stepCard={true}>
       <h2 id="step-3-start">Step 3: Start the App</h2>
       <p>Once installation completes, start the development server:</p>
       <CopyButton text="npm run dev" />
       <p>If successful, the terminal will display a local URL.</p>
       <p>It usually looks like:</p>
       <p><code>http://localhost:5173</code></p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="step-4-open">
+    <CollapsibleSection id="step-4-open" title="Step 4: Open Localhost" stepCard={true}>
       <h2 id="step-4-open">Step 4: Open Localhost</h2>
       <p>Open the URL shown in the terminal in your browser.</p>
       <p>If you see the app running, the system is online.</p>
       <p>You are now seeing the UI rendered from code on your machine.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="troubleshooting">
+    <CollapsibleSection id="troubleshooting" title="If Something Doesn't Work" stepCard={true}>
       <h2 id="troubleshooting">If Something Doesn’t Work</h2>
       <p>This is normal.</p>
       <p>Most people encounter at least one issue the first time they run a project locally.</p>
@@ -144,14 +145,14 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       </ul>
       <p>Paste the error directly into Cursor chat.</p>
       <p>That’s what it’s for.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="confirmation">
+    <CollapsibleSection id="confirmation" title="Confirmation" stepCard={true}>
       <h2 id="confirmation">Confirmation</h2>
       <p>If you can see the app running from localhost, you’ve completed this module.</p>
       <p>This is the hardest step for many designers.</p>
       <p>If you’re here, you’re doing well.</p>
-    </section>
+    </CollapsibleSection>
 
     <StepTasks moduleId="clone-and-run" tasks={content.tasks} />
 
@@ -163,20 +164,17 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
         <button type="button" id="localhost-mark-complete-btn" class="workshop-btn workshop-btn--primary">
           Confirm local environment is running
         </button>
-        <a id="localhost-back-to-desktop" href="/cursor-workshop/" class="workshop-btn workshop-btn--secondary" aria-label="Return to Desktop" hidden>
-          Return to Desktop
-        </a>
       </div>
     </section>
 
-    <section class="step-card" aria-labelledby="system-notes">
+    <CollapsibleSection id="system-notes" title="System Notes" stepCard={true}>
       <h2 id="system-notes">System Notes</h2>
       <ul>
         <li>You can stop the local server at any time by pressing <kbd>Ctrl</kbd> + <kbd>C</kbd> in the terminal</li>
         <li>You can restart it whenever you need</li>
         <li>Running locally is a foundational skill—everything else builds on this</li>
       </ul>
-    </section>
+    </CollapsibleSection>
 
     <p class="module-next-hint">
       <em>End of module.</em> Next up: Explore Cursor is where things start to feel fun instead of scary.
@@ -189,14 +187,12 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
 
   const btn = document.getElementById("localhost-mark-complete-btn");
   const confirmEl = document.getElementById("localhost-mark-complete-confirm");
-  const backLink = document.getElementById("localhost-back-to-desktop");
 
   function showConfirmation() {
     if (confirmEl) {
       confirmEl.hidden = false;
       confirmEl.setAttribute("aria-live", "polite");
     }
-    if (backLink) backLink.hidden = false;
     if (btn) btn.hidden = true;
   }
 

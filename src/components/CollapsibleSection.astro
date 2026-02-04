@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string;
+  /** Section id for aria-labelledby / anchor */
+  id?: string;
+  /** Start expanded (default: false) */
+  open?: boolean;
+  /** Use step-card styling for the container */
+  stepCard?: boolean;
+}
+
+const { title, id, open = false, stepCard = true } = Astro.props;
+const summaryId = id ? `${id}-summary` : undefined;
+---
+
+<details
+  class:list={["collapsible-section", stepCard && "collapsible-section--step-card"]}
+  open={open}
+  aria-labelledby={summaryId}
+>
+  <summary id={summaryId} class="collapsible-section__summary">
+    <span class="collapsible-section__title">{title}</span>
+    <span class="collapsible-section__icon" aria-hidden="true"></span>
+  </summary>
+  <div class="collapsible-section__content">
+    <slot />
+  </div>
+</details>

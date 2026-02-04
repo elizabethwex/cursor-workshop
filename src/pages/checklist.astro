@@ -1,6 +1,7 @@
 ---
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
+import CollapsibleSection from "../components/CollapsibleSection.astro";
 import content from "../content/steps/06-checklist.ts";
 
 const MODULE_ITEMS = [
@@ -54,7 +55,7 @@ const MODULE_ITEMS = [
       <p>Completed items indicate that the core workflow is in place.</p>
     </section>
 
-    <section class="step-card" aria-labelledby="what-this-means">
+    <CollapsibleSection id="what-this-means" title="What This Means" stepCard={true}>
       <h2 id="what-this-means">What This Means</h2>
       <p>If all core modules are complete, you can now:</p>
       <ul>
@@ -65,9 +66,9 @@ const MODULE_ITEMS = [
       </ul>
       <p>You are no longer onboarding.</p>
       <p>You are participating.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="access-level">
+    <CollapsibleSection id="access-level" title="Access Level" stepCard={true}>
       <h2 id="access-level">Access Level</h2>
       <p>If all core modules are complete:</p>
       <p><strong>Access level: <span id="access-level-value">—</span></strong></p>
@@ -78,9 +79,9 @@ const MODULE_ITEMS = [
         <li>Full access to program materials</li>
         <li>Eligibility to contribute as needed</li>
       </ul>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="optional-review">
+    <CollapsibleSection id="optional-review" title="Optional Review" stepCard={true}>
       <h2 id="optional-review">Optional Review</h2>
       <p>If something feels unclear:</p>
       <ul>
@@ -89,7 +90,7 @@ const MODULE_ITEMS = [
         <li>Use the Resources module for reference</li>
       </ul>
       <p>There is no penalty for revisiting material.</p>
-    </section>
+    </CollapsibleSection>
 
     <section class="step-card" aria-labelledby="final-state">
       <h2 id="final-state">Final State</h2>
@@ -97,20 +98,14 @@ const MODULE_ITEMS = [
       <p>No pending actions.</p>
     </section>
 
-    <section class="step-card" aria-label="Action">
-      <a href="/cursor-workshop/" class="workshop-btn workshop-btn--primary">
-        Return to Desktop
-      </a>
-    </section>
-
-    <section class="step-card" aria-labelledby="system-notes">
+    <CollapsibleSection id="system-notes" title="System Notes" stepCard={true}>
       <h2 id="system-notes">System Notes</h2>
       <ul>
         <li>Progress reflects interaction, not expertise</li>
         <li>Familiarity comes from use, not completion</li>
         <li>The system remains available</li>
       </ul>
-    </section>
+    </CollapsibleSection>
 
     <p class="module-next-hint">
       <em>End of module.</em>

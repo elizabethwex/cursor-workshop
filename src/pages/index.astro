@@ -1,9 +1,11 @@
 ---
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
 import Desktop from "../components/Desktop.astro";
+import BootOverlay from "../components/BootOverlay.astro";
 ---
 
-<WorkshopLayout title="Desktop" description="Cursor Access Program – main access point. Select an available module to continue.">
+<WorkshopLayout title="Desktop" description="Cursor Access Program – main access point. Select an available module to continue." bootOverlay={true}>
+  <BootOverlay />
   <div class="launcher-screen" aria-label="Module launcher">
     <Desktop />
 
@@ -44,7 +46,30 @@ import Desktop from "../components/Desktop.astro";
         <p>Some modules may be visible but unavailable.</p>
         <p>When this occurs:</p>
         <p class="desktop-overview-locked-msg"><strong>Module unavailable.</strong> Complete WELCOME to unlock.</p>
+        <p>
+          <button type="button" class="reset-progress-trigger" id="reset-progress-trigger">Reset progress</button>
+        </p>
       </section>
+    </div>
+
+    <div id="reset-modal-overlay" class="reset-modal-overlay" aria-hidden="true" hidden>
+      <div
+        id="reset-modal-dialog"
+        class="reset-modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="reset-modal-title"
+        aria-describedby="reset-modal-desc"
+      >
+        <h2 id="reset-modal-title" class="reset-modal-title">Reset all progress?</h2>
+        <p id="reset-modal-desc" class="reset-modal-desc">
+          This will clear your completed modules, checklist, and visited steps. You will need to start over. This cannot be undone.
+        </p>
+        <div class="reset-modal-actions">
+          <button type="button" class="reset-modal-cancel workshop-btn workshop-btn--secondary" id="reset-modal-cancel">Cancel</button>
+          <button type="button" class="reset-modal-confirm workshop-btn workshop-btn--primary" id="reset-modal-confirm">Reset</button>
+        </div>
+      </div>
     </div>
   </div>
 </WorkshopLayout>
@@ -78,4 +103,46 @@ import Desktop from "../components/Desktop.astro";
 
   applyDesktopOverviewStatus();
   window.addEventListener("workshop-progress-update", applyDesktopOverviewStatus);
+</script>
+<script>
+  import { resetAllProgress } from "../lib/progress";
+
+  const trigger = document.getElementById("reset-progress-trigger");
+  const overlay = document.getElementById("reset-modal-overlay");
+  const dialog = document.getElementById("reset-modal-dialog");
+  const cancelBtn = document.getElementById("reset-modal-cancel");
+  const confirmBtn = document.getElementById("reset-modal-confirm");
+
+  function openModal() {
+    if (!overlay || !dialog) return;
+    overlay.hidden = false;
+    overlay.setAttribute("aria-hidden", "false");
+    cancelBtn?.focus();
+  }
+
+  function closeModal() {
+    if (!overlay || !dialog) return;
+    overlay.hidden = true;
+    overlay.setAttribute("aria-hidden", "true");
+    trigger?.focus();
+  }
+
+  function handleConfirm() {
+    resetAllProgress();
+    window.dispatchEvent(new CustomEvent("workshop-progress-update"));
+    closeModal();
+  }
+
+  trigger?.addEventListener("click", () => openModal());
+  cancelBtn?.addEventListener("click", () => closeModal());
+  confirmBtn?.addEventListener("click", () => handleConfirm());
+
+  overlay?.addEventListener("click", (e) => {
+    if (e.target === overlay) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (overlay && !overlay.hidden) closeModal();
+  });
 </script>

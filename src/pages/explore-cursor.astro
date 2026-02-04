@@ -3,6 +3,7 @@ import WorkshopLayout from "../layouts/WorkshopLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import StepTasks from "../components/StepTasks.astro";
 import CursorPrompts from "../components/CursorPrompts.astro";
+import CollapsibleSection from "../components/CollapsibleSection.astro";
 import content from "../content/steps/04-explore-cursor.ts";
 ---
 
@@ -34,7 +35,7 @@ import content from "../content/steps/04-explore-cursor.ts";
       <p>You remain in control.</p>
     </section>
 
-    <section class="step-card" aria-labelledby="what-cursor-is-good-at">
+    <CollapsibleSection id="what-cursor-is-good-at" title="What Cursor Is Good At" stepCard={true}>
       <h2 id="what-cursor-is-good-at">What Cursor Is Good At</h2>
       <p>Cursor is especially useful for:</p>
       <ul>
@@ -45,9 +46,9 @@ import content from "../content/steps/04-explore-cursor.ts";
       </ul>
       <p>You don’t need to know the right words.</p>
       <p>You can ask questions in plain language.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="how-cursor-fits">
+    <CollapsibleSection id="how-cursor-fits" title="How Cursor Fits Into Your Workflow" stepCard={true}>
       <h2 id="how-cursor-fits">How Cursor Fits Into Your Workflow</h2>
       <p>Think of Cursor as:</p>
       <ul>
@@ -57,9 +58,9 @@ import content from "../content/steps/04-explore-cursor.ts";
       </ul>
       <p>It does not make decisions for you.</p>
       <p>You decide what changes get made.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="core-actions">
+    <CollapsibleSection id="core-actions" title="Core Cursor Actions" stepCard={true}>
       <h2 id="core-actions">Core Cursor Actions</h2>
       <p>You’ll use these actions often. Try each one at least once.</p>
 
@@ -95,9 +96,9 @@ import content from "../content/steps/04-explore-cursor.ts";
         <li>“Rename this variable to something clearer”</li>
       </ul>
       <p>Small changes are encouraged.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="safe-experiment">
+    <CollapsibleSection id="safe-experiment" title="A Safe First Experiment" stepCard={true}>
       <h2 id="safe-experiment">A Safe First Experiment</h2>
       <p>If you’re unsure where to start, try this:</p>
       <ol>
@@ -109,9 +110,9 @@ import content from "../content/steps/04-explore-cursor.ts";
       </ol>
       <p>If the UI updates, everything worked.</p>
       <p>If it doesn’t, nothing is broken.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="if-stuck">
+    <CollapsibleSection id="if-stuck" title="If You Feel Stuck" stepCard={true}>
       <h2 id="if-stuck">If You Feel Stuck</h2>
       <p>That’s expected.</p>
       <p>When this happens:</p>
@@ -121,9 +122,9 @@ import content from "../content/steps/04-explore-cursor.ts";
         <li>Ask Cursor to explain an error message</li>
       </ul>
       <p>You do not need to solve this alone.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="not-expected">
+    <CollapsibleSection id="not-expected" title="What You're Not Expected to Do" stepCard={true}>
       <h2 id="not-expected">What You’re Not Expected to Do</h2>
       <p>You are not required to:</p>
       <ul>
@@ -132,9 +133,9 @@ import content from "../content/steps/04-explore-cursor.ts";
         <li>Know framework details</li>
       </ul>
       <p>Your job is to navigate, not master.</p>
-    </section>
+    </CollapsibleSection>
 
-    <section class="step-card" aria-labelledby="complete-module">
+    <CollapsibleSection id="complete-module" title="Complete This Module" stepCard={true}>
       <h2 id="complete-module">Complete This Module</h2>
       <p>Once you’ve:</p>
       <ul>
@@ -145,7 +146,7 @@ import content from "../content/steps/04-explore-cursor.ts";
       </ul>
       <p>You’re ready to move on.</p>
       <p>The next module will guide you through making a real contribution.</p>
-    </section>
+    </CollapsibleSection>
 
     <StepTasks moduleId="explore-cursor" tasks={content.tasks} />
 
@@ -159,9 +160,6 @@ import content from "../content/steps/04-explore-cursor.ts";
         <button type="button" id="cursor-mark-complete-btn" class="workshop-btn workshop-btn--primary">
           Mark Cursor exploration complete
         </button>
-        <a id="cursor-back-to-desktop" href="/cursor-workshop/" class="workshop-btn workshop-btn--secondary" aria-label="Return to Desktop" hidden>
-          Return to Desktop
-        </a>
       </div>
     </section>
 
@@ -176,14 +174,12 @@ import content from "../content/steps/04-explore-cursor.ts";
 
   const btn = document.getElementById("cursor-mark-complete-btn");
   const confirmEl = document.getElementById("cursor-mark-complete-confirm");
-  const backLink = document.getElementById("cursor-back-to-desktop");
 
   function showConfirmation() {
     if (confirmEl) {
       confirmEl.hidden = false;
       confirmEl.setAttribute("aria-live", "polite");
     }
-    if (backLink) backLink.hidden = false;
     if (btn) btn.hidden = true;
   }
 

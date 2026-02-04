@@ -60,3 +60,30 @@ export function markModuleComplete(moduleId: string): void {
 export function isModuleComplete(moduleId: string): boolean {
   return getProgress().completedModuleIds.includes(moduleId);
 }
+
+const VISITED_KEY = "cursor-workshop-visited-steps";
+const CHECKLIST_KEY = "cursor-workshop-checklist";
+
+/**
+ * Clear all workshop progress from localStorage so the user can start over.
+ * Clears: progress, visited steps, checklist, and per-module task state.
+ * Does not clear theme-intensity or has-seen-boot.
+ */
+export function resetAllProgress(): void {
+  if (typeof localStorage === "undefined") return;
+  try {
+    setProgress({ ...defaultProgress });
+    localStorage.removeItem(VISITED_KEY);
+    localStorage.removeItem(CHECKLIST_KEY);
+    const keysToRemove: string[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith("cursor-workshop-module-") && k.endsWith("-tasks")) {
+        keysToRemove.push(k);
+      }
+    }
+    keysToRemove.forEach((k) => localStorage.removeItem(k));
+  } catch {
+    // ignore
+  }
+}
