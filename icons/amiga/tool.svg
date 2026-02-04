@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+  <!-- Isometric wrench: handle (base + highlight + shadow), jaw (base) -->
+  <!-- Handle - left (shadow) -->
+  <path fill="#4a6a8a" stroke="none" d="M18 28 L18 38 L22 36 L22 26 Z"/>
+  <!-- Handle - right (shadow) -->
+  <path fill="#4a6a8a" stroke="none" d="M32 26 L28 26 L28 36 L32 38 Z"/>
+  <!-- Handle - top (base) -->
+  <path fill="#6b8cb0" stroke="none" d="M22 26 L28 26 L32 28 L32 38 L22 36 Z"/>
+  <!-- Handle highlight -->
+  <path fill="#8fadcc" stroke="none" d="M22 26 L28 26 L27 28 L23 28 Z"/>
+  <!-- Jaw (boxy open end) - base -->
+  <path fill="#6b8cb0" stroke="none" d="M28 20 L36 14 L40 18 L32 24 Z"/>
+  <!-- Jaw highlight -->
+  <path fill="#8fadcc" stroke="none" d="M28 20 L32 24 L32 22 L29 20 Z"/>
+  <!-- Jaw opening (dark) -->
+  <path fill="#4a6a8a" stroke="none" d="M34 16 L38 18 L36 20 L32 18 Z"/>
+  <!-- Outline -->
+  <path fill="none" d="M18 28 L22 26 L28 26 L28 20 L36 14 L40 18 L32 24 L32 28 L32 38 L22 36 L18 38 Z"/>
+  <path fill="none" d="M22 26 L22 36 M28 26 L28 24 M28 20 L32 24"/>
+</svg>

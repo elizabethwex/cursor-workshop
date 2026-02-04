@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+  <!-- Isometric house: left roof (shadow), right roof (highlight), front wall (base), door (shadow), chimney -->
+  <!-- Left roof - shadow -->
+  <path fill="#4a6a8a" stroke="none" d="M14 28 L14 40 L24 34 L24 22 Z"/>
+  <!-- Right roof - base -->
+  <path fill="#6b8cb0" stroke="none" d="M34 28 L24 22 L24 34 L34 40 Z"/>
+  <!-- Right roof highlight -->
+  <path fill="#8fadcc" stroke="none" d="M24 22 L34 28 L33 30 L25 24 Z"/>
+  <!-- Front wall - base -->
+  <path fill="#6b8cb0" stroke="none" d="M24 34 L24 40 L34 40 L34 34 Z"/>
+  <!-- Front wall highlight -->
+  <path fill="#8fadcc" stroke="none" d="M24 34 L34 34 L33 36 L25 36 Z"/>
+  <!-- Door - shadow -->
+  <path fill="#4a6a8a" stroke="none" d="M26 36 L26 40 L32 40 L32 36 Z"/>
+  <!-- Outline -->
+  <path fill="none" d="M14 28 L24 22 L34 28 L34 40 L24 34 L24 40 L14 40 Z"/>
+  <path fill="none" d="M24 22 L24 34 L34 34 L34 40"/>
+  <path fill="none" d="M26 36 L26 40 L32 40 L32 36 Z"/>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+  <!-- Isometric floppy: left face (shadow), top face (base + highlight strip), right face (shadow), front (base), label (accent) -->
+  <!-- Left face - shadow -->
+  <path fill="#4a6a8a" stroke="none" d="M14 22 L14 38 L20 34 L20 18 Z"/>
+  <!-- Right face - shadow -->
+  <path fill="#4a6a8a" stroke="none" d="M34 22 L28 18 L28 34 L34 38 Z"/>
+  <!-- Top face - base -->
+  <path fill="#6b8cb0" stroke="none" d="M20 18 L28 18 L34 22 L34 38 L20 34 Z"/>
+  <!-- Top highlight strip (left edge of top) -->
+  <path fill="#8fadcc" stroke="none" d="M20 18 L28 18 L27 22 L21 22 Z"/>
+  <!-- Front face - base -->
+  <path fill="#6b8cb0" stroke="none" d="M20 34 L20 38 L34 38 L34 34 Z"/>
+  <!-- Front highlight (bottom edge of front) -->
+  <path fill="#8fadcc" stroke="none" d="M20 34 L34 34 L33 36 L21 36 Z"/>
+  <!-- Label (copper accent) -->
+  <rect x="23" y="26" width="8" height="6" rx="1" fill="#c08040" stroke="none"/>
+  <!-- Outline -->
+  <path fill="none" d="M14 22 L20 18 L28 18 L34 22 L34 38 L20 34 L20 38 L34 38 L34 34 L20 34 L14 38 Z"/>
+  <path fill="none" d="M20 18 L20 34 M28 18 L28 34 M20 34 L34 34"/>
+</svg>
