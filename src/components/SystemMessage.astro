@@ -1,0 +1,55 @@
+---
+/**
+ * SystemMessage – short typed lines like "Module loaded…"
+ * Used at the top of each page. Supports typed animation or instant (prop).
+ * Typed animation is fast and capped (max 80 chars). Respects prefers-reduced-motion.
+ */
+interface Props {
+  message: string;
+  /** When true, type out the message; when false, show instantly. */
+  typed?: boolean;
+}
+
+const { message, typed = true } = Astro.props;
+
+const MAX_TYPED_LENGTH = 80;
+const TYPED_MS_PER_CHAR = 40;
+---
+
+<p
+  class="system-message"
+  role="status"
+  aria-live="off"
+  aria-atomic="true"
+  data-system-message
+  data-typed={typed}
+>
+  <span data-system-message-text>{typed ? "" : message}</span>
+</p>
+
+<script define:vars={{ message, typed, MAX_TYPED_LENGTH, TYPED_MS_PER_CHAR }}>
+  const el = document.querySelector("[data-system-message]");
+  const textEl = el?.querySelector("[data-system-message-text]");
+  if (!el || !textEl) return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const shouldType = typed && !prefersReducedMotion && message.length <= MAX_TYPED_LENGTH;
+
+  if (!shouldType) {
+    textEl.textContent = message;
+    el.setAttribute("aria-live", "polite");
+    return;
+  }
+
+  let i = 0;
+  function tick() {
+    if (i <= message.length) {
+      textEl.textContent = message.slice(0, i);
+      i++;
+      setTimeout(tick, TYPED_MS_PER_CHAR);
+    } else {
+      el.setAttribute("aria-live", "polite");
+    }
+  }
+  tick();
+</script>

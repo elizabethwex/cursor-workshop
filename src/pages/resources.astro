@@ -1,37 +1,91 @@
 ---
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import SystemMessage from "../components/SystemMessage.astro";
+import resourceGroups from "../content/steps/07-resources.ts";
 ---
 
-<WorkshopLayout title="Resources" description="Links and next steps for Cursor and GitHub.">
-  <h1>Resources</h1>
-  <p>
-    Here are some useful links to learn more. You can edit this page to add your own resources or internal docs.
-  </p>
+<WorkshopLayout title="Resources" description="Reference materials for Cursor, GitHub, and local development. Access: Any.">
+  <article class="module-page resources-module">
+    <header class="module-header">
+      <h1>Resources</h1>
+      <dl class="module-meta" aria-label="Module info">
+        <dt>Module</dt>
+        <dd>RESOURCES</dd>
+        <dt>Access Requirement</dt>
+        <dd>Any</dd>
+        <dt>Completion Unlocks</dt>
+        <dd>None</dd>
+      </dl>
+    </header>
 
-  <h2>Cursor</h2>
-  <ul>
-    <li><a href="https://cursor.com/docs" target="_blank" rel="noopener noreferrer">Cursor documentation</a></li>
-    <li><a href="https://cursor.com/docs/chat" target="_blank" rel="noopener noreferrer">Cursor Chat</a></li>
-    <li><a href="https://cursor.com/docs/composer" target="_blank" rel="noopener noreferrer">Composer</a></li>
-  </ul>
+    <p class="step-intent" aria-label="Status">
+      <em>Reference materials loaded.</em>
+    </p>
 
-  <h2>GitHub</h2>
-  <ul>
-    <li><a href="https://docs.github.com/en/get-started" target="_blank" rel="noopener noreferrer">GitHub Getting started</a></li>
-    <li><a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository" target="_blank" rel="noopener noreferrer">Cloning a repository</a></li>
-  </ul>
+    <SystemMessage message="Reference materials loaded." typed={true} />
 
-  <h2>Next steps</h2>
-  <p>
-    Once you’re comfortable with Cursor and GitHub, you might:
-  </p>
-  <ul>
-    <li>Clone another project and run it locally.</li>
-    <li>Make a small change (e.g. edit some text in this workshop) and, when you’re ready, learn how to commit and push.</li>
-    <li>Use Cursor Chat to ask questions about code in your repo.</li>
-  </ul>
+    <section class="step-card" aria-labelledby="resources-intro">
+      <h2 id="resources-intro">Resources</h2>
+      <p>This section contains reference materials you may find useful over time.</p>
+      <p>Nothing here is required to complete the Cursor Access Program.</p>
+      <p>Everything here is optional.</p>
+      <p>Use these resources when you need clarification, context, or a reminder.</p>
+    </section>
 
-  <p>
-    Add your own “getting started” links and next steps above by editing <code>src/pages/resources.astro</code>.
-  </p>
+    {resourceGroups.map((group) => (
+      <section class="step-card resource-group" aria-labelledby={group.heading.toLowerCase().replace(/\s+/g, "-")}>
+        <h2 id={group.heading.toLowerCase().replace(/\s+/g, "-")}>{group.heading}</h2>
+        <ul class="resource-list">
+          {group.links.map((link) => (
+            <li class="resource-item">
+              <a href={link.url} target="_blank" rel="noopener noreferrer" class="resource-link">
+                {link.title}
+              </a>
+              <span class="resource-url text-muted">{link.url}</span>
+              {link.description && (
+                <p class="resource-desc text-muted">{link.description}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <section class="step-card" aria-labelledby="when-to-use">
+      <h2 id="when-to-use">When to Use These</h2>
+      <p>You might return here if:</p>
+      <ul>
+        <li>A Git concept feels unclear</li>
+        <li>A command behaves unexpectedly</li>
+        <li>You want to explore beyond the basics</li>
+        <li>You need a refresher after time away</li>
+      </ul>
+      <p>There is no expectation to read everything.</p>
+    </section>
+
+    <section class="step-card" aria-labelledby="reminder">
+      <h2 id="reminder">A Reminder</h2>
+      <p>You do not need to become an expert.</p>
+      <p>You only need to know where to look.</p>
+    </section>
+
+    <section class="step-card" aria-label="Action">
+      <a href="/cursor-workshop/" class="workshop-btn workshop-btn--primary">
+        Return to Desktop
+      </a>
+    </section>
+
+    <section class="step-card" aria-labelledby="system-notes">
+      <h2 id="system-notes">System Notes</h2>
+      <ul>
+        <li>Reference materials remain available</li>
+        <li>The program does not expire</li>
+        <li>Familiarity grows through use</li>
+      </ul>
+    </section>
+
+    <p class="module-next-hint">
+      <em>End of module.</em>
+    </p>
+  </article>
 </WorkshopLayout>

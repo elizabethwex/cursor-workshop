@@ -1,0 +1,84 @@
+---
+interface Props {
+  moduleId: string;
+  tasks: string[];
+}
+
+const { moduleId, tasks } = Astro.props;
+const storageKey = `cursor-workshop-module-${moduleId}-tasks`;
+---
+
+<div class="step-tasks" data-module-id={moduleId} data-storage-key={storageKey}>
+  <h2>Tasks</h2>
+  <ul class="step-tasks-list" aria-label={`Tasks for module ${moduleId}`}>
+    {tasks.map((label, i) => (
+      <li class="step-tasks-item" data-task-index={i}>
+        <input
+          type="checkbox"
+          id={`module-task-${moduleId}-${i}`}
+          data-task-index={i}
+          data-label={label}
+          aria-label={label}
+        />
+        <label for={`module-task-${moduleId}-${i}`}>{label}</label>
+      </li>
+    ))}
+  </ul>
+  <button type="button" class="step-tasks-reset" aria-label={`Reset tasks for module ${moduleId}`}>
+    Reset tasks
+  </button>
+</div>
+
+<script define:vars={{ storageKey }}>
+  const container = document.querySelector(`[data-storage-key="${storageKey}"]`);
+  if (!container) throw new Error("StepTasks container not found");
+
+  const listEl = container.querySelector(".step-tasks-list");
+  const resetBtn = container.querySelector(".step-tasks-reset");
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveState(state) {
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    } catch {}
+  }
+
+  function bindTasks() {
+    if (!listEl) return;
+    const state = loadState();
+    listEl.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+      const index = input.getAttribute("data-task-index");
+      if (index !== null) input.checked = !!state[index];
+      const item = input.closest(".step-tasks-item");
+      if (item) item.classList.toggle("done", input.checked);
+
+      input.addEventListener("change", () => {
+        const index = input.getAttribute("data-task-index");
+        if (index === null) return;
+        const newState = { ...loadState(), [index]: input.checked };
+        saveState(newState);
+        item?.classList.toggle("done", input.checked);
+      });
+    });
+  }
+
+  resetBtn?.addEventListener("click", () => {
+    saveState({});
+    listEl?.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+      input.checked = false;
+    });
+    listEl?.querySelectorAll(".step-tasks-item").forEach((item) => {
+      item.classList.remove("done");
+    });
+  });
+
+  bindTasks();
+</script>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+  <!-- Isometric magnifying glass: lens (base + highlight), handle (base + shadow) -->
+  <!-- Handle - left (shadow) -->
+  <path fill="#4a6a8a" stroke="none" d="M26 32 L26 42 L30 40 L30 30 Z"/>
+  <!-- Handle - right (shadow) -->
+  <path fill="#4a6a8a" stroke="none" d="M38 28 L34 30 L34 40 L38 42 Z"/>
+  <!-- Handle - top (base) -->
+  <path fill="#6b8cb0" stroke="none" d="M30 30 L34 30 L38 28 L38 42 L30 40 Z"/>
+  <!-- Handle highlight -->
+  <path fill="#8fadcc" stroke="none" d="M30 30 L34 30 L33 32 L31 32 Z"/>
+  <!-- Lens - base (circle as rounded box) -->
+  <path fill="#6b8cb0" stroke="none" d="M18 14 L32 14 L36 18 L36 32 L32 36 L18 36 L14 32 L14 18 Z"/>
+  <!-- Lens highlight (top-left quadrant) -->
+  <path fill="#8fadcc" stroke="none" d="M18 14 L32 14 L30 18 L18 18 L16 22 L16 18 Z"/>
+  <!-- Lens inner (dark) -->
+  <path fill="#4a6a8a" stroke="none" d="M22 20 L28 20 L30 22 L30 28 L28 30 L22 30 L20 28 L20 22 Z"/>
+  <!-- Outline -->
+  <path fill="none" d="M18 14 L32 14 L36 18 L36 32 L32 36 L18 36 L14 32 L14 18 Z"/>
+  <path fill="none" d="M28 28 L34 30 L38 28 L38 42 L30 40 L26 42 L26 32 L28 28 Z"/>
+</svg>

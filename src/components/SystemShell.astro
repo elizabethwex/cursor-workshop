@@ -1,0 +1,24 @@
+---
+/**
+ * SystemShell – reusable layout wrapper for the whole app.
+ * Applies global background, optional subtle scanlines/noise (ambient), and default typography.
+ * Keeps content readable; header + nav are restyled via global theme tokens.
+ */
+interface Props {
+  ambient?: boolean;
+}
+
+const { ambient = true } = Astro.props;
+---
+
+<div class="system-shell" data-ambient={ambient}>
+  {ambient && (
+    <div class="system-shell__ambient" aria-hidden="true">
+      <div class="system-shell__scanlines"></div>
+      <div class="system-shell__noise"></div>
+    </div>
+  )}
+  <div class="system-shell__content">
+    <slot />
+  </div>
+</div>

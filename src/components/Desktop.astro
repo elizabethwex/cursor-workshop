@@ -1,0 +1,151 @@
+---
+/**
+ * Retro desktop launcher. Renders a grid of module icons using the lib registry.
+ * Status (locked | available | complete) is derived from progress via unlocksWhen / isComplete.
+ * Icons: PNGs from /icons/ when iconKey maps to a file.
+ */
+import { MODULES } from "../lib/modules";
+
+const ICON_KEY_TO_FILE: Record<string, string> = {
+  welcome: "welcome.png",
+  github: "github.png",
+  clone: "localhost.png",
+  explore: "cursor.png",
+  contribution: "contribute.png",
+  checklist: "checklist.png",
+  resources: "resources.png",
+};
+---
+
+<section class="desktop" aria-label="Workshop modules">
+  <div class="desktop-menu-bar" aria-hidden="true">
+    <span class="desktop-menu-title">Cursor Access Program</span>
+  </div>
+  <div class="desktop-icons" id="desktop-icons">
+    {MODULES.map((mod, i) => {
+      const iconFile = ICON_KEY_TO_FILE[mod.iconKey];
+      return (
+        <a
+          href={mod.route}
+          class="desktop-icon"
+          data-module-id={mod.id}
+          data-route={mod.route}
+          data-icon-key={mod.iconKey}
+          data-title={mod.title}
+          title={mod.title}
+          aria-label={`Open ${mod.title}`}
+        >
+          <span class="desktop-icon-image">
+            {iconFile ? (
+              <img
+                src={`${import.meta.env.BASE_URL}icons/${iconFile}`}
+                alt=""
+                class="desktop-icon-img"
+                width="48"
+                height="48"
+              />
+            ) : (
+              <span class="desktop-icon-symbol" aria-hidden="true">{i + 1}</span>
+            )}
+          </span>
+          <span class="desktop-icon-label">{mod.appLabel}.app</span>
+        </a>
+      );
+    })}
+  </div>
+  <div id="desktop-details" class="desktop-details" role="status" aria-live="polite" aria-label="Selected module">
+    <span id="desktop-details-title" class="desktop-details-title"></span>
+  </div>
+  <div
+    id="desktop-locked-message"
+    class="desktop-locked-message"
+    role="status"
+    aria-live="polite"
+    aria-hidden="true"
+  >
+    Module unavailable. Complete WELCOME to unlock.
+  </div>
+</section>
+
+<script>
+  import { getProgress } from "../lib/progress";
+  import { MODULES } from "../lib/modules";
+
+  type Status = "locked" | "available" | "complete";
+
+  function getStatus(mod: (typeof MODULES)[number], progress: ReturnType<typeof getProgress>): Status {
+    if (mod.isComplete(progress)) return "complete";
+    if (mod.unlocksWhen(progress)) return "available";
+    return "locked";
+  }
+
+  const container = document.getElementById("desktop-icons");
+  const messageEl = document.getElementById("desktop-locked-message");
+  if (!container) throw new Error("Desktop icons container not found");
+
+  function applyStatus() {
+    const progress = getProgress();
+    container.querySelectorAll(".desktop-icon[data-module-id]").forEach((el, index) => {
+      const a = el as HTMLAnchorElement;
+      const mod = MODULES[index];
+      if (!mod) return;
+      const status = getStatus(mod, progress);
+      a.setAttribute("data-status", status);
+      const isStartHere = mod.id === "welcome" && status === "available";
+      if (isStartHere) {
+        a.setAttribute("data-start-here", "true");
+        a.setAttribute("aria-description", "Start here");
+      } else {
+        a.removeAttribute("data-start-here");
+        a.removeAttribute("aria-description");
+      }
+    });
+  }
+
+  applyStatus();
+
+  container.addEventListener("click", (e) => {
+    const a = (e.target as HTMLElement).closest("a.desktop-icon");
+    if (!a) return;
+    const status = a.getAttribute("data-status");
+    if (status !== "locked") return;
+    e.preventDefault();
+    if (messageEl) {
+      messageEl.classList.add("desktop-locked-message--visible");
+      messageEl.setAttribute("aria-hidden", "false");
+      window.setTimeout(() => {
+        messageEl.classList.remove("desktop-locked-message--visible");
+        messageEl.setAttribute("aria-hidden", "true");
+      }, 4000);
+    }
+  });
+
+  document.addEventListener("workshop-progress-update", () => {
+    applyStatus();
+  });
+
+  const detailsTitleEl = document.getElementById("desktop-details-title");
+
+  function setDetailsTitle(title: string) {
+    if (detailsTitleEl) detailsTitleEl.textContent = title;
+  }
+
+  container.addEventListener("mouseover", (e) => {
+    const a = (e.target as HTMLElement).closest("a.desktop-icon");
+    setDetailsTitle(a ? (a.getAttribute("data-title") || "") : "");
+  });
+  container.addEventListener("mouseout", (e) => {
+    const related = (e.relatedTarget as Node | null) && (e.relatedTarget as HTMLElement).closest?.("a.desktop-icon");
+    if (!related) setDetailsTitle("");
+  });
+  container.addEventListener("focusin", (e) => {
+    const a = (e.target as HTMLElement).closest("a.desktop-icon");
+    if (a) setDetailsTitle(a.getAttribute("data-title") || "");
+  });
+  container.addEventListener("focusout", () => {
+    window.setTimeout(() => {
+      const focused = container.querySelector(".desktop-icon:focus");
+      if (!focused) setDetailsTitle("");
+    }, 0);
+  });
+</script>

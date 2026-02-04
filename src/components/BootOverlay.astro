@@ -1,0 +1,26 @@
+---
+/**
+ * Boot sequence overlay: 80s CRT / system-init vibe.
+ * Shown only on first visit (see index.astro + layout head script).
+ * Lines appear in sequence via CSS animation; transition triggered by page script.
+ */
+const bootLines = [
+  "> CURSOR_WORKSHOP v1.0",
+  "> Loading environment...",
+  "> Checking prerequisites: CURSOR, GIT, NODE",
+  "> Session state: restored",
+  "> Ready when you are.",
+];
+---
+
+<div id="boot-overlay" class="boot-overlay" role="status" aria-live="polite" aria-label="System initializing">
+  <div class="boot-overlay__scanlines" aria-hidden="true"></div>
+  <div class="boot-overlay__noise" aria-hidden="true"></div>
+  <div class="boot-overlay__inner">
+    <pre class="boot-overlay__text">
+      {bootLines.map((line, i) => (
+        <span class="boot-overlay__line" style={`animation-delay: ${0.6 + i * 0.4}s`}>{line}</span>
+      ))}
+    </pre>
+  </div>
+</div>
