@@ -7,9 +7,9 @@
 export const SYSTEM_BOOT_LINES: string[] = [
   "> CURSOR_WORKSHOP v1.0",
   "> Loading environment...",
-  "> Checking prerequisites: CURSOR, GIT, NODE",
-  "> Session state: restored",
-  "> Ready when you are.",
+  "> Loading apps: GITHUB, LOCALHOST, CURSOR, CONTRIBUTION CHALLENGES",
+  "> Session state: activated",
+  "> Welcome to the Cursor Access Program.",
 ];
 
 export const MODULE_BOOT_LINES: Record<string, string[]> = {
@@ -20,27 +20,27 @@ export const MODULE_BOOT_LINES: Record<string, string[]> = {
   ],
   "github-basics": [
     "> Loading GITHUB.app...",
-    "> Connecting to repository...",
+    "> Prepare to become a GitHub ninja...",
     "> Ready.",
   ],
   "clone-and-run": [
     "> Loading LOCALHOST.app...",
-    "> Preparing local environment...",
+    "> Prepare your local environment...",
     "> Ready.",
   ],
   "explore-cursor": [
-    "> Loading CURSOR.app...",
-    "> Initializing interface...",
+    "> Loading CURSOR BASICS.app...",
+    "> Prepare to learn the Cursor interface...",
     "> Ready.",
   ],
   contribution: [
     "> Loading CONTRIBUTION.app...",
-    "> Preparing contributor workflow...",
+    "> Prepare to make your first contribution...",
     "> Ready.",
   ],
   checklist: [
     "> Loading CHECKLIST.app...",
-    "> Retrieving program status...",
+    "> Checking your progress...",
     "> Ready.",
   ],
   resources: [

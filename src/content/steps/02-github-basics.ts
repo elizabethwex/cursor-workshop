@@ -3,6 +3,9 @@ import type { StepContent } from "./types.js";
 const content: StepContent = {
   intent: "Get access to GitHub and familiarize yourself with GitHub basics.",
   systemMessage: "System check: GitHub context loaded.",
+  goal: "Get access to GitHub and learn core concepts (repos, branches, SSH).",
+  estimatedTime: "15–20 min",
+  taskSectionIds: ["getting-access", "core-concepts", "ssh", "complete-module"],
   whatYouDo: [
     "Request access to the GitHub EMU via the WEX service desk.",
     "Understand repositories, branches, commits, and pull requests.",

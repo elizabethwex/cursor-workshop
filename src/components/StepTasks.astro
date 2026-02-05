@@ -29,7 +29,7 @@ const storageKey = `cursor-workshop-module-${moduleId}-tasks`;
   </button>
 </div>
 
-<script define:vars={{ storageKey }}>
+<script define:vars={{ storageKey, moduleId }}>
   const container = document.querySelector(`[data-storage-key="${storageKey}"]`);
   if (!container) throw new Error("StepTasks container not found");
 
@@ -51,6 +51,10 @@ const storageKey = `cursor-workshop-module-${moduleId}-tasks`;
     } catch {}
   }
 
+  function dispatchTaskChange() {
+    document.dispatchEvent(new CustomEvent("workshop-task-change", { detail: { moduleId } }));
+  }
+
   function bindTasks() {
     if (!listEl) return;
     const state = loadState();
@@ -66,6 +70,7 @@ const storageKey = `cursor-workshop-module-${moduleId}-tasks`;
         const newState = { ...loadState(), [index]: input.checked };
         saveState(newState);
         item?.classList.toggle("done", input.checked);
+        dispatchTaskChange();
       });
     });
   }
@@ -78,6 +83,7 @@ const storageKey = `cursor-workshop-module-${moduleId}-tasks`;
     listEl?.querySelectorAll(".step-tasks-item").forEach((item) => {
       item.classList.remove("done");
     });
+    dispatchTaskChange();
   });
 
   bindTasks();

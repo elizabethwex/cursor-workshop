@@ -1,0 +1,95 @@
+---
+import StepTasks from "./StepTasks.astro";
+
+interface Props {
+  moduleId: string;
+  tasks: string[];
+  taskSectionIds?: string[];
+}
+
+const { moduleId, tasks, taskSectionIds = [] } = Astro.props;
+const storageKey = `cursor-workshop-module-${moduleId}-tasks`;
+const taskCount = tasks.length;
+---
+
+<div class="module-page__body" data-module-id={moduleId} data-storage-key={storageKey} data-task-section-ids={JSON.stringify(taskSectionIds)}>
+  <div class="module-page__main">
+    <slot />
+  </div>
+  <aside class="module-page__sidebar" aria-label="Task progress">
+    <div class="module-task-progress" id={`task-progress-${moduleId}`} role="status" aria-live="polite">
+      <div class="module-task-progress__text">
+        <span class="module-task-progress__count" id={`task-progress-count-${moduleId}`}>0 / {tasks.length}</span>
+        <span class="module-task-progress__pct" id={`task-progress-pct-${moduleId}`}>0%</span>
+      </div>
+      <div class="module-task-progress__bar" aria-hidden="true">
+        <div class="module-task-progress__fill" id={`task-progress-fill-${moduleId}`} style="width: 0%"></div>
+      </div>
+    </div>
+    <StepTasks moduleId={moduleId} tasks={tasks} />
+  </aside>
+</div>
+
+<script define:vars={{ storageKey, moduleId, taskCount }}>
+  function getTaskState() {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      const state = raw ? JSON.parse(raw) : {};
+      return state;
+    } catch {
+      return {};
+    }
+  }
+
+  function countCompleted(state, total) {
+    let n = 0;
+    for (let i = 0; i < total; i++) if (state[String(i)]) n++;
+    return n;
+  }
+
+  function updateProgress() {
+    const total = taskCount;
+    if (total === 0) return;
+    const state = getTaskState();
+    const done = countCompleted(state, total);
+    const pct = Math.round((done / total) * 100);
+    const countEl = document.getElementById(`task-progress-count-${moduleId}`);
+    const pctEl = document.getElementById(`task-progress-pct-${moduleId}`);
+    const fillEl = document.getElementById(`task-progress-fill-${moduleId}`);
+    if (countEl) countEl.textContent = `${done} / ${total}`;
+    if (pctEl) pctEl.textContent = `${pct}%`;
+    if (fillEl) fillEl.style.width = `${pct}%`;
+  }
+
+  function syncSectionComplete() {
+    const bodyEl = document.querySelector(`.module-page__body[data-storage-key="${storageKey}"]`);
+    if (!bodyEl) return;
+    const idsJson = bodyEl.getAttribute("data-task-section-ids");
+    if (!idsJson) return;
+    let sectionIds;
+    try {
+      sectionIds = JSON.parse(idsJson);
+    } catch {
+      return;
+    }
+    const state = getTaskState();
+    sectionIds.forEach((sectionId, i) => {
+      const section = document.getElementById(sectionId);
+      if (section) section.classList.toggle("section-complete", !!state[String(i)]);
+    });
+  }
+
+  function onTaskChange() {
+    updateProgress();
+    syncSectionComplete();
+  }
+
+  onTaskChange();
+  document.addEventListener("workshop-task-change", (e) => {
+    const detail = e.detail;
+    if (detail?.moduleId === moduleId) onTaskChange();
+  });
+  window.addEventListener("storage", (e) => {
+    if (e.key === storageKey) onTaskChange();
+  });
+</script>

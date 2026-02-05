@@ -3,6 +3,9 @@ import type { StepContent } from "./types.js";
 const content: StepContent = {
   intent: "Preparing local environment…",
   systemMessage: "Preparing local environment…",
+  goal: "Clone the repo, install dependencies, and run the app locally.",
+  estimatedTime: "15–20 min",
+  taskSectionIds: ["step-1-clone", "step-2-install", "step-3-start", "step-4-open"],
   whatYouDo: [
     "Copy the code from GitHub to your machine (clone)",
     "Open it in Cursor so you can see and edit it",

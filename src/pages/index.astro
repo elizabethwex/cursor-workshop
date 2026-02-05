@@ -129,7 +129,7 @@ import BootOverlay from "../components/BootOverlay.astro";
 
   function handleConfirm() {
     resetAllProgress();
-    window.dispatchEvent(new CustomEvent("workshop-progress-update"));
+    document.dispatchEvent(new CustomEvent("workshop-progress-update"));
     closeModal();
   }
 

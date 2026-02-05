@@ -1,9 +1,10 @@
 ---
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
-import StepTasks from "../components/StepTasks.astro";
+import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
 import CursorPrompts from "../components/CursorPrompts.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
+import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
 import content from "../content/steps/04-explore-cursor.ts";
 ---
 
@@ -21,21 +22,24 @@ import content from "../content/steps/04-explore-cursor.ts";
       </dl>
     </header>
 
-    <p class="step-intent" aria-label="Status">
-      <em>Cursor interface active.</em>
-    </p>
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
 
-    <SystemMessage message={content.systemMessage} typed={true} />
+    <ModulePageWithTasks moduleId="explore-cursor" tasks={content.tasks} taskSectionIds={content.taskSectionIds}>
+      <p class="step-intent" aria-label="Status">
+        <em>Cursor interface active.</em>
+      </p>
 
-    <section class="step-card" aria-labelledby="working-with-cursor">
+      <SystemMessage message={content.systemMessage} typed={true} />
+
+      <section class="step-card" aria-labelledby="working-with-cursor">
       <h2 id="working-with-cursor">Working With Cursor</h2>
       <p>Cursor is the tool you’ll use to explore and modify code.</p>
       <p>It is not here to replace you.</p>
       <p>It is here to help you move through unfamiliar systems with confidence.</p>
       <p>You remain in control.</p>
-    </section>
+      </section>
 
-    <CollapsibleSection id="what-cursor-is-good-at" title="What Cursor Is Good At" stepCard={true}>
+      <CollapsibleSection id="what-cursor-is-good-at" title="What Cursor Is Good At" stepCard={true}>
       <h2 id="what-cursor-is-good-at">What Cursor Is Good At</h2>
       <p>Cursor is especially useful for:</p>
       <ul>
@@ -48,7 +52,7 @@ import content from "../content/steps/04-explore-cursor.ts";
       <p>You can ask questions in plain language.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="how-cursor-fits" title="How Cursor Fits Into Your Workflow" stepCard={true}>
+      <CollapsibleSection id="how-cursor-fits" title="How Cursor Fits Into Your Workflow" stepCard={true} taskIndex={1} moduleId="explore-cursor">
       <h2 id="how-cursor-fits">How Cursor Fits Into Your Workflow</h2>
       <p>Think of Cursor as:</p>
       <ul>
@@ -60,7 +64,7 @@ import content from "../content/steps/04-explore-cursor.ts";
       <p>You decide what changes get made.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="core-actions" title="Core Cursor Actions" stepCard={true}>
+      <CollapsibleSection id="core-actions" title="Core Cursor Actions" stepCard={true} taskIndex={0} moduleId="explore-cursor">
       <h2 id="core-actions">Core Cursor Actions</h2>
       <p>You’ll use these actions often. Try each one at least once.</p>
 
@@ -112,7 +116,7 @@ import content from "../content/steps/04-explore-cursor.ts";
       <p>If it doesn’t, nothing is broken.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="if-stuck" title="If You Feel Stuck" stepCard={true}>
+      <CollapsibleSection id="if-stuck" title="If You Feel Stuck" stepCard={true}>
       <h2 id="if-stuck">If You Feel Stuck</h2>
       <p>That’s expected.</p>
       <p>When this happens:</p>
@@ -124,7 +128,7 @@ import content from "../content/steps/04-explore-cursor.ts";
       <p>You do not need to solve this alone.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="not-expected" title="What You're Not Expected to Do" stepCard={true}>
+      <CollapsibleSection id="not-expected" title="What You're Not Expected to Do" stepCard={true}>
       <h2 id="not-expected">What You’re Not Expected to Do</h2>
       <p>You are not required to:</p>
       <ul>
@@ -135,7 +139,7 @@ import content from "../content/steps/04-explore-cursor.ts";
       <p>Your job is to navigate, not master.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="complete-module" title="Complete This Module" stepCard={true}>
+      <CollapsibleSection id="complete-module" title="Complete This Module" stepCard={true} taskIndex={3} moduleId="explore-cursor">
       <h2 id="complete-module">Complete This Module</h2>
       <p>Once you’ve:</p>
       <ul>
@@ -148,9 +152,7 @@ import content from "../content/steps/04-explore-cursor.ts";
       <p>The next module will guide you through making a real contribution.</p>
     </CollapsibleSection>
 
-    <StepTasks moduleId="explore-cursor" tasks={content.tasks} />
-
-    <CursorPrompts prompts={content.cursorPrompts} />
+      <CursorPrompts prompts={content.cursorPrompts} />
 
     <section id="cursor-mark-complete" class="welcome-mark-complete module-mark-complete" aria-label="Mark module complete">
       <p id="cursor-mark-complete-confirm" class="system-message welcome-mark-complete-msg" role="status" aria-live="polite" hidden>
@@ -161,11 +163,12 @@ import content from "../content/steps/04-explore-cursor.ts";
           Mark Cursor exploration complete
         </button>
       </div>
-    </section>
+      </section>
 
-    <p class="module-next-hint">
-      <em>On completion:</em> Module complete. Access level unchanged. Next module available: CONTRIBUTION.
-    </p>
+      <p class="module-next-hint">
+        <em>On completion:</em> Module complete. Access level unchanged. Next module available: CONTRIBUTION.
+      </p>
+    </ModulePageWithTasks>
   </article>
 </WorkshopLayout>
 
@@ -188,8 +191,9 @@ import content from "../content/steps/04-explore-cursor.ts";
   } else if (btn) {
     btn.addEventListener("click", () => {
       markModuleComplete("explore-cursor");
-      window.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      showConfirmation();
+      document.dispatchEvent(new CustomEvent("workshop-progress-update"));
+      const base = typeof import.meta.env !== "undefined" && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : "/cursor-workshop/";
+      window.location.replace(base);
     });
   }
 </script>

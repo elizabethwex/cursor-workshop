@@ -2,6 +2,7 @@
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
+import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
 import content from "../content/steps/01-welcome.ts";
 ---
 
@@ -15,6 +16,8 @@ import content from "../content/steps/01-welcome.ts";
         <strong>Completion Unlocks:</strong> {content.moduleMeta.completionUnlocks}
       </p>
     </header>
+
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
 
     <hr class="welcome-hr" />
 
@@ -122,8 +125,9 @@ import content from "../content/steps/01-welcome.ts";
   } else if (btn) {
     btn.addEventListener("click", () => {
       markModuleComplete("welcome");
-      window.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      showConfirmation();
+      document.dispatchEvent(new CustomEvent("workshop-progress-update"));
+      const base = typeof import.meta.env !== "undefined" && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : "/cursor-workshop/";
+      window.location.replace(base);
     });
   }
 </script>

@@ -645,20 +645,12 @@ kbd {
   justify-content: center;
   width: 72px;
   height: 72px;
-  background: var(--color-bg);
-  border: 2px solid var(--color-border);
-  border-radius: 8px;
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.06), 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.desktop-icon:hover .desktop-icon-image {
-  border-color: var(--color-accent);
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.08), 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: transparent;
 }
 
 .desktop-icon:hover .desktop-icon-img,
 .desktop-icon:hover .desktop-icon-symbol {
-  filter: drop-shadow(0 0 12px var(--glow-subtle));
+  filter: drop-shadow(0 0 14px var(--glow-subtle)) drop-shadow(0 0 24px rgba(0, 230, 118, 0.35));
 }
 
 .desktop-icon-img {
@@ -711,10 +703,6 @@ kbd {
   color: var(--color-text);
 }
 
-.desktop-icon[data-status="locked"]:hover .desktop-icon-image {
-  border-color: var(--color-border);
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.06), 0 2px 4px rgba(0, 0, 0, 0.2);
-}
 
 .desktop-locked-message {
   display: none;
@@ -733,23 +721,19 @@ kbd {
   display: block;
 }
 
-/* Start-here glow: Welcome icon only when NOT complete (available). Glow on the icon itself, not the box. */
-.desktop-icon[data-start-here="true"] .desktop-icon-image {
-  border-color: var(--color-accent);
-}
-
+/* Start-here glow: Welcome icon only when NOT complete (available). Strong glow on the icon itself. */
 .desktop-icon[data-start-here="true"] .desktop-icon-img,
 .desktop-icon[data-start-here="true"] .desktop-icon-symbol {
-  filter: drop-shadow(0 0 12px var(--glow-subtle)) drop-shadow(0 0 20px rgba(0, 230, 118, 0.18));
+  filter: drop-shadow(0 0 14px var(--glow-subtle)) drop-shadow(0 0 24px rgba(0, 230, 118, 0.35));
 }
 
 @keyframes desktop-icon-glow-pulse {
   0%,
   100% {
-    filter: drop-shadow(0 0 12px var(--glow-subtle)) drop-shadow(0 0 20px rgba(0, 230, 118, 0.18));
+    filter: drop-shadow(0 0 14px var(--glow-subtle)) drop-shadow(0 0 24px rgba(0, 230, 118, 0.35));
   }
   50% {
-    filter: drop-shadow(0 0 16px var(--glow-subtle)) drop-shadow(0 0 28px rgba(0, 230, 118, 0.28));
+    filter: drop-shadow(0 0 18px var(--glow-subtle)) drop-shadow(0 0 32px rgba(0, 230, 118, 0.45));
   }
 }
 
@@ -1022,7 +1006,10 @@ kbd {
 
 /* Module page: header and meta (Module / Access / Completion Unlocks) */
 .module-page {
-  max-width: 52rem;
+  max-width: 1440px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .module-header {
@@ -1051,6 +1038,138 @@ kbd {
 
 .module-meta dd {
   margin: 0;
+}
+
+/* Module goal panel – goal, estimated time, high-level overview */
+.module-goal-panel {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.module-goal-panel__heading {
+  margin: 0 0 var(--space-sm);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.module-goal-panel__list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem var(--space-md);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.module-goal-panel__term {
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.module-goal-panel__value {
+  margin: 0;
+  color: var(--color-text);
+}
+
+/* Module page: two-column layout (main + task sidebar) */
+.module-page__body {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 280px);
+  gap: var(--space-xl);
+  align-items: start;
+  margin-top: var(--space-md);
+}
+
+.module-page__main {
+  min-width: 0;
+}
+
+.module-page__sidebar {
+  position: sticky;
+  top: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow);
+}
+
+@media (max-width: 900px) {
+  .module-page__body {
+    grid-template-columns: 1fr;
+  }
+
+  .module-page__sidebar {
+    position: static;
+    order: -1;
+  }
+}
+
+/* Task progress (in sidebar) */
+.module-task-progress {
+  margin-bottom: var(--space-lg);
+}
+
+.module-task-progress__text {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.module-task-progress__count {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.module-task-progress__pct {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.module-task-progress__bar {
+  height: 6px;
+  background: var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.module-task-progress__fill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: var(--radius);
+  transition: width 0.2s ease;
+}
+
+/* Section complete (task-bound sections) */
+.collapsible-section.section-complete {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent-soft);
+}
+
+.collapsible-section.section-complete .collapsible-section__summary::after {
+  content: " ✓";
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.collapsible-section__footer {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.collapsible-section__mark-complete {
+  font-size: 0.85rem;
 }
 
 .module-next-hint {

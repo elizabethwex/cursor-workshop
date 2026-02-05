@@ -7,16 +7,25 @@ interface Props {
   open?: boolean;
   /** Use step-card styling for the container */
   stepCard?: boolean;
+  /** When set with moduleId, section is bound to this task index for "Mark section complete" */
+  taskIndex?: number;
+  /** When set with taskIndex, section can mark the corresponding sidebar task complete */
+  moduleId?: string;
 }
 
-const { title, id, open = false, stepCard = true } = Astro.props;
+const { title, id, open = false, stepCard = true, taskIndex, moduleId } = Astro.props;
 const summaryId = id ? `${id}-summary` : undefined;
+const hasTaskBinding = taskIndex !== undefined && taskIndex !== null && typeof moduleId === "string" && moduleId.length > 0;
+const storageKey = hasTaskBinding ? `cursor-workshop-module-${moduleId}-tasks` : "";
 ---
 
 <details
+  id={id}
   class:list={["collapsible-section", stepCard && "collapsible-section--step-card"]}
   open={open}
   aria-labelledby={summaryId}
+  data-task-index={hasTaskBinding ? taskIndex : undefined}
+  data-module-id={hasTaskBinding ? moduleId : undefined}
 >
   <summary id={summaryId} class="collapsible-section__summary">
     <span class="collapsible-section__title">{title}</span>
@@ -24,5 +33,39 @@ const summaryId = id ? `${id}-summary` : undefined;
   </summary>
   <div class="collapsible-section__content">
     <slot />
+    {hasTaskBinding && (
+      <footer class="collapsible-section__footer">
+        <button
+          type="button"
+          class="collapsible-section__mark-complete workshop-btn workshop-btn--secondary"
+          data-storage-key={storageKey}
+          data-task-index={taskIndex}
+          data-module-id={moduleId}
+          aria-label="Mark section complete"
+        >
+          Mark section complete
+        </button>
+      </footer>
+    )}
   </div>
 </details>
+
+{hasTaskBinding && (
+  <script define:vars={{ storageKey, taskIndex, moduleId }}>
+    document.querySelectorAll(`.collapsible-section__mark-complete[data-module-id="${moduleId}"][data-task-index="${taskIndex}"]`).forEach((btn) => {
+      btn.addEventListener("click", () => {
+        try {
+          const raw = localStorage.getItem(storageKey);
+          const state = raw ? JSON.parse(raw) : {};
+          state[String(taskIndex)] = true;
+          localStorage.setItem(storageKey, JSON.stringify(state));
+          const checkbox = document.getElementById(`module-task-${moduleId}-${taskIndex}`);
+          if (checkbox && checkbox instanceof HTMLInputElement) checkbox.checked = true;
+          const item = checkbox?.closest(".step-tasks-item");
+          if (item) item.classList.add("done");
+          document.dispatchEvent(new CustomEvent("workshop-task-change", { detail: { moduleId } }));
+        } catch {}
+      });
+    });
+  </script>
+)}

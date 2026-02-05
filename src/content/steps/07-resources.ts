@@ -40,4 +40,7 @@ const resourceGroups: ResourceGroup[] = [
   },
 ];
 
+export const resourcesGoal = "Optional reference materials for Cursor, GitHub, and local development.";
+export const resourcesEstimatedTime = "As needed";
+
 export default resourceGroups;

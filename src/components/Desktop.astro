@@ -2,18 +2,18 @@
 /**
  * Retro desktop launcher. Renders a grid of module icons using the lib registry.
  * Status (locked | available | complete) is derived from progress via unlocksWhen / isComplete.
- * Icons: PNGs from /icons/ when iconKey maps to a file.
+ * Icons: SVGs from /icons/ when iconKey maps to a file.
  */
 import { MODULES } from "../lib/modules";
 
 const ICON_KEY_TO_FILE: Record<string, string> = {
-  welcome: "welcome.png",
-  github: "github.png",
-  clone: "localhost.png",
-  explore: "cursor.png",
-  contribution: "contribute.png",
-  checklist: "checklist.png",
-  resources: "resources.png",
+  welcome: "welcome.svg",
+  github: "github.svg",
+  clone: "localhost.svg",
+  explore: "cursor.svg",
+  contribution: "contribute.svg",
+  checklist: "checklist.svg",
+  resources: "resources.svg",
 };
 ---
 
@@ -63,13 +63,13 @@ const ICON_KEY_TO_FILE: Record<string, string> = {
     aria-live="polite"
     aria-hidden="true"
   >
-    Module unavailable. Complete WELCOME to unlock.
+    Module unavailable.
   </div>
 </section>
 
 <script>
   import { getProgress } from "../lib/progress";
-  import { MODULES } from "../lib/modules";
+  import { MODULES, getModuleById } from "../lib/modules";
 
   type Status = "locked" | "available" | "complete";
 
@@ -77,6 +77,14 @@ const ICON_KEY_TO_FILE: Record<string, string> = {
     if (mod.isComplete(progress)) return "complete";
     if (mod.unlocksWhen(progress)) return "available";
     return "locked";
+  }
+
+  function getLockedMessage(moduleId: string): string {
+    const mod = getModuleById(moduleId);
+    if (!mod || !mod.prerequisiteModuleId) return "Module unavailable.";
+    const prereq = getModuleById(mod.prerequisiteModuleId);
+    if (!prereq) return "Module unavailable.";
+    return `Module unavailable. Complete ${prereq.appLabel} to unlock.`;
   }
 
   const container = document.getElementById("desktop-icons");
@@ -111,6 +119,8 @@ const ICON_KEY_TO_FILE: Record<string, string> = {
     if (status === "locked") {
       e.preventDefault();
       if (messageEl) {
+        const moduleId = a.getAttribute("data-module-id");
+        messageEl.textContent = moduleId ? getLockedMessage(moduleId) : "Module unavailable.";
         messageEl.classList.add("desktop-locked-message--visible");
         messageEl.setAttribute("aria-hidden", "false");
         window.setTimeout(() => {

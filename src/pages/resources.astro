@@ -2,7 +2,8 @@
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
-import resourceGroups from "../content/steps/07-resources.ts";
+import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
+import resourceGroups, { resourcesGoal, resourcesEstimatedTime } from "../content/steps/07-resources.ts";
 ---
 
 <WorkshopLayout title="Resources" description="Reference materials for Cursor, GitHub, and local development. Access: Any.">
@@ -18,6 +19,8 @@ import resourceGroups from "../content/steps/07-resources.ts";
         <dd>None</dd>
       </dl>
     </header>
+
+    <ModuleGoalPanel goal={resourcesGoal} estimatedTime={resourcesEstimatedTime} />
 
     <p class="step-intent" aria-label="Status">
       <em>Reference materials loaded.</em>

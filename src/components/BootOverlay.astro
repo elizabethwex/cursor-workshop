@@ -2,7 +2,7 @@
 /**
  * Boot sequence overlay: 80s CRT / system-init vibe.
  * Shown on first visit (index) or when launching an app from desktop.
- * Content is driven by script: typewriter then "Proceed" button.
+ * Content is driven by script: typewriter then auto-advance to next page.
  */
 ---
 
@@ -11,11 +11,6 @@
   <div class="boot-overlay__noise" aria-hidden="true"></div>
   <div class="boot-overlay__inner">
     <pre id="boot-overlay-text" class="boot-overlay__text" aria-live="polite"></pre>
-    <div id="boot-overlay-actions" class="boot-overlay__actions" hidden>
-      <button type="button" id="boot-overlay-proceed" class="boot-overlay__proceed workshop-btn workshop-btn--primary">
-        Proceed to Desktop
-      </button>
-    </div>
   </div>
 </div>
 
@@ -25,12 +20,12 @@
   const BOOT_SEEN_KEY = "cursor-workshop-has-seen-boot";
   const TYPED_MS_PER_CHAR = 40;
 
+  const AUTO_ADVANCE_MS = 600;
+
   const overlayEl = document.getElementById("boot-overlay");
   const textEl = document.getElementById("boot-overlay-text");
-  const actionsEl = document.getElementById("boot-overlay-actions");
-  const proceedBtn = document.getElementById("boot-overlay-proceed");
 
-  if (!overlayEl || !textEl || !actionsEl || !proceedBtn) throw new Error("Boot overlay elements not found");
+  if (!overlayEl || !textEl) throw new Error("Boot overlay elements not found");
 
   const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -74,18 +69,10 @@
     tick();
   }
 
-  function showProceedButton(label: string, onClick: () => void) {
-    proceedBtn.textContent = label;
-    proceedBtn.onclick = () => onClick();
-    actionsEl.hidden = false;
-    proceedBtn.focus();
-  }
-
   function runFirstBoot() {
     textEl.textContent = "";
-    actionsEl.hidden = true;
     typewriter(SYSTEM_BOOT_LINES, () => {
-      showProceedButton("Proceed to Desktop", () => {
+      setTimeout(() => {
         try {
           localStorage.setItem(BOOT_SEEN_KEY, "1");
         } catch {}
@@ -98,28 +85,20 @@
           },
           { once: true }
         );
-      });
+      }, AUTO_ADVANCE_MS);
     });
   }
 
-  function runAppBoot(moduleId: string, route: string, title: string) {
+  function runAppBoot(moduleId: string, route: string, _title: string) {
     overlayEl.classList.remove("boot-overlay--exiting");
     overlayEl.classList.add("boot-overlay--visible");
     textEl.textContent = "";
-    actionsEl.hidden = true;
     const lines = MODULE_BOOT_LINES[moduleId] ?? ["> Loading...", "> Ready."];
 
     typewriter(lines, () => {
-      showProceedButton(`Open ${title}`, () => {
-        overlayEl.classList.add("boot-overlay--exiting");
-        overlayEl.addEventListener(
-          "transitionend",
-          () => {
-            window.location.href = route;
-          },
-          { once: true }
-        );
-      });
+      setTimeout(() => {
+        window.location.href = route;
+      }, AUTO_ADVANCE_MS);
     });
   }
 

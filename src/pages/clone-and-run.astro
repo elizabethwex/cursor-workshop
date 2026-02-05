@@ -2,8 +2,9 @@
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
 import CopyButton from "../components/CopyButton.astro";
 import SystemMessage from "../components/SystemMessage.astro";
-import StepTasks from "../components/StepTasks.astro";
+import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
+import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
 import content from "../content/steps/03-clone-and-run.ts";
 
 const REPO_URL = "https://github.com/elizabethwex/cursor-workshop";
@@ -24,13 +25,16 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       </dl>
     </header>
 
-    <p class="step-intent" aria-label="Status">
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
+
+    <ModulePageWithTasks moduleId="clone-and-run" tasks={content.tasks} taskSectionIds={content.taskSectionIds}>
+      <p class="step-intent" aria-label="Status">
       <em>Preparing local environment…</em>
     </p>
 
-    <SystemMessage message={content.systemMessage} typed={true} />
+      <SystemMessage message={content.systemMessage} typed={true} />
 
-    <section class="step-card" aria-labelledby="running-locally">
+      <section class="step-card" aria-labelledby="running-locally">
       <h2 id="running-locally">Running the System Locally</h2>
       <p>You’re about to run this project on your own machine.</p>
       <p>This is called <strong>localhost</strong>.</p>
@@ -43,9 +47,9 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       <p>This step can feel intimidating.</p>
       <p>It is also the most important one.</p>
       <p>Take it slowly.</p>
-    </section>
+      </section>
 
-    <CollapsibleSection id="high-level" title="What You're Doing (At a High Level)" stepCard={true}>
+      <CollapsibleSection id="high-level" title="What You're Doing (At a High Level)" stepCard={true}>
       <h2 id="high-level">What You’re Doing (At a High Level)</h2>
       <p>Right now, the code for this project lives on GitHub:</p>
       <p>
@@ -61,7 +65,7 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       </ol>
     </CollapsibleSection>
 
-    <CollapsibleSection id="step-1-clone" title="Step 1: Clone the Repository in Cursor" stepCard={true}>
+      <CollapsibleSection id="step-1-clone" title="Step 1: Clone the Repository in Cursor" stepCard={true} taskIndex={0} moduleId="clone-and-run">
       <h2 id="step-1-clone">Step 1: Clone the Repository in Cursor</h2>
       <p>Cloning creates a local copy of the project on your computer.</p>
       <p>You will do this <strong>inside Cursor</strong>, not in a separate terminal.</p>
@@ -107,7 +111,7 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       <p>If an error appears, pause and read it. Cursor can help you understand what it means.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="step-3-start" title="Step 3: Start the App" stepCard={true}>
+      <CollapsibleSection id="step-3-start" title="Step 3: Start the App" stepCard={true} taskIndex={2} moduleId="clone-and-run">
       <h2 id="step-3-start">Step 3: Start the App</h2>
       <p>Once installation completes, start the development server:</p>
       <CopyButton text="npm run dev" />
@@ -116,14 +120,14 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       <p><code>http://localhost:5173</code></p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="step-4-open" title="Step 4: Open Localhost" stepCard={true}>
+      <CollapsibleSection id="step-4-open" title="Step 4: Open Localhost" stepCard={true} taskIndex={3} moduleId="clone-and-run">
       <h2 id="step-4-open">Step 4: Open Localhost</h2>
       <p>Open the URL shown in the terminal in your browser.</p>
       <p>If you see the app running, the system is online.</p>
       <p>You are now seeing the UI rendered from code on your machine.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="troubleshooting" title="If Something Doesn't Work" stepCard={true}>
+      <CollapsibleSection id="troubleshooting" title="If Something Doesn't Work" stepCard={true}>
       <h2 id="troubleshooting">If Something Doesn’t Work</h2>
       <p>This is normal.</p>
       <p>Most people encounter at least one issue the first time they run a project locally.</p>
@@ -147,16 +151,14 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       <p>That’s what it’s for.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="confirmation" title="Confirmation" stepCard={true}>
+      <CollapsibleSection id="confirmation" title="Confirmation" stepCard={true}>
       <h2 id="confirmation">Confirmation</h2>
       <p>If you can see the app running from localhost, you’ve completed this module.</p>
       <p>This is the hardest step for many designers.</p>
       <p>If you’re here, you’re doing well.</p>
     </CollapsibleSection>
 
-    <StepTasks moduleId="clone-and-run" tasks={content.tasks} />
-
-    <section id="localhost-mark-complete" class="welcome-mark-complete module-mark-complete" aria-label="Mark module complete">
+      <section id="localhost-mark-complete" class="welcome-mark-complete module-mark-complete" aria-label="Mark module complete">
       <p id="localhost-mark-complete-confirm" class="system-message welcome-mark-complete-msg" role="status" aria-live="polite" hidden>
         Local environment online. Access level upgraded: Operator.
       </p>
@@ -165,9 +167,9 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
           Confirm local environment is running
         </button>
       </div>
-    </section>
+      </section>
 
-    <CollapsibleSection id="system-notes" title="System Notes" stepCard={true}>
+      <CollapsibleSection id="system-notes" title="System Notes" stepCard={true}>
       <h2 id="system-notes">System Notes</h2>
       <ul>
         <li>You can stop the local server at any time by pressing <kbd>Ctrl</kbd> + <kbd>C</kbd> in the terminal</li>
@@ -176,9 +178,10 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       </ul>
     </CollapsibleSection>
 
-    <p class="module-next-hint">
-      <em>End of module.</em> Next up: Explore Cursor is where things start to feel fun instead of scary.
-    </p>
+      <p class="module-next-hint">
+        <em>End of module.</em> Next up: Explore Cursor is where things start to feel fun instead of scary.
+      </p>
+    </ModulePageWithTasks>
   </article>
 </WorkshopLayout>
 
@@ -201,8 +204,9 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
   } else if (btn) {
     btn.addEventListener("click", () => {
       markModuleComplete("clone-and-run");
-      window.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      showConfirmation();
+      document.dispatchEvent(new CustomEvent("workshop-progress-update"));
+      const base = typeof import.meta.env !== "undefined" && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : "/cursor-workshop/";
+      window.location.replace(base);
     });
   }
 </script>

@@ -3,6 +3,9 @@ import type { StepContent } from "./types.js";
 const content: StepContent = {
   intent: "Cursor interface active.",
   systemMessage: "Cursor interface active.",
+  goal: "Open files, search, ask Cursor questions, and make a small change.",
+  estimatedTime: "20–30 min",
+  taskSectionIds: ["core-actions", "how-cursor-fits", "safe-experiment", "complete-module"],
   whatYouDo: [
     "Open and read files using the file tree",
     "Search the project for words or phrases",

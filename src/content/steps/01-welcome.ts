@@ -13,6 +13,10 @@ export interface WelcomeContent {
     accessRequirement: string;
     completionUnlocks: string;
   };
+  /** One-sentence goal (shown in goal panel). */
+  goal: string;
+  /** Estimated time, e.g. "5 min". */
+  estimatedTime: string;
   systemMessages: string[];
   welcomeSection: {
     title: string;
@@ -47,6 +51,8 @@ const content: WelcomeContent = {
     accessRequirement: "None",
     completionUnlocks: "Observer",
   },
+  goal: "Confirm enrollment and understand how the program works.",
+  estimatedTime: "5–10 min",
   systemMessages: ["System initializing…", "Access granted."],
   welcomeSection: {
     title: "Welcome to the Cursor Access Program",
