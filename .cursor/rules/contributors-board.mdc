@@ -1,0 +1,34 @@
+---
+description: Format and rules for adding an entry to the contributors board (contribution module task)
+globs: src/data/contributors.json
+alwaysApply: false
+---
+
+# Contributors board — add yourself (contribution task)
+
+When a user is completing the contribution module and wants to add themselves to the contributors board:
+
+1. **Edit only this file:** `src/data/contributors.json`.
+
+2. **Use this exact shape for each entry.** Every object in the array must have these four fields:
+   - `name` (string, required): full name
+   - `team` (string, required): team name
+   - `role` (string, required): role at WEX (or similar)
+   - `avatarUrl` (string, required): URL to profile/avatar image, or empty string `""` if none
+
+3. **Insert the new entry** so the array stays **sorted alphabetically by `name`** (A–Z, case-insensitive). Do not append at the end unless that matches the sort order.
+
+4. **Do not add** `id`, `createdAt`, or any other fields. Only `name`, `team`, `role`, `avatarUrl`.
+
+5. **Example entry:**
+   ```json
+   {
+     "name": "Jane Smith",
+     "team": "Design",
+     "role": "Designer",
+     "avatarUrl": "https://example.com/avatar.jpg"
+   }
+   ```
+   For no avatar, use `"avatarUrl": ""`.
+
+6. **Keep valid JSON:** no trailing commas, double-quote all keys and string values.

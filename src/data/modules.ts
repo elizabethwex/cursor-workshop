@@ -48,7 +48,7 @@ export const MODULES: Module[] = [
     id: "contribution",
     title: "Contribution",
     route: "/cursor-workshop/contribution/",
-    description: "Add yourself to the contributor wall.",
+    description: "Add yourself to the contributors board (name, team, role, avatar).",
     unlockWhen: ["cloned-repo", "opened-cursor", "ran-localhost"],
   },
   {

@@ -1,0 +1,78 @@
+---
+import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
+
+interface BoardAgent {
+  name: string;
+  team: string;
+  role: string;
+  avatarUrl?: string;
+}
+
+import contributorsData from "../data/contributors.json";
+const raw = Array.isArray(contributorsData) ? contributorsData : [];
+const agents: BoardAgent[] = raw
+  .map((c) => {
+    const o = c && typeof c === "object" ? (c as Record<string, unknown>) : {};
+    return {
+      name: typeof o.name === "string" ? o.name : "",
+      team: typeof o.team === "string" ? o.team : "",
+      role: typeof o.role === "string" ? o.role : "",
+      avatarUrl: typeof o.avatarUrl === "string" ? o.avatarUrl : undefined,
+    };
+  })
+  .filter((c) => c.name.length > 0 && c.name !== "Add yourself here");
+---
+
+<MatrixModuleLayout title="Agents" description="Agents board: contributors who added themselves via the Contribution module (PR).">
+  <section class="agents-page" aria-labelledby="agents-heading">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 border-b border-[#003B00] pb-4">
+      <div>
+        <h1 id="agents-heading" class="text-3xl font-bold uppercase glitch text-[#00FF41]">[ AGENTS ]</h1>
+        <p class="text-[#008F11] font-terminal mt-1">// Add yourself via the Contribution module (PR)</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+      {agents.length === 0 ? (
+        <p class="col-span-full text-[#008F11] font-terminal text-center py-12">
+          No agents yet. Add yourself via the Contribution module: create a branch, add your entry to{" "}
+          <code class="text-[#00FF41]">src/data/contributors.json</code> (name, team, role, avatarUrl), then open a PR.
+        </p>
+      ) : (
+        agents.map((agent) => (
+          <article
+            class="matrix-card group p-4 flex flex-col relative overflow-hidden rounded-sm border border-[#003B00]"
+            data-agent-name={agent.name}
+          >
+            <div class="aspect-square w-full max-w-[120px] mx-auto mb-4 rounded overflow-hidden bg-black/50">
+              {agent.avatarUrl ? (
+                <img
+                  src={agent.avatarUrl}
+                  alt=""
+                  class="w-full h-full object-cover"
+                  width={120}
+                  height={120}
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center bg-[#003B00]/50 border border-[#003B00]">
+                  <span class="text-4xl font-bold text-[#008F11]" aria-hidden="true">
+                    {agent.name.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              )}
+            </div>
+            <h2 class="text-lg font-bold text-[#00FF41] mb-1 truncate" title={agent.name.toUpperCase()}>
+              {agent.name.toUpperCase()}
+            </h2>
+            <p class="text-sm text-[#008F11] mb-0.5 font-terminal">{agent.team.toUpperCase() || "—"}</p>
+            <p class="text-xs text-[#008F11]/80 mb-2 font-terminal">{agent.role.toUpperCase() || "—"}</p>
+            <p class="text-xs text-[#00FF41] font-terminal mt-auto">
+              <span class="uppercase">Contributor</span>
+            </p>
+          </article>
+        ))
+      )}
+    </div>
+  </section>
+</MatrixModuleLayout>

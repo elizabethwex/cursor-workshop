@@ -1,4 +1,6 @@
 ---
+import MatrixHeader from "../components/MatrixHeader.astro";
+
 interface Props {
   title?: string;
 }
@@ -158,6 +160,7 @@ const { title = "Cursor Workshop | Matrix Protocol" } = Astro.props;
     </style>
   </head>
   <body class="min-h-screen flex flex-col relative">
+    <MatrixHeader />
     <slot />
     <script is:inline>
       function initLucide() {
