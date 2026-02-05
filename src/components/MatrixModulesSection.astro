@@ -1,0 +1,67 @@
+---
+import ModuleCard from "./ModuleCard.astro";
+import { MODULES } from "../lib/modules";
+
+const ICON_KEY_TO_LUCIDE: Record<string, string> = {
+  welcome: "book-open",
+  github: "git-branch",
+  clone: "terminal-square",
+  explore: "code-2",
+  contribution: "zap",
+  checklist: "check-square",
+  resources: "layers",
+};
+
+const DESCRIPTIONS: Record<string, string> = {
+  welcome: "Start here. Get oriented with the Cursor Access Program.",
+  "github-basics": "Create a GitHub account and connect your identity.",
+  "clone-and-run": "Clone a repo and run the project locally.",
+  "explore-cursor": "Master the Cursor IDE and AI-assisted workflows.",
+  contribution: "Contribute to the codebase and submit changes.",
+  checklist: "Track your progress across workshop milestones.",
+  resources: "Links, docs, and references for further learning.",
+};
+
+const cards = MODULES.map((mod) => ({
+  id: `MODULE_${mod.appLabel}`,
+  icon: ICON_KEY_TO_LUCIDE[mod.iconKey] ?? "file-code",
+  title: mod.title,
+  description: DESCRIPTIONS[mod.id] ?? mod.title,
+  href: mod.route,
+}));
+---
+
+<section class="py-20 relative" aria-labelledby="matrix-modules-heading">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between mb-12 border-b border-[#003B00] pb-4">
+      <div>
+        <h2 id="matrix-modules-heading" class="text-3xl font-bold mb-2 uppercase glitch text-[#00FF41]">Training Modules</h2>
+        <p class="text-[#008F11] font-terminal">// Select a data packet to begin upload</p>
+      </div>
+      <button
+        type="button"
+        id="reset-matrix-experience"
+        class="font-terminal text-xs text-[#00FF41] hover:text-[#00FF41]/90 hover:underline focus:outline-none focus:ring-2 focus:ring-[#00FF41] focus:ring-offset-2 focus:ring-offset-black rounded px-2 py-1 transition-colors"
+        aria-label="Reset experience and return to terminal"
+      >
+        Reset experience
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {cards.map((card) => (
+        <ModuleCard id={card.id} icon={card.icon} title={card.title} description={card.description} href={card.href} />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const ACCESS_KEY = "cursor-workshop-matrix-access";
+  document.getElementById("reset-matrix-experience")?.addEventListener("click", function () {
+    try {
+      sessionStorage.removeItem(ACCESS_KEY);
+    } catch (_) {}
+    window.location.reload();
+  });
+</script>

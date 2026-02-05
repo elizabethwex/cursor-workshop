@@ -1,0 +1,188 @@
+---
+const base = import.meta.env.BASE_URL;
+const bluePillUrl = base + 'blue-pill';
+---
+
+<div class="relative z-[60] isolate mt-16 mx-auto max-w-3xl border border-[#00FF41] bg-black/90 shadow-[0_0_20px_rgba(0,255,65,0.15)] text-left rounded-sm overflow-hidden">
+  <div class="bg-[#003B00]/30 border-b border-[#00FF41] px-4 py-2 flex items-center justify-between">
+    <span class="text-xs uppercase tracking-widest font-terminal">root@cursor-workshop:~</span>
+    <div class="flex gap-2">
+      <div class="w-3 h-3 border border-[#00FF41]" aria-hidden="true"></div>
+      <div class="w-3 h-3 border border-[#00FF41]" aria-hidden="true"></div>
+      <div class="w-3 h-3 bg-[#00FF41]" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="p-6 font-terminal text-lg space-y-2 h-64 overflow-y-auto overflow-x-hidden" id="terminal-content">
+    <div id="terminal-log">
+      <div class="opacity-50">&gt; initialising environment...</div>
+      <div class="opacity-70">&gt; loading module: AI_PAIR_PROGRAMMER... [OK]</div>
+      <div class="opacity-80">&gt; loading module: CODEBASE_INDEXING... [OK]</div>
+      <div class="opacity-90">&gt; connecting to user_intent...</div>
+      <div class="text-[#00FF41]">&gt; READY. Enter your name.</div>
+    </div>
+    <div id="terminal-input-line" class="flex items-center gap-1 flex-shrink-0 mt-1 relative" role="group" aria-label="Terminal input line">
+      <span class="text-[#00FF41] flex-shrink-0">&gt; </span>
+      <div id="terminal-input-wrapper" class="flex-1 min-w-[12rem] flex items-center relative">
+        <span id="terminal-value-display" class="text-[#00FF41] font-terminal text-lg py-0.5"></span>
+        <span class="cursor-blink flex-shrink-0" aria-hidden="true"></span>
+        <input
+          type="text"
+          id="terminal-input"
+          class="absolute inset-0 w-full bg-transparent border-none outline-none font-terminal text-lg py-0.5 text-transparent caret-transparent"
+          autocomplete="off"
+          spellcheck="false"
+          autofocus
+          aria-label="Terminal input"
+          data-prompt="name"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ bluePillUrl }}>
+  function runTerminal() {
+    const logEl = document.getElementById('terminal-log');
+    const inputEl = document.getElementById('terminal-input');
+    const contentEl = document.getElementById('terminal-content');
+    const valueDisplayEl = document.getElementById('terminal-value-display');
+    const wrapperEl = document.getElementById('terminal-input-wrapper');
+    if (!logEl || !inputEl || !contentEl || !valueDisplayEl || !wrapperEl) return;
+
+    function syncValueDisplay() {
+      valueDisplayEl.textContent = inputEl.value;
+    }
+
+    const prompts = {
+      name: 'Enter your name:',
+      team: 'Enter your team:',
+      role: 'Enter your role at WEX:',
+      processing: '',
+      redpill: 'Do you choose the red pill? (Y/N):'
+    };
+
+    let step = 'name';
+    let name = '';
+    let team = '';
+    let role = '';
+
+    function appendLog(text, className) {
+      if (className === undefined) className = 'text-[#00FF41]';
+      const div = document.createElement('div');
+      div.className = className;
+      div.textContent = '> ' + text;
+      logEl.appendChild(div);
+      contentEl.scrollTop = contentEl.scrollHeight;
+    }
+
+    function showPrompt() {
+      if (step === 'processing') {
+        appendLog('processing identity...', 'opacity-90');
+        setTimeout(function () {
+          appendLog('[OK]', 'text-[#00FF41]');
+          setTimeout(function () {
+            step = 'redpill';
+            wrapperEl.style.display = '';
+            const blink = document.getElementById('terminal-input-line');
+            if (blink) {
+              const cursor = blink.querySelector('.cursor-blink');
+              if (cursor) cursor.classList.remove('invisible');
+            }
+            appendLog(prompts.redpill, 'text-[#00FF41]');
+            inputEl.placeholder = 'Y or N';
+            inputEl.dataset.prompt = 'redpill';
+            inputEl.focus();
+          }, 600);
+        }, 800);
+        return;
+      }
+      const promptText = prompts[step];
+      if (promptText) appendLog(promptText, 'text-[#00FF41]');
+      inputEl.placeholder = step === 'redpill' ? 'Y or N' : '';
+      inputEl.dataset.prompt = step;
+      inputEl.focus();
+    }
+
+    function advance() {
+      const value = (inputEl.value || '').trim();
+      if (step === 'redpill') {
+        const first = (value || '').toUpperCase().charAt(0);
+        if (first === 'N') {
+          appendLog(value || 'N', 'text-[#00FF41]');
+          appendLog('Redirecting...', 'opacity-70');
+          window.location.href = bluePillUrl;
+          return;
+        }
+        if (first === 'Y') {
+          appendLog(value || 'Y', 'text-[#00FF41]');
+          appendLog('Welcome to the Construct.', 'text-[#00FF41]');
+          wrapperEl.style.display = 'none';
+          const blink = document.getElementById('terminal-input-line');
+          if (blink) {
+            const cursor = blink.querySelector('.cursor-blink');
+            if (cursor) cursor.classList.add('invisible');
+          }
+          contentEl.scrollTop = contentEl.scrollHeight;
+          try { sessionStorage.setItem('cursor-workshop-matrix-access', 'true'); } catch (_) {}
+          const modulesEl = document.getElementById('matrix-modules');
+          if (modulesEl) {
+            modulesEl.classList.remove('hidden');
+            modulesEl.setAttribute('aria-hidden', 'false');
+            modulesEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          return;
+        }
+        appendLog('Enter Y or N', 'opacity-70');
+        inputEl.value = '';
+        syncValueDisplay();
+        inputEl.focus();
+        return;
+      }
+      if (step === 'name') {
+        name = value;
+        appendLog(value || '(no name)', 'text-[#008F11]');
+        step = 'team';
+      } else if (step === 'team') {
+        team = value;
+        appendLog(value || '(no team)', 'text-[#008F11]');
+        step = 'role';
+      } else if (step === 'role') {
+        role = value;
+        appendLog(value || '(no role)', 'text-[#008F11]');
+        step = 'processing';
+      }
+      inputEl.value = '';
+      syncValueDisplay();
+      if (step === 'processing') {
+        wrapperEl.style.display = 'none';
+        const blink = document.getElementById('terminal-input-line');
+        if (blink) {
+          const cursor = blink.querySelector('.cursor-blink');
+          if (cursor) cursor.classList.add('invisible');
+        }
+        showPrompt();
+        return;
+      }
+      showPrompt();
+    }
+
+    inputEl.addEventListener('input', syncValueDisplay);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      if (document.activeElement !== inputEl) return;
+      e.preventDefault();
+      e.stopPropagation();
+      advance();
+    }, true);
+
+    showPrompt();
+    setTimeout(function () { inputEl.focus(); }, 100);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runTerminal);
+  } else {
+    runTerminal();
+  }
+</script>

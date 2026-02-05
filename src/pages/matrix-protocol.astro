@@ -1,0 +1,14 @@
+---
+import MatrixProtocolLayout from "../layouts/MatrixProtocolLayout.astro";
+const base = import.meta.env.BASE_URL;
+---
+
+<MatrixProtocolLayout title="Cursor Workshop | Matrix Protocol">
+  <div class="min-h-screen flex flex-col items-center justify-center px-4 relative z-10">
+    <p class="font-terminal text-[#00FF41]">Redirecting...</p>
+  </div>
+</MatrixProtocolLayout>
+
+<script define:vars={{ base }}>
+  window.location.replace(base || "/");
+</script>

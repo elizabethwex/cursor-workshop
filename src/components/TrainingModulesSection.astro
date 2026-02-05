@@ -1,0 +1,30 @@
+---
+import ModuleCard from "./ModuleCard.astro";
+
+const modules = [
+  { id: "ID_01", icon: "code-2", title: "Context Awareness", description: "Learn how the AI indexes your entire codebase to provide context-aware suggestions that actually compile.", href: "#" },
+  { id: "ID_02", icon: "git-branch", title: "Git Integration", description: "Seamlessly merge AI-generated diffs. Review, accept, or reject changes with a single keystroke.", href: "#" },
+  { id: "ID_03", icon: "terminal-square", title: "Command Loop", description: "Master the CMD+K interface. Talk to your code in natural language and watch the terminal build it.", href: "#" },
+  { id: "ID_04", icon: "zap", title: "Rapid Prototyping", description: "Go from idea to deployment in record time using Cursor's composer mode.", href: "#" },
+  { id: "ID_05", icon: "bug", title: "Auto-Debug", description: "Identify logic flaws and syntax errors instantly. Fix bugs before they compile.", href: "#" },
+  { id: "ID_06", icon: "layers", title: "Tech Stack Agnostic", description: "Python, Rust, TypeScript, Go. The AI adapts to your preferred language syntax and patterns.", href: "#" },
+];
+---
+
+<section class="py-20 relative" aria-labelledby="training-modules-heading">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between mb-12 border-b border-[#003B00] pb-4">
+      <div>
+        <h2 id="training-modules-heading" class="text-3xl font-bold mb-2 uppercase glitch text-[#00FF41]">Training Modules</h2>
+        <p class="text-[#008F11] font-terminal">// Select a data packet to begin upload</p>
+      </div>
+      <span class="hidden md:block font-terminal text-xs animate-pulse text-[#00FF41]">SYS_READY</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {modules.map((mod) => (
+        <ModuleCard id={mod.id} icon={mod.icon} title={mod.title} description={mod.description} href={mod.href} />
+      ))}
+    </div>
+  </div>
+</section>

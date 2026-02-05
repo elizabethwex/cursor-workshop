@@ -1,0 +1,50 @@
+---
+import MatrixRedLayout from "../layouts/MatrixRedLayout.astro";
+const base = import.meta.env.BASE_URL;
+const matrixProtocolUrl = base;
+---
+
+<MatrixRedLayout title="Cursor Workshop | Blue Pill">
+  <div class="min-h-screen flex flex-col items-center justify-center px-4 relative z-10">
+    <div class="text-center max-w-xl space-y-6">
+      <h1 class="text-4xl md:text-5xl font-bold red-neon-text font-terminal" style="color: var(--matrix-red);">
+        You chose the blue pill.
+      </h1>
+      <p class="text-xl font-terminal opacity-90" style="color: var(--matrix-red-dark);">
+        The story ends. You wake up in your bed and believe whatever you want to believe.
+      </p>
+      <p id="restart-message" class="text-lg font-terminal animate-pulse" style="color: var(--matrix-red);">
+        Restarting in <span id="countdown">5</span>...
+      </p>
+      <a
+        id="restart-btn"
+        href={matrixProtocolUrl}
+        class="inline-block mt-6 px-8 py-4 border font-bold uppercase tracking-widest transition-all no-underline"
+        style="border-color: var(--matrix-red); color: var(--matrix-red);"
+      >
+        Restart now
+      </a>
+    </div>
+  </div>
+</MatrixRedLayout>
+
+<script define:vars={{ matrixProtocolUrl }}>
+  const countdownEl = document.getElementById('countdown');
+  const messageEl = document.getElementById('restart-message');
+  const btnEl = document.getElementById('restart-btn');
+  if (!countdownEl || !messageEl || !btnEl) throw new Error('Blue pill elements not found');
+
+  let seconds = 5;
+  const intervalId = setInterval(() => {
+    seconds--;
+    countdownEl.textContent = String(seconds);
+    if (seconds <= 0) {
+      clearInterval(intervalId);
+      window.location.href = matrixProtocolUrl;
+    }
+  }, 1000);
+
+  btnEl.addEventListener('click', (e) => {
+    clearInterval(intervalId);
+  });
+</script>

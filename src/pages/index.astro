@@ -1,148 +1,41 @@
 ---
-import WorkshopLayout from "../layouts/WorkshopLayout.astro";
-import Desktop from "../components/Desktop.astro";
-import BootOverlay from "../components/BootOverlay.astro";
+import MatrixProtocolLayout from "../layouts/MatrixProtocolLayout.astro";
+import MatrixRain from "../components/MatrixRain.astro";
+import Scanlines from "../components/Scanlines.astro";
+import TerminalBlock from "../components/TerminalBlock.astro";
+import MatrixModulesSection from "../components/MatrixModulesSection.astro";
 ---
 
-<WorkshopLayout title="Desktop" description="Cursor Access Program – main access point. Select an available module to continue." bootOverlay={true}>
-  <BootOverlay />
-  <div class="launcher-screen" aria-label="Module launcher">
-    <Desktop />
-
-    <div class="desktop-overview" id="desktop-overview">
-      <header class="desktop-overview-header">
-        <h1 class="desktop-overview-title">Cursor Access Program</h1>
-        <p class="desktop-overview-status-line" aria-live="polite">
-          <strong>Access Level:</strong> <span id="desktop-access-level">Unregistered</span><br />
-          <strong>Status:</strong> <span id="desktop-status">Awaiting enrollment</span>
-        </p>
-        <p class="desktop-overview-cta"><em>Select an available module to continue.</em></p>
-      </header>
-
-      <hr class="desktop-overview-hr" />
-
-      <section class="desktop-overview-section" aria-labelledby="desktop-overview-heading">
-        <h2 id="desktop-overview-heading">Desktop Overview</h2>
-        <p>This is the main access point for the Cursor Access Program.</p>
-        <p>Each icon represents a system module.<br />Modules become available as your access level increases.</p>
-        <p>You may return here at any time.</p>
-      </section>
-
-      <hr class="desktop-overview-hr" />
-
-      <section class="desktop-overview-section" aria-labelledby="desktop-system-notes-heading">
-        <h2 id="desktop-system-notes-heading">System Notes</h2>
-        <ul>
-          <li>Progress is saved automatically.</li>
-          <li>No action is irreversible.</li>
-          <li>Modules may be revisited at any time.</li>
-        </ul>
-      </section>
-
-      <hr class="desktop-overview-hr" />
-
-      <section class="desktop-overview-section" aria-labelledby="desktop-locked-heading">
-        <h2 id="desktop-locked-heading">Locked Modules</h2>
-        <p>Some modules may be visible but unavailable.</p>
-        <p>When this occurs:</p>
-        <p class="desktop-overview-locked-msg"><strong>Module unavailable.</strong> Complete WELCOME to unlock.</p>
-        <p>
-          <button type="button" class="reset-progress-trigger" id="reset-progress-trigger">Reset progress</button>
-        </p>
-      </section>
-    </div>
-
-    <div id="reset-modal-overlay" class="reset-modal-overlay" aria-hidden="true" hidden>
-      <div
-        id="reset-modal-dialog"
-        class="reset-modal-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="reset-modal-title"
-        aria-describedby="reset-modal-desc"
-      >
-        <h2 id="reset-modal-title" class="reset-modal-title">Reset all progress?</h2>
-        <p id="reset-modal-desc" class="reset-modal-desc">
-          This will clear your completed modules, checklist, and visited steps. You will need to start over. This cannot be undone.
-        </p>
-        <div class="reset-modal-actions">
-          <button type="button" class="reset-modal-cancel workshop-btn workshop-btn--secondary" id="reset-modal-cancel">Cancel</button>
-          <button type="button" class="reset-modal-confirm workshop-btn workshop-btn--primary" id="reset-modal-confirm">Reset</button>
-        </div>
-      </div>
+<MatrixProtocolLayout title="Cursor Workshop | Matrix Protocol">
+  <MatrixRain />
+  <Scanlines />
+  <div class="relative z-10 w-full min-h-screen flex flex-col">
+    <main class="flex-grow flex flex-col items-center justify-center py-12 px-4">
+      <TerminalBlock />
+    </main>
+    <div id="matrix-modules" class="hidden" aria-hidden="true">
+      <MatrixModulesSection />
     </div>
   </div>
-</WorkshopLayout>
+</MatrixProtocolLayout>
 
 <script>
-  import { getProgress } from "../lib/progress";
+  const ACCESS_KEY = "cursor-workshop-matrix-access";
 
-  function getAccessLevelLabel(progress: { completedModuleIds: string[] }): { level: string; status: string } {
-    const completed = progress.completedModuleIds;
-    const hasWelcome = completed.includes("welcome");
-    const hasClone = completed.includes("clone-and-run");
-    const hasContribution = completed.includes("contribution");
-    const core = ["welcome", "github-basics", "clone-and-run", "explore-cursor", "contribution"];
-    const allCore = core.every((id) => completed.includes(id));
-
-    if (allCore) return { level: "Cleared", status: "Full access granted." };
-    if (hasContribution) return { level: "Contributor", status: "Authorized to modify shared systems." };
-    if (hasClone) return { level: "Operator", status: "System running on your machine." };
-    if (hasWelcome) return { level: "Observer", status: "Program enrollment confirmed." };
-    return { level: "Unregistered", status: "Awaiting enrollment" };
+  function showModulesIfGranted() {
+    if (typeof sessionStorage === "undefined") return;
+    if (sessionStorage.getItem(ACCESS_KEY) === "true") {
+      const el = document.getElementById("matrix-modules");
+      if (el) {
+        el.classList.remove("hidden");
+        el.setAttribute("aria-hidden", "false");
+      }
+    }
   }
 
-  function applyDesktopOverviewStatus() {
-    const progress = getProgress();
-    const { level, status } = getAccessLevelLabel(progress);
-    const levelEl = document.getElementById("desktop-access-level");
-    const statusEl = document.getElementById("desktop-status");
-    if (levelEl) levelEl.textContent = level;
-    if (statusEl) statusEl.textContent = status;
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", showModulesIfGranted);
+  } else {
+    showModulesIfGranted();
   }
-
-  applyDesktopOverviewStatus();
-  window.addEventListener("workshop-progress-update", applyDesktopOverviewStatus);
-</script>
-<script>
-  import { resetAllProgress } from "../lib/progress";
-
-  const trigger = document.getElementById("reset-progress-trigger");
-  const overlay = document.getElementById("reset-modal-overlay");
-  const dialog = document.getElementById("reset-modal-dialog");
-  const cancelBtn = document.getElementById("reset-modal-cancel");
-  const confirmBtn = document.getElementById("reset-modal-confirm");
-
-  function openModal() {
-    if (!overlay || !dialog) return;
-    overlay.hidden = false;
-    overlay.setAttribute("aria-hidden", "false");
-    cancelBtn?.focus();
-  }
-
-  function closeModal() {
-    if (!overlay || !dialog) return;
-    overlay.hidden = true;
-    overlay.setAttribute("aria-hidden", "true");
-    trigger?.focus();
-  }
-
-  function handleConfirm() {
-    resetAllProgress();
-    document.dispatchEvent(new CustomEvent("workshop-progress-update"));
-    closeModal();
-  }
-
-  trigger?.addEventListener("click", () => openModal());
-  cancelBtn?.addEventListener("click", () => closeModal());
-  confirmBtn?.addEventListener("click", () => handleConfirm());
-
-  overlay?.addEventListener("click", (e) => {
-    if (e.target === overlay) closeModal();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-    if (overlay && !overlay.hidden) closeModal();
-  });
 </script>
