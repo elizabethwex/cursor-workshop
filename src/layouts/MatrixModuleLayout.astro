@@ -1,11 +1,14 @@
 ---
+import "../styles/global.css";
+import Scanlines from "../components/Scanlines.astro";
 import MatrixHeader from "../components/MatrixHeader.astro";
 
 interface Props {
-  title?: string;
+  title: string;
+  description?: string;
 }
 
-const { title = "Cursor Workshop | Matrix Protocol" } = Astro.props;
+const { title, description = "Cursor Workshop module." } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -13,7 +16,8 @@ const { title = "Cursor Workshop | Matrix Protocol" } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <title>{title} | Cursor Workshop</title>
     <script src="https://cdn.tailwindcss.com/3.4.17" is:inline></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
@@ -26,12 +30,29 @@ const { title = "Cursor Workshop | Matrix Protocol" } = Astro.props;
         --matrix-black: #0d0d0d;
       }
 
+      /* Override workshop theme tokens for Matrix look on module pages */
       body {
-        background-color: #000;
-        color: var(--matrix-green);
-        font-family: 'Share Tech Mono', monospace;
+        background-color: #000 !important;
+        color: var(--matrix-green) !important;
+        font-family: 'Share Tech Mono', monospace !important;
         overflow-x: hidden;
         cursor: text;
+      }
+
+      body {
+        --color-bg: #000;
+        --color-surface: #0d0d0d;
+        --color-text: #00FF41;
+        --color-text-muted: #008F11;
+        --color-accent: #00FF41;
+        --color-accent-hover: #00ff88;
+        --color-border: #003B00;
+        --glow-subtle: rgba(0, 255, 65, 0.35);
+        --color-accent-soft: rgba(0, 255, 65, 0.08);
+        --color-success: #00FF41;
+        --color-badge: #00FF41;
+        --font-sans: 'Share Tech Mono', monospace;
+        --font-mono: 'VT323', monospace;
       }
 
       ::-webkit-scrollbar {
@@ -160,8 +181,13 @@ const { title = "Cursor Workshop | Matrix Protocol" } = Astro.props;
     </style>
   </head>
   <body class="min-h-screen flex flex-col relative">
-    <MatrixHeader />
-    <slot />
+    <Scanlines />
+    <div class="relative z-10 w-full min-h-screen flex flex-col">
+      <MatrixHeader />
+      <main class="flex-grow w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <slot />
+      </main>
+    </div>
     <script is:inline>
       function initLucide() {
         if (typeof lucide !== 'undefined' && lucide.createIcons) {
@@ -175,6 +201,51 @@ const { title = "Cursor Workshop | Matrix Protocol" } = Astro.props;
       } else {
         initLucide();
       }
+    </script>
+    <script>
+      (function () {
+        const VISITED_KEY = "cursor-workshop-visited-steps";
+
+        function getVisited() {
+          try {
+            const raw = localStorage.getItem(VISITED_KEY);
+            return raw ? JSON.parse(raw) : [];
+          } catch {
+            return [];
+          }
+        }
+
+        function setVisited(paths) {
+          try {
+            localStorage.setItem(VISITED_KEY, JSON.stringify(paths));
+          } catch (_) {}
+        }
+
+        const pathname = window.location.pathname.replace(/\/$/, "") || "/cursor-workshop";
+        const visited = getVisited();
+        if (!visited.includes(pathname)) {
+          visited.push(pathname);
+          setVisited(visited);
+        }
+      })();
+    </script>
+    <script define:vars={{ base: import.meta.env.BASE_URL }}>
+      (function () {
+        function isTextInput(el) {
+          if (!el || !(el instanceof HTMLElement)) return false;
+          const tag = el.tagName.toLowerCase();
+          if (tag === "input" || tag === "textarea") return true;
+          return el.isContentEditable === true;
+        }
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key !== "r" && e.key !== "R") return;
+          if (e.ctrlKey || e.metaKey || e.altKey) return;
+          if (isTextInput(e.target)) return;
+          e.preventDefault();
+          window.location.href = base;
+        });
+      })();
     </script>
   </body>
 </html>

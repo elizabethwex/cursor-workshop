@@ -54,8 +54,8 @@ const bluePillUrl = base + 'blue-pill';
     }
 
     const prompts = {
-      name: 'Enter your name:',
-      team: 'Enter your team:',
+      name: 'Enter your full name:',
+      team: 'Enter your team name:',
       role: 'Enter your role at WEX:',
       processing: '',
       redpill: 'Do you choose the red pill? (Y/N):'
@@ -124,11 +124,22 @@ const bluePillUrl = base + 'blue-pill';
           }
           contentEl.scrollTop = contentEl.scrollHeight;
           try { sessionStorage.setItem('cursor-workshop-matrix-access', 'true'); } catch (_) {}
+          if (typeof window.addAgentForTerminal === 'function') {
+            try { window.addAgentForTerminal({ name: name, team: team, role: role }); } catch (_) {}
+          }
           const modulesEl = document.getElementById('matrix-modules');
           if (modulesEl) {
             modulesEl.classList.remove('hidden');
             modulesEl.setAttribute('aria-hidden', 'false');
-            modulesEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          const headerEl = document.getElementById('matrix-header');
+          if (headerEl) headerEl.classList.remove('hidden');
+          const wrapEl = document.getElementById('matrix-main-wrap');
+          if (wrapEl) wrapEl.classList.add('pt-16');
+          const terminalSectionEl = document.getElementById('terminal-section');
+          if (terminalSectionEl) {
+            terminalSectionEl.classList.add('hidden');
+            terminalSectionEl.setAttribute('aria-hidden', 'true');
           }
           return;
         }

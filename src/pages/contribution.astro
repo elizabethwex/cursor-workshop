@@ -1,5 +1,5 @@
 ---
-import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
 import ContributorWall from "../components/ContributorWall.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
@@ -9,7 +9,7 @@ import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
 import content from "../content/steps/05-contribution.ts";
 ---
 
-<WorkshopLayout title="Contribution" description="Make a real contribution. Completion unlocks Contributor.">
+<MatrixModuleLayout title="Contribution" description="Make a real contribution. Completion unlocks Contributor.">
   <article class="module-page contribution-module">
     <header class="module-header">
       <h1>Contribution</h1>
@@ -82,16 +82,19 @@ import content from "../content/steps/05-contribution.ts";
       <h2 id="step-2-change">Step 2: Make a Small Change</h2>
       <p>Choose one of the following options.</p>
 
-      <h3>Option A: Add Yourself as a Contributor</h3>
+      <h3>Option A: Add Yourself to the Contributors Board</h3>
+      <p>Edit the file <code>src/data/contributors.json</code>. Each entry must have exactly four fields:</p>
       <ul>
-        <li>Locate the contributors file in the project</li>
-        <li>Add your name and any required information</li>
-        <li>Follow the existing format exactly</li>
+        <li><strong>name</strong> — your full name</li>
+        <li><strong>team</strong> — your team name</li>
+        <li><strong>role</strong> — your role at WEX</li>
+        <li><strong>avatarUrl</strong> — URL to your profile/avatar image, or <code>""</code> if none</li>
       </ul>
+      <p>Keep the array sorted alphabetically by <code>name</code>. Cursor’s project rules (when editing that file) describe the same format.</p>
 
       <ContributorWall />
 
-      <p class="text-muted">The wall above is built from a data file. Add your entry there and you’ll show up once your PR is merged.</p>
+      <p class="text-muted">The wall above is built from that data file. Add your entry and you’ll show up once your PR is merged.</p>
 
       <h3>Option B: Make a Minor UI Change</h3>
       <ul>
@@ -176,7 +179,7 @@ import content from "../content/steps/05-contribution.ts";
       </p>
     </ModulePageWithTasks>
   </article>
-</WorkshopLayout>
+</MatrixModuleLayout>
 
 <script>
   import { markModuleComplete, isModuleComplete } from "../lib/progress";

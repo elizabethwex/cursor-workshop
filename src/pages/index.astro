@@ -3,33 +3,57 @@ import MatrixProtocolLayout from "../layouts/MatrixProtocolLayout.astro";
 import MatrixRain from "../components/MatrixRain.astro";
 import Scanlines from "../components/Scanlines.astro";
 import TerminalBlock from "../components/TerminalBlock.astro";
+import WelcomeIdCard from "../components/WelcomeIdCard.astro";
 import MatrixModulesSection from "../components/MatrixModulesSection.astro";
 ---
 
 <MatrixProtocolLayout title="Cursor Workshop | Matrix Protocol">
   <MatrixRain />
   <Scanlines />
-  <div class="relative z-10 w-full min-h-screen flex flex-col">
-    <main class="flex-grow flex flex-col items-center justify-center py-12 px-4">
-      <TerminalBlock />
-    </main>
-    <div id="matrix-modules" class="hidden" aria-hidden="true">
+  <div id="matrix-main-wrap" class="relative z-10 w-full min-h-screen flex flex-col pt-16">
+    <div id="terminal-section" class="flex-grow flex flex-col">
+      <main class="flex flex-col items-center justify-center py-12 px-4 min-h-[50vh]">
+        <TerminalBlock />
+      </main>
+    </div>
+    <div id="matrix-modules" class="hidden scroll-mt-16" aria-hidden="true">
+      <WelcomeIdCard />
       <MatrixModulesSection />
     </div>
   </div>
 </MatrixProtocolLayout>
 
 <script>
+  import { addAgent } from "../lib/agents";
+  if (typeof window !== "undefined") {
+    (window as Window & { addAgentForTerminal?: typeof addAgent }).addAgentForTerminal = addAgent;
+  }
+</script>
+<script>
   const ACCESS_KEY = "cursor-workshop-matrix-access";
 
   function showModulesIfGranted() {
     if (typeof sessionStorage === "undefined") return;
     if (sessionStorage.getItem(ACCESS_KEY) === "true") {
-      const el = document.getElementById("matrix-modules");
-      if (el) {
-        el.classList.remove("hidden");
-        el.setAttribute("aria-hidden", "false");
+      const modulesEl = document.getElementById("matrix-modules");
+      if (modulesEl) {
+        modulesEl.classList.remove("hidden");
+        modulesEl.setAttribute("aria-hidden", "false");
       }
+      const terminalEl = document.getElementById("terminal-section");
+      if (terminalEl) {
+        terminalEl.classList.add("hidden");
+        terminalEl.setAttribute("aria-hidden", "true");
+      }
+      const headerEl = document.getElementById("matrix-header");
+      if (headerEl) headerEl.classList.remove("hidden");
+      const wrapEl = document.getElementById("matrix-main-wrap");
+      if (wrapEl) wrapEl.classList.add("pt-16");
+    } else {
+      const headerEl = document.getElementById("matrix-header");
+      if (headerEl) headerEl.classList.add("hidden");
+      const wrapEl = document.getElementById("matrix-main-wrap");
+      if (wrapEl) wrapEl.classList.remove("pt-16");
     }
   }
 

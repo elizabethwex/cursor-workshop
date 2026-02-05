@@ -1,11 +1,22 @@
 ---
 interface Contributor {
   name: string;
+  team: string;
+  role: string;
   avatarUrl?: string;
 }
 
 import contributorsData from "../data/contributors.json";
-const contributors: Contributor[] = Array.isArray(contributorsData) ? contributorsData : [];
+const raw = Array.isArray(contributorsData) ? contributorsData : [];
+const contributors: Contributor[] = raw.map((c) => {
+  const o = c && typeof c === "object" ? (c as Record<string, unknown>) : {};
+  return {
+    name: typeof o.name === "string" ? o.name : "",
+    team: typeof o.team === "string" ? o.team : "",
+    role: typeof o.role === "string" ? o.role : "",
+    avatarUrl: typeof o.avatarUrl === "string" ? o.avatarUrl : undefined,
+  };
+}).filter((c) => c.name.length > 0);
 ---
 
 <section class="contributor-wall" aria-label="Contributors">
@@ -21,6 +32,8 @@ const contributors: Contributor[] = Array.isArray(contributorsData) ? contributo
           </span>
         )}
         <span class="contributor-wall-name">{c.name}</span>
+        {c.team ? <span class="contributor-wall-team">{c.team}</span> : null}
+        {c.role ? <span class="contributor-wall-role">{c.role}</span> : null}
       </li>
     ))}
   </ul>

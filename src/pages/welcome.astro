@@ -1,12 +1,12 @@
 ---
-import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
 import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
 import content from "../content/steps/01-welcome.ts";
 ---
 
-<WorkshopLayout title="Welcome" description="Welcome to the Cursor Access Program. Confirm enrollment to unlock the next module.">
+<MatrixModuleLayout title="Welcome" description="Welcome to the Cursor Access Program. Confirm enrollment to unlock the next module.">
   <div id="welcome-content" class="welcome-content welcome-page-ambient">
     <header class="welcome-page-header">
       <h1>Welcome</h1>
@@ -104,7 +104,7 @@ import content from "../content/steps/01-welcome.ts";
       </div>
     </section>
   </div>
-</WorkshopLayout>
+</MatrixModuleLayout>
 
 <script>
   import { markModuleComplete, isModuleComplete } from "../lib/progress";
