@@ -1,0 +1,36 @@
+---
+import TerminalBlock from "./TerminalBlock.astro";
+const base = import.meta.env.BASE_URL;
+const resourcesHref = base + 'resources';
+---
+
+<section class="relative py-20 lg:py-32 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+    <div class="inline-block border border-[#003B00] bg-black/50 px-3 py-1 mb-8">
+      <p class="text-xs tracking-[0.2em] animate-pulse text-[#00FF41]">STATUS: SYSTEM_OPTIMIZED v2.4.0</p>
+    </div>
+
+    <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tighter leading-tight glitch neon-text text-[#00FF41]">
+      THE CODE IS THE REALITY
+    </h1>
+
+    <p class="max-w-2xl mx-auto text-lg md:text-xl mb-10 text-[#008F11] font-terminal tracking-wide leading-relaxed">
+      &gt; Welcome to the Construct.<br />
+      &gt; Accelerate development with AI-Native workflows.<br />
+      &gt; Master the Cursor IDE. Bend the codebase to your will.
+    </p>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-6 items-center">
+      <a href={base} class="matrix-btn px-8 py-4 text-lg font-bold group flex items-center gap-3 no-underline">
+        <i data-lucide="play" class="w-4 h-4 fill-current" aria-hidden="true"></i>
+        START_TUTORIAL()
+      </a>
+      <a href={resourcesHref} class="text-[#00FF41] hover:text-white border-b border-transparent hover:border-[#00FF41] transition-all pb-1 flex items-center gap-2 no-underline">
+        <i data-lucide="file-code" class="w-4 h-4" aria-hidden="true"></i>
+        VIEW_DOCUMENTATION
+      </a>
+    </div>
+
+    <TerminalBlock />
+  </div>
+</section>

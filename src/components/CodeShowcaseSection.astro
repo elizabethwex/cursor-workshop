@@ -1,0 +1,58 @@
+---
+const codeSnippet = `<span class="text-[#008F11]">// User Input: "Create a react component for a matrix rain effect"</span>
+
+<span class="text-pink-500">const</span> <span class="text-blue-400">MatrixRain</span> = () =&gt; {
+  <span class="text-pink-500">const</span> canvas = <span class="text-yellow-300">useRef</span>(null);
+
+  <span class="text-yellow-300">useEffect</span>(() =&gt; {
+    <span class="text-[#008F11]">// AI Generating implementation...</span>
+    <span class="text-pink-500">const</span> ctx = canvas.current.<span class="text-yellow-300">getContext</span>('2d');
+    <span class="text-pink-500">const</span> drops = [];
+    <span class="text-[#008F11]">// Calculation logic optimized</span>
+
+    <span class="text-blue-400">requestAnimationFrame</span>(draw);
+  }, []);
+
+  <span class="text-pink-500">return</span> <span class="text-gray-400">&lt;</span><span class="text-blue-400">canvas</span> <span class="text-blue-300">ref</span>={canvas} /<span class="text-gray-400">&gt;</span>;
+};`;
+---
+
+<section class="py-20 bg-black/80 border-t border-[#003B00]" aria-labelledby="code-showcase-heading">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12">
+    <div class="lg:w-1/2 w-full">
+      <div class="border border-[#00FF41] p-1 relative">
+        <div class="absolute -top-3 -left-3 w-6 h-6 border-t border-l border-[#00FF41]" aria-hidden="true"></div>
+        <div class="absolute -bottom-3 -right-3 w-6 h-6 border-b border-r border-[#00FF41]" aria-hidden="true"></div>
+        <div class="bg-[#050505] p-6 overflow-hidden">
+          <pre class="font-terminal text-sm leading-6 text-left overflow-x-auto"><code set:html={codeSnippet} /></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:w-1/2 space-y-6">
+      <h2 id="code-showcase-heading" class="text-3xl font-bold glitch text-[#00FF41]">SEE THE CODE.</h2>
+      <h3 class="text-xl text-[#00FF41]">CHANGE THE WORLD.</h3>
+      <p class="text-[#008F11] leading-relaxed">
+        Stop writing boilerplate. Start architecting solutions. Cursor understands your project structure and writes code that fits your existing patterns. It's not just autocomplete; it's a senior developer pair programmer living in your editor.
+      </p>
+      <ul class="space-y-3 font-terminal text-sm text-[#00FF41]" role="list">
+        <li class="flex items-center gap-2">
+          <span class="text-[#00FF41]" aria-hidden="true">[✓]</span>
+          <span class="text-[#00FF41]">Multi-file editing capabilities</span>
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="text-[#00FF41]" aria-hidden="true">[✓]</span>
+          <span class="text-[#00FF41]">Terminal integration</span>
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="text-[#00FF41]" aria-hidden="true">[✓]</span>
+          <span class="text-[#00FF41]">Local codebase embeddings</span>
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="text-[#00FF41]" aria-hidden="true">[✓]</span>
+          <span class="text-[#00FF41]">Privacy-focused architecture</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
