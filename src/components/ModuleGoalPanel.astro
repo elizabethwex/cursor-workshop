@@ -1,0 +1,25 @@
+---
+interface Props {
+  goal: string;
+  estimatedTime: string;
+  summary?: string;
+}
+
+const { goal, estimatedTime, summary } = Astro.props;
+---
+
+<div class="module-goal-panel" role="region" aria-labelledby="module-goal-heading">
+  <h2 id="module-goal-heading" class="module-goal-panel__heading">Module overview</h2>
+  <dl class="module-goal-panel__list">
+    <dt class="module-goal-panel__term">Goal</dt>
+    <dd class="module-goal-panel__value">{goal}</dd>
+    <dt class="module-goal-panel__term">Estimated time</dt>
+    <dd class="module-goal-panel__value">{estimatedTime}</dd>
+    {summary && (
+      <>
+        <dt class="module-goal-panel__term">Summary</dt>
+        <dd class="module-goal-panel__value">{summary}</dd>
+      </>
+    )}
+  </dl>
+</div>

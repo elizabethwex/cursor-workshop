@@ -3,6 +3,9 @@ import type { StepContent } from "./types.js";
 const content: StepContent = {
   intent: "Contributor permissions available.",
   systemMessage: "Contributor permissions available.",
+  goal: "Create a branch, make a change, commit, and open a pull request.",
+  estimatedTime: "25–35 min",
+  taskSectionIds: ["step-1-branch", "step-2-change", "step-3-commit", "step-4-pr"],
   whatYouDo: [
     "Create a new branch",
     "Make a small, safe change",

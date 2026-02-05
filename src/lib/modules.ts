@@ -2,10 +2,13 @@
  * Module registry for the Cursor Workshop.
  * Each module has id, title, route, iconKey and functions unlocksWhen(progress), isComplete(progress).
  *
- * Unlock rules:
+ * Unlock rules (one at a time, building on each other):
  * - welcome: always available (start here).
+ * - github-basics: when welcome is complete.
+ * - clone-and-run: when github-basics is complete.
+ * - explore-cursor: when clone-and-run is complete.
+ * - contribution: when explore-cursor is complete.
  * - checklist, resources: always available so users can jump to progress or links anytime.
- * - All other modules: locked until welcome is complete.
  */
 
 import type { Progress } from "./progress";
@@ -17,6 +20,8 @@ export interface Module {
   iconKey: string;
   /** OS-style label for desktop launcher, e.g. "WELCOME" → "WELCOME.app". */
   appLabel: string;
+  /** Module id that must be complete before this one unlocks; null if always available. */
+  prerequisiteModuleId: string | null;
   /** True if this module can be opened given current progress. */
   unlocksWhen: (progress: Progress) => boolean;
   /** True if this module is complete (e.g. user has visited it). */
@@ -25,8 +30,8 @@ export interface Module {
 
 const BASE = "/cursor-workshop";
 
-function welcomeComplete(progress: Progress): boolean {
-  return progress.completedModuleIds.includes("welcome");
+function hasCompleted(progress: Progress, moduleId: string): boolean {
+  return progress.completedModuleIds.includes(moduleId);
 }
 
 export const MODULES: Module[] = [
@@ -36,8 +41,9 @@ export const MODULES: Module[] = [
     route: `${BASE}/welcome/`,
     iconKey: "welcome",
     appLabel: "WELCOME",
+    prerequisiteModuleId: null,
     unlocksWhen: () => true,
-    isComplete: (p) => p.completedModuleIds.includes("welcome"),
+    isComplete: (p) => hasCompleted(p, "welcome"),
   },
   {
     id: "github-basics",
@@ -45,8 +51,9 @@ export const MODULES: Module[] = [
     route: `${BASE}/github/`,
     iconKey: "github",
     appLabel: "GITHUB",
-    unlocksWhen: (p) => welcomeComplete(p),
-    isComplete: (p) => p.completedModuleIds.includes("github-basics"),
+    prerequisiteModuleId: "welcome",
+    unlocksWhen: (p) => hasCompleted(p, "welcome"),
+    isComplete: (p) => hasCompleted(p, "github-basics"),
   },
   {
     id: "clone-and-run",
@@ -54,8 +61,9 @@ export const MODULES: Module[] = [
     route: `${BASE}/clone-and-run/`,
     iconKey: "clone",
     appLabel: "LOCALHOST",
-    unlocksWhen: (p) => welcomeComplete(p),
-    isComplete: (p) => p.completedModuleIds.includes("clone-and-run"),
+    prerequisiteModuleId: "github-basics",
+    unlocksWhen: (p) => hasCompleted(p, "github-basics"),
+    isComplete: (p) => hasCompleted(p, "clone-and-run"),
   },
   {
     id: "explore-cursor",
@@ -63,8 +71,9 @@ export const MODULES: Module[] = [
     route: `${BASE}/explore-cursor/`,
     iconKey: "explore",
     appLabel: "CURSOR",
-    unlocksWhen: (p) => welcomeComplete(p),
-    isComplete: (p) => p.completedModuleIds.includes("explore-cursor"),
+    prerequisiteModuleId: "clone-and-run",
+    unlocksWhen: (p) => hasCompleted(p, "clone-and-run"),
+    isComplete: (p) => hasCompleted(p, "explore-cursor"),
   },
   {
     id: "contribution",
@@ -72,8 +81,9 @@ export const MODULES: Module[] = [
     route: `${BASE}/contribution/`,
     iconKey: "contribution",
     appLabel: "CONTRIBUTION",
-    unlocksWhen: (p) => welcomeComplete(p),
-    isComplete: (p) => p.completedModuleIds.includes("contribution"),
+    prerequisiteModuleId: "explore-cursor",
+    unlocksWhen: (p) => hasCompleted(p, "explore-cursor"),
+    isComplete: (p) => hasCompleted(p, "contribution"),
   },
   {
     id: "checklist",
@@ -81,8 +91,9 @@ export const MODULES: Module[] = [
     route: `${BASE}/checklist/`,
     iconKey: "checklist",
     appLabel: "CHECKLIST",
+    prerequisiteModuleId: null,
     unlocksWhen: () => true,
-    isComplete: (p) => p.completedModuleIds.includes("checklist"),
+    isComplete: (p) => hasCompleted(p, "checklist"),
   },
   {
     id: "resources",
@@ -90,8 +101,9 @@ export const MODULES: Module[] = [
     route: `${BASE}/resources/`,
     iconKey: "resources",
     appLabel: "RESOURCES",
+    prerequisiteModuleId: null,
     unlocksWhen: () => true,
-    isComplete: (p) => p.completedModuleIds.includes("resources"),
+    isComplete: (p) => hasCompleted(p, "resources"),
   },
 ];
 

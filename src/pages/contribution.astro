@@ -2,9 +2,10 @@
 import WorkshopLayout from "../layouts/WorkshopLayout.astro";
 import ContributorWall from "../components/ContributorWall.astro";
 import SystemMessage from "../components/SystemMessage.astro";
-import StepTasks from "../components/StepTasks.astro";
+import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
 import CursorPrompts from "../components/CursorPrompts.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
+import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
 import content from "../content/steps/05-contribution.ts";
 ---
 
@@ -22,22 +23,25 @@ import content from "../content/steps/05-contribution.ts";
       </dl>
     </header>
 
-    <p class="step-intent" aria-label="Status">
-      <em>Contributor permissions available.</em>
-    </p>
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
 
-    <SystemMessage message={content.systemMessage} typed={true} />
+    <ModulePageWithTasks moduleId="contribution" tasks={content.tasks} taskSectionIds={content.taskSectionIds}>
+      <p class="step-intent" aria-label="Status">
+        <em>Contributor permissions available.</em>
+      </p>
 
-    <section class="step-card" aria-labelledby="modifying-the-system">
+      <SystemMessage message={content.systemMessage} typed={true} />
+
+      <section class="step-card" aria-labelledby="modifying-the-system">
       <h2 id="modifying-the-system">Modifying the System</h2>
       <p>This module guides you through making a real contribution.</p>
       <p>Not a simulation.</p>
       <p>Not a practice run.</p>
       <p>A real change, proposed through the same workflow used by teams every day.</p>
       <p>This is how work moves forward.</p>
-    </section>
+      </section>
 
-    <CollapsibleSection id="what-contribution-is" title="What a Contribution Is" stepCard={true}>
+      <CollapsibleSection id="what-contribution-is" title="What a Contribution Is" stepCard={true}>
       <h2 id="what-contribution-is">What a Contribution Is</h2>
       <p>A contribution is a proposed change to a shared system.</p>
       <p>It usually involves:</p>
@@ -49,7 +53,7 @@ import content from "../content/steps/05-contribution.ts";
       <p>The review process exists to protect the system, not to judge you.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="what-youll-do" title="What You'll Do" stepCard={true}>
+      <CollapsibleSection id="what-youll-do" title="What You'll Do" stepCard={true}>
       <h2 id="what-youll-do">What You’ll Do</h2>
       <p>In this module, you will:</p>
       <ol>
@@ -62,7 +66,7 @@ import content from "../content/steps/05-contribution.ts";
       <p>It does not need to be merged immediately.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="step-1-branch" title="Step 1: Create a Branch" stepCard={true}>
+      <CollapsibleSection id="step-1-branch" title="Step 1: Create a Branch" stepCard={true} taskIndex={0} moduleId="contribution">
       <h2 id="step-1-branch">Step 1: Create a Branch</h2>
       <p>Branches give you a safe place to work.</p>
       <p>In Cursor:</p>
@@ -74,7 +78,7 @@ import content from "../content/steps/05-contribution.ts";
       <p>Your changes will live here until they’re reviewed.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="step-2-change" title="Step 2: Make a Small Change" stepCard={true}>
+      <CollapsibleSection id="step-2-change" title="Step 2: Make a Small Change" stepCard={true} taskIndex={1} moduleId="contribution">
       <h2 id="step-2-change">Step 2: Make a Small Change</h2>
       <p>Choose one of the following options.</p>
 
@@ -100,7 +104,7 @@ import content from "../content/steps/05-contribution.ts";
       <blockquote>“What is a safe, beginner-friendly change I can make in this project?”</blockquote>
     </CollapsibleSection>
 
-    <CollapsibleSection id="step-3-commit" title="Step 3: Commit Your Change" stepCard={true}>
+      <CollapsibleSection id="step-3-commit" title="Step 3: Commit Your Change" stepCard={true} taskIndex={2} moduleId="contribution">
       <h2 id="step-3-commit">Step 3: Commit Your Change</h2>
       <p>Once your change is ready:</p>
       <ol>
@@ -112,7 +116,7 @@ import content from "../content/steps/05-contribution.ts";
       <p>This records your work.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="step-4-pr" title="Step 4: Submit a Pull Request" stepCard={true}>
+      <CollapsibleSection id="step-4-pr" title="Step 4: Submit a Pull Request" stepCard={true} taskIndex={3} moduleId="contribution">
       <h2 id="step-4-pr">Step 4: Submit a Pull Request</h2>
       <p>Now it’s time to propose your change.</p>
       <ol>
@@ -124,7 +128,7 @@ import content from "../content/steps/05-contribution.ts";
       <p>That’s it.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="what-happens-next" title="What Happens Next" stepCard={true}>
+      <CollapsibleSection id="what-happens-next" title="What Happens Next" stepCard={true}>
       <h2 id="what-happens-next">What Happens Next</h2>
       <p>Your pull request may receive:</p>
       <ul>
@@ -136,7 +140,7 @@ import content from "../content/steps/05-contribution.ts";
       <p>Feedback is part of collaboration, not correction.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="if-unclear" title="If Something Feels Unclear" stepCard={true}>
+      <CollapsibleSection id="if-unclear" title="If Something Feels Unclear" stepCard={true}>
       <h2 id="if-unclear">If Something Feels Unclear</h2>
       <p>That’s expected.</p>
       <p>You can:</p>
@@ -154,11 +158,9 @@ import content from "../content/steps/05-contribution.ts";
       <p>Regardless of outcome, you’ve participated correctly.</p>
     </CollapsibleSection>
 
-    <StepTasks moduleId="contribution" tasks={content.tasks} />
+      <CursorPrompts prompts={content.cursorPrompts} />
 
-    <CursorPrompts prompts={content.cursorPrompts} />
-
-    <section id="contribution-mark-complete" class="welcome-mark-complete module-mark-complete" aria-label="Mark module complete">
+      <section id="contribution-mark-complete" class="welcome-mark-complete module-mark-complete" aria-label="Mark module complete">
       <p id="contribution-mark-complete-confirm" class="system-message welcome-mark-complete-msg" role="status" aria-live="polite" hidden>
         Contribution recorded. Access level upgraded: Contributor.
       </p>
@@ -167,11 +169,12 @@ import content from "../content/steps/05-contribution.ts";
           Confirm contribution submitted
         </button>
       </div>
-    </section>
+      </section>
 
-    <p class="module-next-hint">
-      <em>On confirmation:</em> Contribution recorded. Access level upgraded: Contributor.
-    </p>
+      <p class="module-next-hint">
+        <em>On confirmation:</em> Contribution recorded. Access level upgraded: Contributor.
+      </p>
+    </ModulePageWithTasks>
   </article>
 </WorkshopLayout>
 
@@ -194,8 +197,9 @@ import content from "../content/steps/05-contribution.ts";
   } else if (btn) {
     btn.addEventListener("click", () => {
       markModuleComplete("contribution");
-      window.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      showConfirmation();
+      document.dispatchEvent(new CustomEvent("workshop-progress-update"));
+      const base = typeof import.meta.env !== "undefined" && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : "/cursor-workshop/";
+      window.location.replace(base);
     });
   }
 </script>

@@ -129,17 +129,5 @@ const { title, description = "Onboard to Cursor and GitHub with this interactive
         }, true);
       })();
     </script>
-    <script>
-      import { getModuleByRoute } from "../lib/modules";
-      import { markModuleComplete } from "../lib/progress";
-      const pathname = typeof window !== "undefined" ? window.location.pathname.replace(/\/$/, "") || "/cursor-workshop" : "";
-      if (pathname) {
-        const mod = getModuleByRoute(pathname);
-        if (mod) {
-          markModuleComplete(mod.id);
-          window.dispatchEvent(new CustomEvent("workshop-progress-update"));
-        }
-      }
-    </script>
   </body>
 </html>
