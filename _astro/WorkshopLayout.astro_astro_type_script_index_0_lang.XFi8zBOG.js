@@ -1,1 +1,0 @@
-import{g as t}from"./modules.BzR7gP9c.js";import{m as n}from"./progress.buUyn3MF.js";const e=typeof window<"u"?window.location.pathname.replace(/\/$/,"")||"/cursor-workshop":"";if(e){const o=t(e);o&&(n(o.id),window.dispatchEvent(new CustomEvent("workshop-progress-update")))}
