@@ -130,6 +130,11 @@ const bluePillUrl = base + 'blue-pill';
             modulesEl.setAttribute('aria-hidden', 'false');
             modulesEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
+          const terminalSectionEl = document.getElementById('terminal-section');
+          if (terminalSectionEl) {
+            terminalSectionEl.classList.add('hidden');
+            terminalSectionEl.setAttribute('aria-hidden', 'true');
+          }
           return;
         }
         appendLog('Enter Y or N', 'opacity-70');

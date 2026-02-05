@@ -1,5 +1,5 @@
 ---
-import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
 import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
@@ -14,7 +14,7 @@ const MODULE_ITEMS = [
 ];
 ---
 
-<WorkshopLayout title="Checklist" description="Program status and module completion. Access: Any. Completion unlocks Cleared.">
+<MatrixModuleLayout title="Checklist" description="Program status and module completion. Access: Any. Completion unlocks Cleared.">
   <article class="module-page checklist-module">
     <header class="module-header">
       <h1>Checklist</h1>
@@ -114,7 +114,7 @@ const MODULE_ITEMS = [
       <em>End of module.</em>
     </p>
   </article>
-</WorkshopLayout>
+</MatrixModuleLayout>
 
 <script>
   import { getProgress } from "../lib/progress";

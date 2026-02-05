@@ -1,5 +1,5 @@
 ---
-import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
@@ -7,7 +7,7 @@ import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
 import content from "../content/steps/02-github-basics.ts";
 ---
 
-<WorkshopLayout title="GitHub basics" description="Get access to GitHub and learn the basics. Completion unlocks LOCALHOST.">
+<MatrixModuleLayout title="GitHub basics" description="Get access to GitHub and learn the basics. Completion unlocks LOCALHOST.">
   <article class="module-page github-module">
     <header class="module-header">
       <h1>GitHub Basics</h1>
@@ -228,7 +228,7 @@ import content from "../content/steps/02-github-basics.ts";
       </p>
     </ModulePageWithTasks>
   </article>
-</WorkshopLayout>
+</MatrixModuleLayout>
 
 <script>
   import { markModuleComplete, isModuleComplete } from "../lib/progress";

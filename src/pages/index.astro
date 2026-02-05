@@ -10,9 +10,11 @@ import MatrixModulesSection from "../components/MatrixModulesSection.astro";
   <MatrixRain />
   <Scanlines />
   <div class="relative z-10 w-full min-h-screen flex flex-col">
-    <main class="flex-grow flex flex-col items-center justify-center py-12 px-4">
-      <TerminalBlock />
-    </main>
+    <div id="terminal-section" class="flex-grow flex flex-col">
+      <main class="flex flex-col items-center justify-center py-12 px-4 min-h-[50vh]">
+        <TerminalBlock />
+      </main>
+    </div>
     <div id="matrix-modules" class="hidden" aria-hidden="true">
       <MatrixModulesSection />
     </div>
@@ -25,10 +27,15 @@ import MatrixModulesSection from "../components/MatrixModulesSection.astro";
   function showModulesIfGranted() {
     if (typeof sessionStorage === "undefined") return;
     if (sessionStorage.getItem(ACCESS_KEY) === "true") {
-      const el = document.getElementById("matrix-modules");
-      if (el) {
-        el.classList.remove("hidden");
-        el.setAttribute("aria-hidden", "false");
+      const modulesEl = document.getElementById("matrix-modules");
+      if (modulesEl) {
+        modulesEl.classList.remove("hidden");
+        modulesEl.setAttribute("aria-hidden", "false");
+      }
+      const terminalEl = document.getElementById("terminal-section");
+      if (terminalEl) {
+        terminalEl.classList.add("hidden");
+        terminalEl.setAttribute("aria-hidden", "true");
       }
     }
   }

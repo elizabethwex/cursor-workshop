@@ -1,5 +1,5 @@
 ---
-import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
 import CursorPrompts from "../components/CursorPrompts.astro";
@@ -8,7 +8,7 @@ import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
 import content from "../content/steps/04-explore-cursor.ts";
 ---
 
-<WorkshopLayout title="Explore Cursor" description="Learn how Cursor helps you explore and modify code. Completion unlocks CONTRIBUTION.">
+<MatrixModuleLayout title="Explore Cursor" description="Learn how Cursor helps you explore and modify code. Completion unlocks CONTRIBUTION.">
   <article class="module-page cursor-module">
     <header class="module-header">
       <h1>Cursor</h1>
@@ -170,7 +170,7 @@ import content from "../content/steps/04-explore-cursor.ts";
       </p>
     </ModulePageWithTasks>
   </article>
-</WorkshopLayout>
+</MatrixModuleLayout>
 
 <script>
   import { markModuleComplete, isModuleComplete } from "../lib/progress";

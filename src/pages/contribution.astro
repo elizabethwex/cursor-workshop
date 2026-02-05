@@ -1,5 +1,5 @@
 ---
-import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
 import ContributorWall from "../components/ContributorWall.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
@@ -9,7 +9,7 @@ import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
 import content from "../content/steps/05-contribution.ts";
 ---
 
-<WorkshopLayout title="Contribution" description="Make a real contribution. Completion unlocks Contributor.">
+<MatrixModuleLayout title="Contribution" description="Make a real contribution. Completion unlocks Contributor.">
   <article class="module-page contribution-module">
     <header class="module-header">
       <h1>Contribution</h1>
@@ -176,7 +176,7 @@ import content from "../content/steps/05-contribution.ts";
       </p>
     </ModulePageWithTasks>
   </article>
-</WorkshopLayout>
+</MatrixModuleLayout>
 
 <script>
   import { markModuleComplete, isModuleComplete } from "../lib/progress";

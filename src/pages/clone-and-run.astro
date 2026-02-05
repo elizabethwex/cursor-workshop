@@ -1,5 +1,5 @@
 ---
-import WorkshopLayout from "../layouts/WorkshopLayout.astro";
+import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
 import CopyButton from "../components/CopyButton.astro";
 import SystemMessage from "../components/SystemMessage.astro";
 import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
@@ -11,7 +11,7 @@ const REPO_URL = "https://github.com/elizabethwex/cursor-workshop";
 const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
 ---
 
-<WorkshopLayout title="Clone and run" description="Run this project locally. Completion unlocks Operator.">
+<MatrixModuleLayout title="Clone and run" description="Run this project locally. Completion unlocks Operator.">
   <article class="module-page localhost-module">
     <header class="module-header">
       <h1>Localhost</h1>
@@ -183,7 +183,7 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       </p>
     </ModulePageWithTasks>
   </article>
-</WorkshopLayout>
+</MatrixModuleLayout>
 
 <script>
   import { markModuleComplete, isModuleComplete } from "../lib/progress";
