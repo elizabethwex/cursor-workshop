@@ -1,12 +1,170 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Cursor Access Program – main access point. Select an available module to continue."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet"><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css"><title>Desktop | Cursor Workshop</title><script>
-        (function(){try{if(!localStorage.getItem("cursor-workshop-has-seen-boot"))document.documentElement.classList.add("boot-first-visit");}catch(e){}}());
-      </script><script>
-      (function(){try{var v=localStorage.getItem("cursor-workshop-theme-intensity");var s=v==="low"||v==="high"?v:"medium";document.documentElement.setAttribute("data-theme-intensity",s);}catch(e){}}());
-    </script><link rel="stylesheet" href="/cursor-workshop/_astro/checklist.B17yO1GN.css"></head> <body> <div class="system-shell" data-ambient="true"> <div class="system-shell__ambient" aria-hidden="true"> <div class="system-shell__scanlines"></div> <div class="system-shell__noise"></div> </div> <div class="system-shell__content">  <header class="workshop-app-bar" role="banner"> <a href="/cursor-workshop/" class="workshop-app-bar__home" aria-label="Back to desktop"> <img src="/cursor-workshop/icons/amiga/home.svg" alt="" width="32" height="32"> </a> </header> <div class="workshop-app"> <main class="workshop-main">  <div id="boot-overlay" class="boot-overlay" role="status" aria-live="polite" aria-label="System initializing"> <div class="boot-overlay__scanlines" aria-hidden="true"></div> <div class="boot-overlay__noise" aria-hidden="true"></div> <div class="boot-overlay__inner"> <pre id="boot-overlay-text" class="boot-overlay__text" aria-live="polite"></pre> </div> </div> <script type="module">const L=["> CURSOR_WORKSHOP v1.0","> Loading environment...","> Loading apps: GITHUB, LOCALHOST, CURSOR, CONTRIBUTION CHALLENGES","> Session state: activated","> Welcome to the Cursor Access Program."],E={welcome:["> Loading WELCOME.app...","> Initializing enrollment...","> Ready."],"github-basics":["> Loading GITHUB.app...","> Prepare to become a GitHub ninja...","> Ready."],"clone-and-run":["> Loading LOCALHOST.app...","> Prepare your local environment...","> Ready."],"explore-cursor":["> Loading CURSOR BASICS.app...","> Prepare to learn the Cursor interface...","> Ready."],contribution:["> Loading CONTRIBUTION.app...","> Prepare to make your first contribution...","> Ready."],checklist:["> Loading CHECKLIST.app...","> Checking your progress...","> Ready."],resources:["> Loading RESOURCES.app...","> Indexing reference materials...","> Ready."]},g="cursor-workshop-has-seen-boot",u=40,m=600,n=document.getElementById("boot-overlay"),i=document.getElementById("boot-overlay-text");if(!n||!i)throw new Error("Boot overlay elements not found");const y=()=>window.matchMedia("(prefers-reduced-motion: reduce)").matches;function p(e,t){const r=y(),a=e.join(`
-`);if(r){i.textContent=a,t();return}let o=0,s=0;const c=[];function d(){if(o>=e.length){t();return}const l=e[o];s<=l.length?(c[o]=l.slice(0,s),i.textContent=c.join(`
-`),s++,setTimeout(d,u)):(o++,s=0,c[o-1]=l,i.textContent=c.join(`
-`),o<e.length?setTimeout(d,u):t())}d()}function C(){i.textContent="",p(L,()=>{setTimeout(()=>{try{localStorage.setItem(g,"1")}catch{}n.classList.add("boot-overlay--exiting"),document.documentElement.classList.remove("boot-first-visit"),n.addEventListener("transitionend",()=>{n.classList.remove("boot-overlay--visible","boot-overlay--exiting")},{once:!0})},m)})}function O(e,t,r){n.classList.remove("boot-overlay--exiting"),n.classList.add("boot-overlay--visible"),i.textContent="";const a=E[e]??["> Loading...","> Ready."];p(a,()=>{setTimeout(()=>{window.location.href=t},m)})}document.documentElement.classList.contains("boot-first-visit")&&C();window.addEventListener("workshop-show-app-boot",(e=>{const{moduleId:t,route:r,title:a}=e.detail??{};t&&r&&O(t,r)}));</script> <div class="launcher-screen" aria-label="Module launcher"> <section class="desktop" aria-label="Workshop modules"> <div class="desktop-menu-bar" aria-hidden="true"> <span class="desktop-menu-title">Cursor Access Program</span> </div> <div class="desktop-icons" id="desktop-icons"> <a href="/cursor-workshop/welcome/" class="desktop-icon" data-module-id="welcome" data-route="/cursor-workshop/welcome/" data-icon-key="welcome" data-title="Welcome" title="Welcome" aria-label="Open Welcome"> <span class="desktop-icon-image"> <img src="/cursor-workshop/icons/welcome.svg" alt="" class="desktop-icon-img" width="48" height="48"> </span> <span class="desktop-icon-label">WELCOME.app</span> </a><a href="/cursor-workshop/github/" class="desktop-icon" data-module-id="github-basics" data-route="/cursor-workshop/github/" data-icon-key="github" data-title="GitHub basics" title="GitHub basics" aria-label="Open GitHub basics"> <span class="desktop-icon-image"> <img src="/cursor-workshop/icons/github.svg" alt="" class="desktop-icon-img" width="48" height="48"> </span> <span class="desktop-icon-label">GITHUB.app</span> </a><a href="/cursor-workshop/clone-and-run/" class="desktop-icon" data-module-id="clone-and-run" data-route="/cursor-workshop/clone-and-run/" data-icon-key="clone" data-title="Clone and run" title="Clone and run" aria-label="Open Clone and run"> <span class="desktop-icon-image"> <img src="/cursor-workshop/icons/localhost.svg" alt="" class="desktop-icon-img" width="48" height="48"> </span> <span class="desktop-icon-label">LOCALHOST.app</span> </a><a href="/cursor-workshop/explore-cursor/" class="desktop-icon" data-module-id="explore-cursor" data-route="/cursor-workshop/explore-cursor/" data-icon-key="explore" data-title="Explore Cursor" title="Explore Cursor" aria-label="Open Explore Cursor"> <span class="desktop-icon-image"> <img src="/cursor-workshop/icons/cursor.svg" alt="" class="desktop-icon-img" width="48" height="48"> </span> <span class="desktop-icon-label">CURSOR.app</span> </a><a href="/cursor-workshop/contribution/" class="desktop-icon" data-module-id="contribution" data-route="/cursor-workshop/contribution/" data-icon-key="contribution" data-title="Contribution" title="Contribution" aria-label="Open Contribution"> <span class="desktop-icon-image"> <img src="/cursor-workshop/icons/contribute.svg" alt="" class="desktop-icon-img" width="48" height="48"> </span> <span class="desktop-icon-label">CONTRIBUTION.app</span> </a><a href="/cursor-workshop/checklist/" class="desktop-icon" data-module-id="checklist" data-route="/cursor-workshop/checklist/" data-icon-key="checklist" data-title="Checklist" title="Checklist" aria-label="Open Checklist"> <span class="desktop-icon-image"> <img src="/cursor-workshop/icons/checklist.svg" alt="" class="desktop-icon-img" width="48" height="48"> </span> <span class="desktop-icon-label">CHECKLIST.app</span> </a><a href="/cursor-workshop/resources/" class="desktop-icon" data-module-id="resources" data-route="/cursor-workshop/resources/" data-icon-key="resources" data-title="Resources" title="Resources" aria-label="Open Resources"> <span class="desktop-icon-image"> <img src="/cursor-workshop/icons/resources.svg" alt="" class="desktop-icon-img" width="48" height="48"> </span> <span class="desktop-icon-label">RESOURCES.app</span> </a> </div> <div id="desktop-details" class="desktop-details" role="status" aria-live="polite" aria-label="Selected module"> <span id="desktop-details-title" class="desktop-details-title"></span> </div> <div id="desktop-locked-message" class="desktop-locked-message" role="status" aria-live="polite" aria-hidden="true">
-Module unavailable.
-</div> </section> <script type="module" src="/cursor-workshop/_astro/Desktop.astro_astro_type_script_index_0_lang.ByvBV2e9.js"></script> <div class="desktop-overview" id="desktop-overview"> <header class="desktop-overview-header"> <h1 class="desktop-overview-title">Cursor Access Program</h1> <p class="desktop-overview-status-line" aria-live="polite"> <strong>Access Level:</strong> <span id="desktop-access-level">Unregistered</span><br> <strong>Status:</strong> <span id="desktop-status">Awaiting enrollment</span> </p> <p class="desktop-overview-cta"><em>Select an available module to continue.</em></p> </header> <hr class="desktop-overview-hr"> <section class="desktop-overview-section" aria-labelledby="desktop-overview-heading"> <h2 id="desktop-overview-heading">Desktop Overview</h2> <p>This is the main access point for the Cursor Access Program.</p> <p>Each icon represents a system module.<br>Modules become available as your access level increases.</p> <p>You may return here at any time.</p> </section> <hr class="desktop-overview-hr"> <section class="desktop-overview-section" aria-labelledby="desktop-system-notes-heading"> <h2 id="desktop-system-notes-heading">System Notes</h2> <ul> <li>Progress is saved automatically.</li> <li>No action is irreversible.</li> <li>Modules may be revisited at any time.</li> </ul> </section> <hr class="desktop-overview-hr"> <section class="desktop-overview-section" aria-labelledby="desktop-locked-heading"> <h2 id="desktop-locked-heading">Locked Modules</h2> <p>Some modules may be visible but unavailable.</p> <p>When this occurs:</p> <p class="desktop-overview-locked-msg"><strong>Module unavailable.</strong> Complete WELCOME to unlock.</p> <p> <button type="button" class="reset-progress-trigger" id="reset-progress-trigger">Reset progress</button> </p> </section> </div> <div id="reset-modal-overlay" class="reset-modal-overlay" aria-hidden="true" hidden> <div id="reset-modal-dialog" class="reset-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title" aria-describedby="reset-modal-desc"> <h2 id="reset-modal-title" class="reset-modal-title">Reset all progress?</h2> <p id="reset-modal-desc" class="reset-modal-desc">
-This will clear your completed modules, checklist, and visited steps. You will need to start over. This cannot be undone.
-</p> <div class="reset-modal-actions"> <button type="button" class="reset-modal-cancel workshop-btn workshop-btn--secondary" id="reset-modal-cancel">Cancel</button> <button type="button" class="reset-modal-confirm workshop-btn workshop-btn--primary" id="reset-modal-confirm">Reset</button> </div> </div> </div> </div>  </main> </div>  </div> </div> <script type="module">(function(){function o(t){if(!t||!(t instanceof Element))return!1;const n=t,i=n.tagName.toLowerCase(),r=n.getAttribute("role");return i==="a"||i==="button"||i==="input"&&["submit","button","checkbox","radio"].includes(n.type)||r==="button"||r==="link"||r==="menuitem"||r==="tab"?!0:!!n.closest("a, button, [role=button], [role=link]")}const u="/cursor-workshop/sounds/mouse-click.mp3";let e=null;function c(){try{if(typeof window>"u"||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;e||(e=new Audio(u)),e.currentTime=0,e.play()}catch{}}document.addEventListener("click",t=>{o(t.target)&&c()},!0)})();</script> <script type="module">(function(){const n="/cursor-workshop/";function r(t){if(!t||!(t instanceof HTMLElement))return!1;const e=t.tagName.toLowerCase();return e==="input"||e==="textarea"?!0:t.isContentEditable===!0}document.addEventListener("keydown",t=>{t.key!=="r"&&t.key!=="R"||t.ctrlKey||t.metaKey||t.altKey||r(t.target)||(t.preventDefault(),window.location.href=n)})})();</script> <script type="module">(function(){const o="cursor-workshop-visited-steps";function c(){try{const t=localStorage.getItem(o);return t?JSON.parse(t):[]}catch{return[]}}function n(t){try{localStorage.setItem(o,JSON.stringify(t))}catch{}}const s=window.location.pathname.replace(/\/$/,"")||"/cursor-workshop",e=c();e.includes(s)||(e.push(s),n(e))})();</script> </body> </html> <script type="module" src="/cursor-workshop/_astro/index.astro_astro_type_script_index_0_lang.DdRMD2xE.js"></script> <script type="module" src="/cursor-workshop/_astro/index.astro_astro_type_script_index_1_lang.Cp50f1yE.js"></script>
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cursor Workshop | Matrix Protocol</title><script src="https://cdn.tailwindcss.com/3.4.17"></script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet"><script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script><style>:root{--matrix-green: #00FF41;--matrix-dark: #008F11;--matrix-black: #0d0d0d}body{background-color:#000;color:var(--matrix-green);font-family:Share Tech Mono,monospace;overflow-x:hidden;cursor:text}::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#000;border-left:1px solid var(--matrix-dark)}::-webkit-scrollbar-thumb{background:var(--matrix-dark)}::-webkit-scrollbar-thumb:hover{background:var(--matrix-green)}::selection{background:var(--matrix-green);color:#000;text-shadow:none}.scanlines{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom,#fff0,#fff0 50%,#0003 50%,#0003);background-size:100% 4px;z-index:50;pointer-events:none;opacity:.6}.scanlines:before{content:" ";display:block;position:absolute;inset:0;background:linear-gradient(#12101000 50%,#00000040 50%),linear-gradient(90deg,#ff00000f,#00ff0005,#00ff000f);z-index:2;background-size:100% 2px,3px 100%;pointer-events:none}.neon-text{text-shadow:0 0 5px var(--matrix-green),0 0 10px var(--matrix-green)}.matrix-border{box-shadow:0 0 4px var(--matrix-green)}@keyframes glitch{0%{transform:translate(0)}20%{transform:translate(-2px,2px)}40%{transform:translate(-2px,-2px)}60%{transform:translate(2px,2px)}80%{transform:translate(2px,-2px)}to{transform:translate(0)}}.glitch:hover{animation:glitch .3s cubic-bezier(.25,.46,.45,.94) both infinite;color:#fff;text-shadow:2px 0 #00ff00,-2px 0 #ff0000}.cursor-blink{display:inline-block;width:10px;height:1em;background-color:var(--matrix-green);animation:blink 1s step-end infinite;vertical-align:bottom}@keyframes blink{0%,to{opacity:1}50%{opacity:0}}.matrix-btn{position:relative;background:transparent;border:1px solid var(--matrix-green);color:var(--matrix-green);transition:all .3s ease;text-transform:uppercase;letter-spacing:2px;overflow:hidden}.matrix-btn:hover{background:var(--matrix-green);color:#000;box-shadow:0 0 15px var(--matrix-green);font-weight:700}.matrix-card{background:#001400b3;border:1px solid #003B00;transition:all .3s ease}.matrix-card:hover{border-color:var(--matrix-green);box-shadow:0 0 10px #00ff4133;transform:translateY(-2px)}.font-terminal{font-family:VT323,monospace}
+</style></head> <body class="min-h-screen flex flex-col relative">  <canvas id="matrix-rain" class="fixed top-0 left-0 w-full h-full z-0 opacity-40" aria-hidden="true"></canvas> <script type="module">function l(){const n=document.getElementById("matrix-rain");if(!n)return;const i=n.getContext("2d");if(!i)return;function r(){n.width=window.innerWidth,n.height=window.innerHeight}r(),window.addEventListener("resize",r);const a="アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),o=14;let d=Math.floor(n.width/o);const e=[];for(let t=0;t<d;t++)e[t]=1;function h(){i.fillStyle="rgba(0, 0, 0, 0.05)",i.fillRect(0,0,n.width,n.height),i.fillStyle="#00FF41",i.font=o+"px monospace";for(let t=0;t<e.length;t++){const s=a[Math.floor(Math.random()*a.length)];i.fillText(s,t*o,e[t]*o),e[t]*o>n.height&&Math.random()>.975&&(e[t]=0),e[t]++}}setInterval(h,33),window.addEventListener("resize",()=>{const t=Math.floor(n.width/o);for(;e.length<t;)e.push(1);for(;e.length>t;)e.pop()})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",l):l();</script> <div class="scanlines" aria-hidden="true"></div> <div class="relative z-10 w-full min-h-screen flex flex-col"> <main class="flex-grow flex flex-col items-center justify-center py-12 px-4"> <div class="relative z-[60] isolate mt-16 mx-auto max-w-3xl border border-[#00FF41] bg-black/90 shadow-[0_0_20px_rgba(0,255,65,0.15)] text-left rounded-sm overflow-hidden"> <div class="bg-[#003B00]/30 border-b border-[#00FF41] px-4 py-2 flex items-center justify-between"> <span class="text-xs uppercase tracking-widest font-terminal">root@cursor-workshop:~</span> <div class="flex gap-2"> <div class="w-3 h-3 border border-[#00FF41]" aria-hidden="true"></div> <div class="w-3 h-3 border border-[#00FF41]" aria-hidden="true"></div> <div class="w-3 h-3 bg-[#00FF41]" aria-hidden="true"></div> </div> </div> <div class="p-6 font-terminal text-lg space-y-2 h-64 overflow-y-auto overflow-x-hidden" id="terminal-content"> <div id="terminal-log"> <div class="opacity-50">&gt; initialising environment...</div> <div class="opacity-70">&gt; loading module: AI_PAIR_PROGRAMMER... [OK]</div> <div class="opacity-80">&gt; loading module: CODEBASE_INDEXING... [OK]</div> <div class="opacity-90">&gt; connecting to user_intent...</div> <div class="text-[#00FF41]">&gt; READY. Enter your name.</div> </div> <div id="terminal-input-line" class="flex items-center gap-1 flex-shrink-0 mt-1 relative" role="group" aria-label="Terminal input line"> <span class="text-[#00FF41] flex-shrink-0">&gt; </span> <div id="terminal-input-wrapper" class="flex-1 min-w-[12rem] flex items-center relative"> <span id="terminal-value-display" class="text-[#00FF41] font-terminal text-lg py-0.5"></span> <span class="cursor-blink flex-shrink-0" aria-hidden="true"></span> <input type="text" id="terminal-input" class="absolute inset-0 w-full bg-transparent border-none outline-none font-terminal text-lg py-0.5 text-transparent caret-transparent" autocomplete="off" spellcheck="false" autofocus aria-label="Terminal input" data-prompt="name"> </div> </div> </div> </div> <script>(function(){const bluePillUrl = "/cursor-workshop/blue-pill";
+
+  function runTerminal() {
+    const logEl = document.getElementById('terminal-log');
+    const inputEl = document.getElementById('terminal-input');
+    const contentEl = document.getElementById('terminal-content');
+    const valueDisplayEl = document.getElementById('terminal-value-display');
+    const wrapperEl = document.getElementById('terminal-input-wrapper');
+    if (!logEl || !inputEl || !contentEl || !valueDisplayEl || !wrapperEl) return;
+
+    function syncValueDisplay() {
+      valueDisplayEl.textContent = inputEl.value;
+    }
+
+    const prompts = {
+      name: 'Enter your name:',
+      team: 'Enter your team:',
+      role: 'Enter your role at WEX:',
+      processing: '',
+      redpill: 'Do you choose the red pill? (Y/N):'
+    };
+
+    let step = 'name';
+    let name = '';
+    let team = '';
+    let role = '';
+
+    function appendLog(text, className) {
+      if (className === undefined) className = 'text-[#00FF41]';
+      const div = document.createElement('div');
+      div.className = className;
+      div.textContent = '> ' + text;
+      logEl.appendChild(div);
+      contentEl.scrollTop = contentEl.scrollHeight;
+    }
+
+    function showPrompt() {
+      if (step === 'processing') {
+        appendLog('processing identity...', 'opacity-90');
+        setTimeout(function () {
+          appendLog('[OK]', 'text-[#00FF41]');
+          setTimeout(function () {
+            step = 'redpill';
+            wrapperEl.style.display = '';
+            const blink = document.getElementById('terminal-input-line');
+            if (blink) {
+              const cursor = blink.querySelector('.cursor-blink');
+              if (cursor) cursor.classList.remove('invisible');
+            }
+            appendLog(prompts.redpill, 'text-[#00FF41]');
+            inputEl.placeholder = 'Y or N';
+            inputEl.dataset.prompt = 'redpill';
+            inputEl.focus();
+          }, 600);
+        }, 800);
+        return;
+      }
+      const promptText = prompts[step];
+      if (promptText) appendLog(promptText, 'text-[#00FF41]');
+      inputEl.placeholder = step === 'redpill' ? 'Y or N' : '';
+      inputEl.dataset.prompt = step;
+      inputEl.focus();
+    }
+
+    function advance() {
+      const value = (inputEl.value || '').trim();
+      if (step === 'redpill') {
+        const first = (value || '').toUpperCase().charAt(0);
+        if (first === 'N') {
+          appendLog(value || 'N', 'text-[#00FF41]');
+          appendLog('Redirecting...', 'opacity-70');
+          window.location.href = bluePillUrl;
+          return;
+        }
+        if (first === 'Y') {
+          appendLog(value || 'Y', 'text-[#00FF41]');
+          appendLog('Welcome to the Construct.', 'text-[#00FF41]');
+          wrapperEl.style.display = 'none';
+          const blink = document.getElementById('terminal-input-line');
+          if (blink) {
+            const cursor = blink.querySelector('.cursor-blink');
+            if (cursor) cursor.classList.add('invisible');
+          }
+          contentEl.scrollTop = contentEl.scrollHeight;
+          try { sessionStorage.setItem('cursor-workshop-matrix-access', 'true'); } catch (_) {}
+          const modulesEl = document.getElementById('matrix-modules');
+          if (modulesEl) {
+            modulesEl.classList.remove('hidden');
+            modulesEl.setAttribute('aria-hidden', 'false');
+            modulesEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          return;
+        }
+        appendLog('Enter Y or N', 'opacity-70');
+        inputEl.value = '';
+        syncValueDisplay();
+        inputEl.focus();
+        return;
+      }
+      if (step === 'name') {
+        name = value;
+        appendLog(value || '(no name)', 'text-[#008F11]');
+        step = 'team';
+      } else if (step === 'team') {
+        team = value;
+        appendLog(value || '(no team)', 'text-[#008F11]');
+        step = 'role';
+      } else if (step === 'role') {
+        role = value;
+        appendLog(value || '(no role)', 'text-[#008F11]');
+        step = 'processing';
+      }
+      inputEl.value = '';
+      syncValueDisplay();
+      if (step === 'processing') {
+        wrapperEl.style.display = 'none';
+        const blink = document.getElementById('terminal-input-line');
+        if (blink) {
+          const cursor = blink.querySelector('.cursor-blink');
+          if (cursor) cursor.classList.add('invisible');
+        }
+        showPrompt();
+        return;
+      }
+      showPrompt();
+    }
+
+    inputEl.addEventListener('input', syncValueDisplay);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') return;
+      if (document.activeElement !== inputEl) return;
+      e.preventDefault();
+      e.stopPropagation();
+      advance();
+    }, true);
+
+    showPrompt();
+    setTimeout(function () { inputEl.focus(); }, 100);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runTerminal);
+  } else {
+    runTerminal();
+  }
+})();</script> </main> <div id="matrix-modules" class="hidden" aria-hidden="true"> <section class="py-20 relative" aria-labelledby="matrix-modules-heading"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex items-end justify-between mb-12 border-b border-[#003B00] pb-4"> <div> <h2 id="matrix-modules-heading" class="text-3xl font-bold mb-2 uppercase glitch text-[#00FF41]">Training Modules</h2> <p class="text-[#008F11] font-terminal">// Select a data packet to begin upload</p> </div> <button type="button" id="reset-matrix-experience" class="font-terminal text-xs text-[#00FF41] hover:text-[#00FF41]/90 hover:underline focus:outline-none focus:ring-2 focus:ring-[#00FF41] focus:ring-offset-2 focus:ring-offset-black rounded px-2 py-1 transition-colors" aria-label="Reset experience and return to terminal">
+Reset experience
+</button> </div> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> <div class="matrix-card group p-6 flex flex-col h-full relative overflow-hidden rounded-sm"> <div class="absolute top-0 right-0 p-2 opacity-50 text-[10px] text-[#008F11]" aria-hidden="true">MODULE_WELCOME</div> <div class="w-12 h-12 border border-[#00FF41] flex items-center justify-center mb-6 group-hover:bg-[#00FF41] group-hover:text-black transition-colors text-[#00FF41]"> <i data-lucide="book-open" class="w-6 h-6" aria-hidden="true"></i> </div> <h3 class="text-xl font-bold mb-3 text-[#00FF41] group-hover:underline decoration-2 underline-offset-4 decoration-[#00FF41]">Welcome</h3> <p class="text-sm text-[#008F11] mb-6 flex-grow leading-relaxed"> Start here. Get oriented with the Cursor Access Program. </p> <a href="/cursor-workshop/welcome/" class="inline-flex items-center text-xs tracking-widest hover:text-white uppercase text-[#00FF41] no-underline">
+Access_Module <span class="ml-2">&gt;&gt;</span> </a> <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#00FF41]" aria-hidden="true"></div> <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#00FF41]" aria-hidden="true"></div> </div><div class="matrix-card group p-6 flex flex-col h-full relative overflow-hidden rounded-sm"> <div class="absolute top-0 right-0 p-2 opacity-50 text-[10px] text-[#008F11]" aria-hidden="true">MODULE_GITHUB</div> <div class="w-12 h-12 border border-[#00FF41] flex items-center justify-center mb-6 group-hover:bg-[#00FF41] group-hover:text-black transition-colors text-[#00FF41]"> <i data-lucide="git-branch" class="w-6 h-6" aria-hidden="true"></i> </div> <h3 class="text-xl font-bold mb-3 text-[#00FF41] group-hover:underline decoration-2 underline-offset-4 decoration-[#00FF41]">GitHub basics</h3> <p class="text-sm text-[#008F11] mb-6 flex-grow leading-relaxed"> Create a GitHub account and connect your identity. </p> <a href="/cursor-workshop/github/" class="inline-flex items-center text-xs tracking-widest hover:text-white uppercase text-[#00FF41] no-underline">
+Access_Module <span class="ml-2">&gt;&gt;</span> </a> <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#00FF41]" aria-hidden="true"></div> <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#00FF41]" aria-hidden="true"></div> </div><div class="matrix-card group p-6 flex flex-col h-full relative overflow-hidden rounded-sm"> <div class="absolute top-0 right-0 p-2 opacity-50 text-[10px] text-[#008F11]" aria-hidden="true">MODULE_LOCALHOST</div> <div class="w-12 h-12 border border-[#00FF41] flex items-center justify-center mb-6 group-hover:bg-[#00FF41] group-hover:text-black transition-colors text-[#00FF41]"> <i data-lucide="terminal-square" class="w-6 h-6" aria-hidden="true"></i> </div> <h3 class="text-xl font-bold mb-3 text-[#00FF41] group-hover:underline decoration-2 underline-offset-4 decoration-[#00FF41]">Clone and run</h3> <p class="text-sm text-[#008F11] mb-6 flex-grow leading-relaxed"> Clone a repo and run the project locally. </p> <a href="/cursor-workshop/clone-and-run/" class="inline-flex items-center text-xs tracking-widest hover:text-white uppercase text-[#00FF41] no-underline">
+Access_Module <span class="ml-2">&gt;&gt;</span> </a> <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#00FF41]" aria-hidden="true"></div> <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#00FF41]" aria-hidden="true"></div> </div><div class="matrix-card group p-6 flex flex-col h-full relative overflow-hidden rounded-sm"> <div class="absolute top-0 right-0 p-2 opacity-50 text-[10px] text-[#008F11]" aria-hidden="true">MODULE_CURSOR</div> <div class="w-12 h-12 border border-[#00FF41] flex items-center justify-center mb-6 group-hover:bg-[#00FF41] group-hover:text-black transition-colors text-[#00FF41]"> <i data-lucide="code-2" class="w-6 h-6" aria-hidden="true"></i> </div> <h3 class="text-xl font-bold mb-3 text-[#00FF41] group-hover:underline decoration-2 underline-offset-4 decoration-[#00FF41]">Explore Cursor</h3> <p class="text-sm text-[#008F11] mb-6 flex-grow leading-relaxed"> Master the Cursor IDE and AI-assisted workflows. </p> <a href="/cursor-workshop/explore-cursor/" class="inline-flex items-center text-xs tracking-widest hover:text-white uppercase text-[#00FF41] no-underline">
+Access_Module <span class="ml-2">&gt;&gt;</span> </a> <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#00FF41]" aria-hidden="true"></div> <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#00FF41]" aria-hidden="true"></div> </div><div class="matrix-card group p-6 flex flex-col h-full relative overflow-hidden rounded-sm"> <div class="absolute top-0 right-0 p-2 opacity-50 text-[10px] text-[#008F11]" aria-hidden="true">MODULE_CONTRIBUTION</div> <div class="w-12 h-12 border border-[#00FF41] flex items-center justify-center mb-6 group-hover:bg-[#00FF41] group-hover:text-black transition-colors text-[#00FF41]"> <i data-lucide="zap" class="w-6 h-6" aria-hidden="true"></i> </div> <h3 class="text-xl font-bold mb-3 text-[#00FF41] group-hover:underline decoration-2 underline-offset-4 decoration-[#00FF41]">Contribution</h3> <p class="text-sm text-[#008F11] mb-6 flex-grow leading-relaxed"> Contribute to the codebase and submit changes. </p> <a href="/cursor-workshop/contribution/" class="inline-flex items-center text-xs tracking-widest hover:text-white uppercase text-[#00FF41] no-underline">
+Access_Module <span class="ml-2">&gt;&gt;</span> </a> <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#00FF41]" aria-hidden="true"></div> <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#00FF41]" aria-hidden="true"></div> </div><div class="matrix-card group p-6 flex flex-col h-full relative overflow-hidden rounded-sm"> <div class="absolute top-0 right-0 p-2 opacity-50 text-[10px] text-[#008F11]" aria-hidden="true">MODULE_CHECKLIST</div> <div class="w-12 h-12 border border-[#00FF41] flex items-center justify-center mb-6 group-hover:bg-[#00FF41] group-hover:text-black transition-colors text-[#00FF41]"> <i data-lucide="check-square" class="w-6 h-6" aria-hidden="true"></i> </div> <h3 class="text-xl font-bold mb-3 text-[#00FF41] group-hover:underline decoration-2 underline-offset-4 decoration-[#00FF41]">Checklist</h3> <p class="text-sm text-[#008F11] mb-6 flex-grow leading-relaxed"> Track your progress across workshop milestones. </p> <a href="/cursor-workshop/checklist/" class="inline-flex items-center text-xs tracking-widest hover:text-white uppercase text-[#00FF41] no-underline">
+Access_Module <span class="ml-2">&gt;&gt;</span> </a> <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#00FF41]" aria-hidden="true"></div> <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#00FF41]" aria-hidden="true"></div> </div><div class="matrix-card group p-6 flex flex-col h-full relative overflow-hidden rounded-sm"> <div class="absolute top-0 right-0 p-2 opacity-50 text-[10px] text-[#008F11]" aria-hidden="true">MODULE_RESOURCES</div> <div class="w-12 h-12 border border-[#00FF41] flex items-center justify-center mb-6 group-hover:bg-[#00FF41] group-hover:text-black transition-colors text-[#00FF41]"> <i data-lucide="layers" class="w-6 h-6" aria-hidden="true"></i> </div> <h3 class="text-xl font-bold mb-3 text-[#00FF41] group-hover:underline decoration-2 underline-offset-4 decoration-[#00FF41]">Resources</h3> <p class="text-sm text-[#008F11] mb-6 flex-grow leading-relaxed"> Links, docs, and references for further learning. </p> <a href="/cursor-workshop/resources/" class="inline-flex items-center text-xs tracking-widest hover:text-white uppercase text-[#00FF41] no-underline">
+Access_Module <span class="ml-2">&gt;&gt;</span> </a> <div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-[#00FF41]" aria-hidden="true"></div> <div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-[#00FF41]" aria-hidden="true"></div> </div> </div> </div> </section> <script type="module">const e="cursor-workshop-matrix-access";document.getElementById("reset-matrix-experience")?.addEventListener("click",function(){try{sessionStorage.removeItem(e)}catch{}window.location.reload()});</script> </div> </div>  <script>
+      function initLucide() {
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
+          lucide.createIcons();
+        } else {
+          setTimeout(initLucide, 50);
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLucide);
+      } else {
+        initLucide();
+      }
+    </script> </body> </html> <script type="module">const s="cursor-workshop-matrix-access";function t(){if(!(typeof sessionStorage>"u")&&sessionStorage.getItem(s)==="true"){const e=document.getElementById("matrix-modules");e&&(e.classList.remove("hidden"),e.setAttribute("aria-hidden","false"))}}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",t):t();</script>
