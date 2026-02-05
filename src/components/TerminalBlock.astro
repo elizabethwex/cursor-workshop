@@ -22,17 +22,20 @@ const bluePillUrl = base + 'blue-pill';
     </div>
     <div id="terminal-input-line" class="flex items-center gap-1 flex-shrink-0 mt-1 relative" role="group" aria-label="Terminal input line">
       <span class="text-[#00FF41] flex-shrink-0">&gt; </span>
-      <input
-        type="text"
-        id="terminal-input"
-        class="flex-1 min-w-[12rem] w-full bg-transparent border-none outline-none text-[#00FF41] font-terminal text-lg caret-[#00FF41] py-0.5"
-        autocomplete="off"
-        spellcheck="false"
-        autofocus
-        aria-label="Terminal input"
-        data-prompt="name"
-      />
-      <span class="cursor-blink flex-shrink-0" aria-hidden="true"></span>
+      <div id="terminal-input-wrapper" class="flex-1 min-w-[12rem] flex items-center relative">
+        <span id="terminal-value-display" class="text-[#00FF41] font-terminal text-lg py-0.5"></span>
+        <span class="cursor-blink flex-shrink-0" aria-hidden="true"></span>
+        <input
+          type="text"
+          id="terminal-input"
+          class="absolute inset-0 w-full bg-transparent border-none outline-none font-terminal text-lg py-0.5 text-transparent caret-transparent"
+          autocomplete="off"
+          spellcheck="false"
+          autofocus
+          aria-label="Terminal input"
+          data-prompt="name"
+        />
+      </div>
     </div>
   </div>
 </div>
@@ -42,7 +45,13 @@ const bluePillUrl = base + 'blue-pill';
     const logEl = document.getElementById('terminal-log');
     const inputEl = document.getElementById('terminal-input');
     const contentEl = document.getElementById('terminal-content');
-    if (!logEl || !inputEl || !contentEl) return;
+    const valueDisplayEl = document.getElementById('terminal-value-display');
+    const wrapperEl = document.getElementById('terminal-input-wrapper');
+    if (!logEl || !inputEl || !contentEl || !valueDisplayEl || !wrapperEl) return;
+
+    function syncValueDisplay() {
+      valueDisplayEl.textContent = inputEl.value;
+    }
 
     const prompts = {
       name: 'Enter your name:',
@@ -73,7 +82,7 @@ const bluePillUrl = base + 'blue-pill';
           appendLog('[OK]', 'text-[#00FF41]');
           setTimeout(function () {
             step = 'redpill';
-            inputEl.style.display = '';
+            wrapperEl.style.display = '';
             const blink = document.getElementById('terminal-input-line');
             if (blink) {
               const cursor = blink.querySelector('.cursor-blink');
@@ -107,7 +116,7 @@ const bluePillUrl = base + 'blue-pill';
         if (first === 'Y') {
           appendLog(value || 'Y', 'text-[#00FF41]');
           appendLog('Welcome to the Construct.', 'text-[#00FF41]');
-          inputEl.style.display = 'none';
+          wrapperEl.style.display = 'none';
           const blink = document.getElementById('terminal-input-line');
           if (blink) {
             const cursor = blink.querySelector('.cursor-blink');
@@ -125,6 +134,7 @@ const bluePillUrl = base + 'blue-pill';
         }
         appendLog('Enter Y or N', 'opacity-70');
         inputEl.value = '';
+        syncValueDisplay();
         inputEl.focus();
         return;
       }
@@ -142,8 +152,9 @@ const bluePillUrl = base + 'blue-pill';
         step = 'processing';
       }
       inputEl.value = '';
+      syncValueDisplay();
       if (step === 'processing') {
-        inputEl.style.display = 'none';
+        wrapperEl.style.display = 'none';
         const blink = document.getElementById('terminal-input-line');
         if (blink) {
           const cursor = blink.querySelector('.cursor-blink');
@@ -154,6 +165,8 @@ const bluePillUrl = base + 'blue-pill';
       }
       showPrompt();
     }
+
+    inputEl.addEventListener('input', syncValueDisplay);
 
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Enter') return;
