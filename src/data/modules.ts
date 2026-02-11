@@ -51,13 +51,14 @@ export const MODULES: Module[] = [
     description: "Add yourself to the contributors board (name, team, role, avatar).",
     unlockWhen: ["cloned-repo", "opened-cursor", "ran-localhost"],
   },
-  {
-    id: "checklist",
-    title: "Checklist",
-    route: "/cursor-workshop/checklist/",
-    description: "Track progress and badges.",
-    unlockWhen: ["cloned-repo", "opened-cursor", "ran-localhost"],
-  },
+  // Checklist module commented out for now
+  // {
+  //   id: "checklist",
+  //   title: "Checklist",
+  //   route: "/cursor-workshop/checklist/",
+  //   description: "Track progress and badges.",
+  //   unlockWhen: ["cloned-repo", "opened-cursor", "ran-localhost"],
+  // },
   {
     id: "resources",
     title: "Resources",

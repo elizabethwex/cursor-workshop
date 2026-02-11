@@ -11,32 +11,29 @@ const REPO_URL = "https://github.com/elizabethwex/cursor-workshop";
 const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
 ---
 
-<MatrixModuleLayout title="Clone and run" description="Run this project locally. Completion unlocks Operator.">
+<MatrixModuleLayout title="Localhost: Clone and run" description="Run this project locally. Completion unlocks Operator.">
   <article class="module-page localhost-module">
     <header class="module-header">
-      <h1>Localhost</h1>
-      <dl class="module-meta" aria-label="Module info">
-        <dt>Module</dt>
-        <dd>LOCALHOST</dd>
-        <dt>Access Requirement</dt>
-        <dd>Observer</dd>
-        <dt>Completion Unlocks</dt>
-        <dd>Operator</dd>
-      </dl>
+      <h1>Localhost: Clone and run locally</h1>
     </header>
 
-    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} mission={content.intent} />
 
     <ModulePageWithTasks moduleId="clone-and-run" tasks={content.tasks} taskSectionIds={content.taskSectionIds}>
-      <p class="step-intent" aria-label="Status">
-      <em>Preparing local environment…</em>
-    </p>
+      <div slot="sidebar-complete" class="module-sidebar-complete">
+        <p id="localhost-completed" class="module-completed" role="status" aria-live="polite" hidden>Completed</p>
+        <div id="localhost-mark-complete-actions">
+          <button type="button" id="localhost-mark-complete-btn" class="module-btn">
+            <div class="module-btn__fill" aria-hidden="true"></div>
+            <span class="module-btn__text">Confirm local environment is running</span>
+          </button>
+        </div>
+      </div>
 
-      <SystemMessage message={content.systemMessage} typed={true} />
-
+      <div class="content-stack">
       <section class="step-card" aria-labelledby="running-locally">
       <h2 id="running-locally">Running the System Locally</h2>
-      <p>You’re about to run this project on your own machine.</p>
+      <p>Now that you have access to GitHub and Cursor, you’re ready to bring a real project onto your computer and run it locally. This is where things start to feel real.</p>
       <p>This is called <strong>localhost</strong>.</p>
       <p>It means:</p>
       <ul>
@@ -44,49 +41,43 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
         <li>You control the environment</li>
         <li>Nothing is shared publicly</li>
       </ul>
-      <p>This step can feel intimidating.</p>
-      <p>It is also the most important one.</p>
+      <p>This step can feel intimidating, but it is also the most important one.</p>
       <p>Take it slowly.</p>
       </section>
 
       <CollapsibleSection id="high-level" title="What You're Doing (At a High Level)" stepCard={true}>
-      <h2 id="high-level">What You’re Doing (At a High Level)</h2>
       <p>Right now, the code for this project lives on GitHub:</p>
       <p>
         <a href={REPO_URL} target="_blank" rel="noopener noreferrer">{REPO_URL}</a>
-      </p>
+      </p></br>
       <p>GitHub is where the code is stored.</p>
       <p>Cursor is the tool that helps you work with it.</p>
       <p>In this module, you will:</p>
-      <ol>
+      <ul>
         <li>Copy the code from GitHub to your machine</li>
         <li>Open it in Cursor so you can see and edit it</li>
         <li>Run it locally to see the UI in your browser</li>
-      </ol>
+      </ul>
+      <p>When you clone a repository you are creating a full copy of the project — including its version history — on your computer.</p></br>
+      <p>This gives you a safe space to explore and experiment.</p>
     </CollapsibleSection>
 
       <CollapsibleSection id="step-1-clone" title="Step 1: Clone the Repository in Cursor" stepCard={true} taskIndex={0} moduleId="clone-and-run">
-      <h2 id="step-1-clone">Step 1: Clone the Repository in Cursor</h2>
       <p>Cloning creates a local copy of the project on your computer.</p>
       <p>You will do this <strong>inside Cursor</strong>, not in a separate terminal.</p>
 
-      <h3>In Cursor:</h3>
-      <ol>
+      <p>Before opening Cursor, create a new folder called <code>Cursor</code> in your Finder. We recommend putting it in your <code>Documents</code> folder. Inside that Cursor folder, create a new folder for this project. You can call it <code>cursor-workshop</code>. This is just a organization preference, find something that works for you!</p></br>
+
+
+      <h3>Now let's go back to Cursor:</h3>
+      <ul>
         <li>Open the Cursor app</li>
-        <li>Make sure no project is currently open<br /><span class="text-muted">(If one is, you can close it or open a new window.)</span></li>
-        <li>Open the <strong>Command Palette</strong><br />Mac: <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd><br />Windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></li>
-        <li>In the Command Palette, type: <strong>Git: Clone</strong></li>
-        <li>Select <strong>Git: Clone</strong> from the list</li>
-        <li>When prompted for a repository URL, paste:<br /><code>{REPO_CLONE_URL}</code></li>
-        <li>Press Enter</li>
-        <li>Choose a location on your computer where the project should live<br /><span class="text-muted">(Any folder you can find again is fine.)</span></li>
-      </ol>
+        <li>From the options on the homescreen click <code>Clone repo</code></span></li>
+        <li>paste in the url <code>https://github.com/elizabethwex/cursor-workshop.git</code> and press enter</li>
+        <li>Select the <code>cursor-workshop</code> folder you just made.</li>
+      </ul>
       <p>Cursor will now download the code from GitHub to your machine.</p>
 
-      <h3>When the Clone Finishes</h3>
-      <p>Cursor will ask if you want to open the cloned project.</p>
-      <p>Choose <strong>Open</strong>.</p>
-      <p>If Cursor asks whether you trust the folder, you can safely approve it.</p>
       <p>At this point:</p>
       <ul>
         <li>The code is now on your machine</li>
@@ -96,35 +87,27 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       <p>You haven’t changed anything yet.</p>
     </CollapsibleSection>
 
-    <CollapsibleSection id="step-2-install" title="Step 2: Install Dependencies" stepCard={true}>
-      <h2 id="step-2-install">Step 2: Install Dependencies</h2>
-      <p>Projects rely on external packages to work.</p>
+    <CollapsibleSection id="step-2-install" title="Step 2: Run the Project" stepCard={true}>
+      <p>A note on terminal commands: The terminal is a text-based way to give instructions to your computer. There is an app called Terminal on your computer, and there is also one in Cursor. You’ll use Cursor’s integrated terminal for this workshop. You are not modifying your system — you are running project-specific commands. You can also run these in the AI chat window.</p></br>
+      
+      <p>Projects rely on external packages to work, these are called dependencies.</p>
       <p>These are listed in a file called <code>package.json</code>.</p>
-      <p>To install them:</p>
-      <ol>
-        <li>Open the integrated terminal in Cursor<br /><span class="text-muted">(You can usually find this at the bottom of the window.)</span></li>
-        <li>Run:</li>
-      </ol>
-      <CopyButton text="npm install" />
-      <p>This may take a minute.</p>
+      <p>When you run <code>npm install</code>, your computer downloads those dependencies into a folder called <code>node_modules</code>. You only need to install dependencies once per project (unless they change later).</p>
+      </br>
+      <p>Alternatively, you can just ask Cursor to <code>run the project cursor-workshop</code> and it should do all of this for you.</p>
+      <p>This may take a minute. Cursor might ask your permission to run commands. You can safely keep clicking 'Run'.</p>
       <p>You may see warnings. Warnings are normal.</p>
       <p>If an error appears, pause and read it. Cursor can help you understand what it means.</p>
-    </CollapsibleSection>
-
-      <CollapsibleSection id="step-3-start" title="Step 3: Start the App" stepCard={true} taskIndex={2} moduleId="clone-and-run">
-      <h2 id="step-3-start">Step 3: Start the App</h2>
-      <p>Once installation completes, start the development server:</p>
-      <CopyButton text="npm run dev" />
+      </br>
       <p>If successful, the terminal will display a local URL.</p>
-      <p>It usually looks like:</p>
-      <p><code>http://localhost:5173</code></p>
+      <p>It usually looks like: <code>http://localhost:5173</code> (the numbers may be different)</p>
     </CollapsibleSection>
 
-      <CollapsibleSection id="step-4-open" title="Step 4: Open Localhost" stepCard={true} taskIndex={3} moduleId="clone-and-run">
-      <h2 id="step-4-open">Step 4: Open Localhost</h2>
-      <p>Open the URL shown in the terminal in your browser.</p>
-      <p>If you see the app running, the system is online.</p>
-      <p>You are now seeing the UI rendered from code on your machine.</p>
+      <CollapsibleSection id="step-4-open" title="Step 3: Open Localhost Browser" stepCard={true} taskIndex={3} moduleId="clone-and-run">
+      <p>Open the URL shown in the terminal in your preferred browser.</p>
+      <p>You can also open a brower window directly in Cursor to run the localhost.</p>
+      <p>If you see the app running, the system is online!</p>
+      <p>You should now be seeing the UI rendered from code on your machine. Changes you make to code will now appear here.</p>
     </CollapsibleSection>
 
       <CollapsibleSection id="troubleshooting" title="If Something Doesn't Work" stepCard={true}>
@@ -137,9 +120,9 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
         <li>A command typed incorrectly</li>
         <li>A dependency failing to install</li>
       </ul>
-      <p>You are not expected to diagnose this alone.</p>
+      <p>You are not expected to diagnose this alone.</p></br>
 
-      <h3>Using Cursor to Debug</h3>
+      <h3><strong>Use Cursor to Debug</strong></h3>
       <p>Cursor is especially useful here.</p>
       <p>You can ask it things like:</p>
       <ul>
@@ -152,25 +135,12 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
     </CollapsibleSection>
 
       <CollapsibleSection id="confirmation" title="Confirmation" stepCard={true}>
-      <h2 id="confirmation">Confirmation</h2>
-      <p>If you can see the app running from localhost, you’ve completed this module.</p>
+      <p>If you can see this app running from localhost, you’ve completed this module.</p>
       <p>This is the hardest step for many designers.</p>
-      <p>If you’re here, you’re doing well.</p>
+      <p>If you’re here, you’re doing well!</p>
     </CollapsibleSection>
 
-      <section id="localhost-mark-complete" class="welcome-mark-complete module-mark-complete" aria-label="Mark module complete">
-      <p id="localhost-mark-complete-confirm" class="system-message welcome-mark-complete-msg" role="status" aria-live="polite" hidden>
-        Local environment online. Access level upgraded: Operator.
-      </p>
-      <div id="localhost-mark-complete-actions">
-        <button type="button" id="localhost-mark-complete-btn" class="workshop-btn workshop-btn--primary">
-          Confirm local environment is running
-        </button>
-      </div>
-      </section>
-
       <CollapsibleSection id="system-notes" title="System Notes" stepCard={true}>
-      <h2 id="system-notes">System Notes</h2>
       <ul>
         <li>You can stop the local server at any time by pressing <kbd>Ctrl</kbd> + <kbd>C</kbd> in the terminal</li>
         <li>You can restart it whenever you need</li>
@@ -178,35 +148,45 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       </ul>
     </CollapsibleSection>
 
-      <p class="module-next-hint">
-        <em>End of module.</em> Next up: Explore Cursor is where things start to feel fun instead of scary.
-      </p>
+      </div>
     </ModulePageWithTasks>
   </article>
 </MatrixModuleLayout>
 
 <script>
-  import { markModuleComplete, isModuleComplete } from "../lib/progress";
+  import { markModuleComplete, isModuleComplete, clearModuleComplete } from "../lib/progress";
 
+  const MODULE_ID = "clone-and-run";
   const btn = document.getElementById("localhost-mark-complete-btn");
-  const confirmEl = document.getElementById("localhost-mark-complete-confirm");
+  const completedEl = document.getElementById("localhost-completed");
 
   function showConfirmation() {
-    if (confirmEl) {
-      confirmEl.hidden = false;
-      confirmEl.setAttribute("aria-live", "polite");
-    }
+    if (completedEl) completedEl.hidden = false;
     if (btn) btn.hidden = true;
   }
 
-  if (isModuleComplete("clone-and-run")) {
+  function showButtonAgain() {
+    if (completedEl) completedEl.hidden = true;
+    if (btn) btn.hidden = false;
+  }
+
+  if (isModuleComplete(MODULE_ID)) {
     showConfirmation();
-  } else if (btn) {
+  }
+  if (btn) {
     btn.addEventListener("click", () => {
-      markModuleComplete("clone-and-run");
+      markModuleComplete(MODULE_ID);
       document.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      const base = typeof import.meta.env !== "undefined" && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : "/cursor-workshop/";
-      window.location.replace(base);
+      showConfirmation();
     });
   }
+
+  document.addEventListener("workshop-tasks-reset", (e) => {
+    const detail = (e as CustomEvent).detail;
+    if (detail?.moduleId === MODULE_ID) {
+      clearModuleComplete(MODULE_ID);
+      document.dispatchEvent(new CustomEvent("workshop-progress-update"));
+      showButtonAgain();
+    }
+  });
 </script>

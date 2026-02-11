@@ -1,133 +1,138 @@
 ---
 import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
 import SystemMessage from "../components/SystemMessage.astro";
+import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
 import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
 import content from "../content/steps/01-welcome.ts";
 ---
 
 <MatrixModuleLayout title="Welcome" description="Welcome to the Cursor Access Program. Confirm enrollment to unlock the next module.">
-  <div id="welcome-content" class="welcome-content welcome-page-ambient">
-    <header class="welcome-page-header">
+  <article id="welcome-content" class="module-page welcome-module welcome-content welcome-page-ambient">
+    <header class="module-header">
       <h1>Welcome</h1>
-      <p class="welcome-meta" aria-label="Module information">
-        <strong>Module:</strong> {content.moduleMeta.module}<br />
-        <strong>Access Requirement:</strong> {content.moduleMeta.accessRequirement}<br />
-        <strong>Completion Unlocks:</strong> {content.moduleMeta.completionUnlocks}
-      </p>
     </header>
 
     <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
 
-    <hr class="welcome-hr" />
-
-    <div class="welcome-system-messages">
-      {content.systemMessages.map((msg) => (
-        <SystemMessage message={msg} typed={true} />
-      ))}
-    </div>
-
-    <hr class="welcome-hr" />
-
-    <section class="welcome-section" aria-labelledby="welcome-section-heading">
-      <h2 id="welcome-section-heading">{content.welcomeSection.title}</h2>
-      <p>{content.welcomeSection.paragraphs[0]}</p>
-      <p>{content.welcomeSection.learnListIntro}</p>
-      <ul>
-        {content.welcomeSection.learnList.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
-    </section>
-
-    <CollapsibleSection id="welcome-more" title="More about this module" stepCard={true}>
-      <p>{content.welcomeSection.paragraphs[1]}</p>
-      <p>{content.welcomeSection.paragraphs[2]}</p>
-    </CollapsibleSection>
-
-    <CollapsibleSection id="what-this-is" title="What This Program Is" stepCard={true}>
-      <p>{content.whatThisIsSection.paragraphs[0]}</p>
-      <p>{content.whatThisIsSection.paragraphs[1]}</p>
-      <p>{content.whatThisIsSection.learnListIntro}</p>
-      <ul>
-        {content.whatThisIsSection.learnList.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
-      <p>{content.whatThisIsSection.paragraphs[2]}</p>
-      <p>{content.whatThisIsSection.paragraphs[3]}</p>
-    </CollapsibleSection>
-
-    <CollapsibleSection id="prerequisites" title="Prerequisites" stepCard={true}>
-      <p>{content.prerequisitesSection.intro}</p>
-      <ul class="welcome-prereqs-list">
-        {content.prerequisitesSection.items.map((item) => (
-          <li>
-            {item.url ? (
-              <a href={item.url} target="_blank" rel="noopener noreferrer">{item.text}</a>
-            ) : (
-              item.text
-            )}
-            {item.note ? <span class="welcome-prereq-note"> ({item.note})</span> : null}
-          </li>
-        ))}
-      </ul>
-      <p>{content.prerequisitesSection.footer}</p>
-    </CollapsibleSection>
-
-    <CollapsibleSection id="how-progress" title="How Progress Works" stepCard={true}>
-      {content.howProgressWorksSection.paragraphs.map((p) => (
-        <p>{p}</p>
-      ))}
-    </CollapsibleSection>
-
-    <section class="welcome-section welcome-begin-enrollment" aria-labelledby="begin-enrollment-heading">
-      <h2 id="begin-enrollment-heading">Begin Enrollment</h2>
-      <p>{content.beginEnrollmentSection.intro}</p>
-      <p>This will update your access level.</p>
-
-      <h3 class="welcome-action-heading">Action</h3>
-      <p><strong>{content.beginEnrollmentSection.actionLabel}</strong></p>
-
-      <div id="welcome-enrollment-actions" class="welcome-enrollment-actions">
-        <button type="button" id="welcome-confirm-enrollment-btn" class="workshop-btn workshop-btn--primary">
-          {content.beginEnrollmentSection.actionLabel}
-        </button>
+    <ModulePageWithTasks moduleId="welcome" tasks={content.prerequisitesSection.items.map((item) => item.text)} taskSectionIds={[]}>
+      <div slot="sidebar-complete" class="module-sidebar-complete">
+        <p id="welcome-completed" class="module-completed" role="status" aria-live="polite" hidden>Completed</p>
+        <div id="welcome-mark-complete-actions">
+          <button type="button" id="welcome-confirm-enrollment-btn" class="module-btn">
+            <div class="module-btn__fill" aria-hidden="true"></div>
+            <span class="module-btn__text">{content.beginEnrollmentSection.actionLabel}</span>
+          </button>
+        </div>
       </div>
+      <div class="content-stack">
+      <section class="step-card" aria-labelledby="welcome-section-heading">
+        <h2 id="welcome-section-heading">{content.welcomeSection.title}</h2>
+        <p>{content.welcomeSection.paragraphs[0]}</p>
+        <p>{content.welcomeSection.paragraphs[1]}</p>
+        <p>{content.welcomeSection.paragraphs[2]}</p>
+        <p>{content.welcomeSection.learnListIntro}</p>
+        <ul>
+          {content.welcomeSection.learnList.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </section>
 
-      <div id="welcome-enrollment-confirm" class="welcome-enrollment-confirm" aria-live="polite" hidden>
-        <p class="welcome-confirm-label"><em>{content.beginEnrollmentSection.confirmationTitle}</em></p>
-        <p class="welcome-confirm-msg">{content.beginEnrollmentSection.confirmationMessage}</p>
-        <a id="welcome-back-to-desktop" href={`${import.meta.env.BASE_URL}`} class="workshop-btn workshop-btn--secondary">
-          Back to Desktop
-        </a>
+      <CollapsibleSection id="what-this-is" title="What This Program Is" stepCard={true}>
+        <ul>
+          {content.whatThisIsSection.introPoints.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <p>{content.whatThisIsSection.learnListIntro}</p>
+        <ul>
+          {content.whatThisIsSection.learnList.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+        <ul>
+          {content.whatThisIsSection.closingPoints.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </CollapsibleSection>
+
+      <CollapsibleSection id="how-tools-work-together" title="How These Tools Work Together" stepCard={true}>
+        <p>You'll be working across three systems:</p>
+        <ul>
+          <li><strong>GitHub (Remote)</strong>: This is where the shared version of the project lives online.</li>
+          <li><strong>Your Computer (Local)</strong>: This is your private working copy of the project.</li>
+          <li><strong>Git</strong>: Git is the system that keeps these two in sync.</li>
+        </ul>
+        <p>You’ll download a copy of a project to your computer, run it locally, make changes safely, and then propose updates back to GitHub. Nothing you do locally changes GitHub until you explicitly commit and push your work.</p>
+      </CollapsibleSection>
+
+      <CollapsibleSection id="prerequisites" title="Prerequisites" stepCard={true}>
+        <p>{content.prerequisitesSection.intro}</p>
+        <ul class="welcome-prereqs-list">
+          {content.prerequisitesSection.items.map((item) => (
+            <li>
+              {item.url ? (
+                <a href={item.url} target="_blank" rel="noopener noreferrer">{item.text}</a>
+              ) : (
+                item.text
+              )}
+              {item.note ? <span class="welcome-prereq-note"> ({item.note})</span> : null}
+            </li>
+          ))}
+        </ul>
+        <p>To confirm Node.js is installed, you can run the command <code>node -v</code> in the terminal app (open on your mac). If you see a version number, you're good to go! If you don't see a version number, you can install it from the link above.</p>
+      </CollapsibleSection>
+
+      <CollapsibleSection id="how-progress" title="How Progress Works" stepCard={true}>
+        <ul>
+          {content.howProgressWorksSection.points.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </CollapsibleSection>
+
       </div>
-    </section>
-  </div>
+    </ModulePageWithTasks>
+  </article>
 </MatrixModuleLayout>
 
 <script>
-  import { markModuleComplete, isModuleComplete } from "../lib/progress";
+  import { markModuleComplete, isModuleComplete, clearModuleComplete } from "../lib/progress";
 
+  const MODULE_ID = "welcome";
   const btn = document.getElementById("welcome-confirm-enrollment-btn");
-  const confirmBlock = document.getElementById("welcome-enrollment-confirm");
-  const actionsBlock = document.getElementById("welcome-enrollment-actions");
+  const completedEl = document.getElementById("welcome-completed");
+  const actionsBlock = document.getElementById("welcome-mark-complete-actions");
 
   function showConfirmation() {
-    if (confirmBlock) {
-      confirmBlock.hidden = false;
-    }
+    if (completedEl) completedEl.hidden = false;
     if (actionsBlock) actionsBlock.hidden = true;
   }
 
-  if (isModuleComplete("welcome")) {
+  function showButtonAgain() {
+    if (completedEl) completedEl.hidden = true;
+    if (actionsBlock) actionsBlock.hidden = false;
+  }
+
+  if (isModuleComplete(MODULE_ID)) {
     showConfirmation();
-  } else if (btn) {
+  }
+  if (btn) {
     btn.addEventListener("click", () => {
-      markModuleComplete("welcome");
+      markModuleComplete(MODULE_ID);
       document.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      const base = typeof import.meta.env !== "undefined" && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : "/cursor-workshop/";
-      window.location.replace(base);
+      showConfirmation();
     });
   }
+
+  document.addEventListener("workshop-tasks-reset", (e) => {
+    const detail = (e as CustomEvent).detail;
+    if (detail?.moduleId === MODULE_ID) {
+      clearModuleComplete(MODULE_ID);
+      document.dispatchEvent(new CustomEvent("workshop-progress-update"));
+      showButtonAgain();
+    }
+  });
 </script>

@@ -9,24 +9,34 @@ const storageKey = `cursor-workshop-module-${moduleId}-tasks`;
 ---
 
 <div class="step-tasks" data-module-id={moduleId} data-storage-key={storageKey}>
-  <h2>Tasks</h2>
+  <div class="step-tasks-heading">
+    <div class="step-tasks-heading-left">
+      <i data-lucide="list-checks" class="step-tasks-heading-icon" aria-hidden="true"></i>
+      <h3 class="step-tasks-heading-text">Tasks</h3>
+    </div>
+    <button type="button" class="step-tasks-reset-link" aria-label={`Reset tasks for module ${moduleId}`}>
+      Reset tasks
+    </button>
+  </div>
   <ul class="step-tasks-list" aria-label={`Tasks for module ${moduleId}`}>
     {tasks.map((label, i) => (
       <li class="step-tasks-item" data-task-index={i}>
-        <input
-          type="checkbox"
-          id={`module-task-${moduleId}-${i}`}
-          data-task-index={i}
-          data-label={label}
-          aria-label={label}
-        />
-        <label for={`module-task-${moduleId}-${i}`}>{label}</label>
+        <label class="flex items-start gap-4 cursor-pointer select-none group" for={`module-task-${moduleId}-${i}`}>
+          <div class="relative pt-0.5 flex-shrink-0">
+            <input
+              type="checkbox"
+              class="checkbox-custom"
+              id={`module-task-${moduleId}-${i}`}
+              data-task-index={i}
+              data-label={label}
+              aria-label={label}
+            />
+          </div>
+          <span class="step-tasks-item-label flex-1 text-sm leading-snug">{label}</span>
+        </label>
       </li>
     ))}
   </ul>
-  <button type="button" class="step-tasks-reset" aria-label={`Reset tasks for module ${moduleId}`}>
-    Reset tasks
-  </button>
 </div>
 
 <script define:vars={{ storageKey, moduleId }}>
@@ -34,7 +44,7 @@ const storageKey = `cursor-workshop-module-${moduleId}-tasks`;
   if (!container) throw new Error("StepTasks container not found");
 
   const listEl = container.querySelector(".step-tasks-list");
-  const resetBtn = container.querySelector(".step-tasks-reset");
+  const resetBtn = container.querySelector(".step-tasks-reset-link");
 
   function loadState() {
     try {
@@ -84,6 +94,7 @@ const storageKey = `cursor-workshop-module-${moduleId}-tasks`;
       item.classList.remove("done");
     });
     dispatchTaskChange();
+    document.dispatchEvent(new CustomEvent("workshop-tasks-reset", { detail: { moduleId } }));
   });
 
   bindTasks();

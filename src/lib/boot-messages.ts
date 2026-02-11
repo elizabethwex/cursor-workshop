@@ -38,11 +38,11 @@ export const MODULE_BOOT_LINES: Record<string, string[]> = {
     "> Prepare to make your first contribution...",
     "> Ready.",
   ],
-  checklist: [
-    "> Loading CHECKLIST.app...",
-    "> Checking your progress...",
-    "> Ready.",
-  ],
+  // checklist: [
+  //   "> Loading CHECKLIST.app...",
+  //   "> Checking your progress...",
+  //   "> Ready.",
+  // ],
   resources: [
     "> Loading RESOURCES.app...",
     "> Indexing reference materials...",

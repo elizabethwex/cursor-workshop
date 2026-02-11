@@ -3,29 +3,49 @@
  * SystemMessage – short typed lines like "Module loaded…"
  * Used at the top of each page. Supports typed animation or instant (prop).
  * Typed animation is fast and capped (max 80 chars). Respects prefers-reduced-motion.
+ * When used on module pages, wrap in system-check-wrapper with "System check: " prefix.
  */
 interface Props {
   message: string;
   /** When true, type out the message; when false, show instantly. */
   typed?: boolean;
+  /** When true, wrap in design system-check box with pulsing dot and "System check: " prefix. */
+  systemCheck?: boolean;
 }
 
-const { message, typed = true } = Astro.props;
+const { message, typed = true, systemCheck = false } = Astro.props;
 
 const MAX_TYPED_LENGTH = 80;
 const TYPED_MS_PER_CHAR = 40;
 ---
 
-<p
-  class="system-message"
-  role="status"
-  aria-live="off"
-  aria-atomic="true"
-  data-system-message
-  data-typed={typed}
->
-  <span data-system-message-text>{typed ? "" : message}</span>
-</p>
+{systemCheck ? (
+  <div class="system-check-wrapper">
+    <div class="system-check-dot" aria-hidden="true"></div>
+    <p
+      class="system-message"
+      role="status"
+      aria-live="off"
+      aria-atomic="true"
+      data-system-message
+      data-typed={typed}
+    >
+      <span>System check: </span>
+      <span data-system-message-text>{typed ? "" : message}</span>
+    </p>
+  </div>
+) : (
+  <p
+    class="system-message"
+    role="status"
+    aria-live="off"
+    aria-atomic="true"
+    data-system-message
+    data-typed={typed}
+  >
+    <span data-system-message-text>{typed ? "" : message}</span>
+  </p>
+)}
 
 <script define:vars={{ message, typed, MAX_TYPED_LENGTH, TYPED_MS_PER_CHAR }}>
   const el = document.querySelector("[data-system-message]");
