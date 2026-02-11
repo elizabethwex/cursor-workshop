@@ -1,0 +1,1 @@
+import{a as o}from"./agents.Cy2aQC5Q.js";import"./progress.C0GTuS_U.js";const d="cursor-workshop-agent-updated";typeof window<"u"&&(window.addAgentForTerminal=n=>{o(n),window.dispatchEvent(new CustomEvent(d))});
