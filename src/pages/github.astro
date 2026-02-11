@@ -11,26 +11,23 @@ import content from "../content/steps/02-github-basics.ts";
   <article class="module-page github-module">
     <header class="module-header">
       <h1>GitHub Basics</h1>
-      <dl class="module-meta" aria-label="Module info">
-        <dt>Module</dt>
-        <dd>GITHUB</dd>
-        <dt>Access Requirement</dt>
-        <dd>Observer</dd>
-        <dt>Completion Unlocks</dt>
-        <dd>Localhost</dd>
-      </dl>
     </header>
 
-    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} mission={content.intent} />
 
     <ModulePageWithTasks moduleId="github-basics" tasks={content.tasks} taskSectionIds={content.taskSectionIds}>
-      <p class="step-intent" aria-label="Mission">
-        <em>Your mission:</em><br />
-        <em>Get access to GitHub and familiarize yourself with GitHub basics.</em>
-      </p>
+      <div slot="sidebar-complete" class="module-sidebar-complete">
+        <p id="github-completed" class="module-completed" role="status" aria-live="polite" hidden>Completed</p>
+        <div id="github-mark-complete-actions">
+          <button type="button" id="github-mark-complete-btn" class="module-btn">
+            <div class="module-btn__fill" aria-hidden="true"></div>
+            <span class="module-btn__text">Mark GitHub basics complete</span>
+          </button>
+        </div>
+      </div>
+      <SystemMessage message={content.systemMessage} typed={true} systemCheck={true} />
 
-      <SystemMessage message={content.systemMessage} typed={true} />
-
+      <div class="content-stack">
       <section class="step-card" aria-labelledby="shared-workspaces">
         <h2 id="shared-workspaces">GitHub: Shared Workspaces</h2>
         <p>GitHub is where teams store, review, and collaborate on code.</p>
@@ -78,8 +75,7 @@ import content from "../content/steps/02-github-basics.ts";
       <p>If you’re unsure which team you should belong to, check with your design lead.</p>
     </CollapsibleSection>
 
-      <CollapsibleSection id="core-concepts" title="Core Concepts (Expanded)" stepCard={true} taskIndex={1} moduleId="github-basics">
-      <h2 id="core-concepts">Core Concepts (Expanded)</h2>
+      <CollapsibleSection id="core-concepts" title="Core Concepts" stepCard={true} taskIndex={1} moduleId="github-basics">
       <p>These concepts will come up often. Understanding them now will make everything else easier.</p>
 
       <h3>Repository</h3>
@@ -89,7 +85,14 @@ import content from "../content/steps/02-github-basics.ts";
         <li>All files and folders</li>
         <li>A full history of changes</li>
         <li>Configuration for things like deployment and permissions</li>
-      </ul>
+      </ul></br>
+      <p>A repository exists in two places:</p>
+      <ul>
+        <li>On GitHub (remote)</li>
+        <li>On your computer (local copy)</li>
+      </ul></br>
+      <p>You will clone the remote repository to create your local copy. From there, you can make changes safely before sharing them.</p>
+      </br>
 
       <h3>Main Branch</h3>
       <p>The <strong>main</strong> branch is the primary, trusted version of the project.</p>
@@ -101,6 +104,7 @@ import content from "../content/steps/02-github-basics.ts";
       </ul>
       <p>You generally do <strong>not</strong> edit <code>main</code> directly.</p>
       <p>Instead, changes are made in branches and merged back through pull requests.</p>
+      </br>
 
       <h3>Branch</h3>
       <p>A branch is a safe workspace.</p>
@@ -111,18 +115,20 @@ import content from "../content/steps/02-github-basics.ts";
         <li>Propose updates for review</li>
       </ul>
       <p>Branches are temporary by design.</p>
+      </br>
 
       <h3>Commit</h3>
-      <p>A commit is a saved change.</p>
+      <p>A commit saves changes inside your branch. It records what changed and includes a short message explaining why.</p>
       <p>Each commit:</p>
       <ul>
         <li>Captures what changed at that moment</li>
         <li>Includes a short message explaining why</li>
       </ul>
       <p>Small, clear commits are encouraged.</p>
+      </br>
 
       <h3>Pull Request</h3>
-      <p>A pull request (PR) asks to merge changes into the main branch.</p>
+      <p>A pull request proposes merging your branch into the main branch. It is a request for review — not an automatic change. Opening a pull request does not make your change live. It starts a conversation.</p>
       <p>PRs are how teams:</p>
       <ul>
         <li>Review work</li>
@@ -146,12 +152,11 @@ import content from "../content/steps/02-github-basics.ts";
       <p>Later, you’ll run the same app locally on your machine.</p>
     </CollapsibleSection>
 
-      <CollapsibleSection id="ssh" title="Connecting Cursor to GitHub (SSH)" stepCard={true} taskIndex={2} moduleId="github-basics">
-      <h2 id="ssh">Connecting Cursor to GitHub (SSH)</h2>
+      <CollapsibleSection id="ssh" title="Connecting Cursor to GitHub (SSH vs HTTPS)" stepCard={true} taskIndex={2} moduleId="github-basics">
       <p>To work smoothly with GitHub, Cursor needs a secure way to authenticate.</p>
-      <p>This is done using an <strong>SSH key</strong>.</p>
+      <p>This is done using an <strong>SSH key</strong> or via <strong>HTTPS connection</strong>.</p>
 
-      <h3>What an SSH Key Is</h3>
+      <h3>SSH Keys</h3>
       <p>An SSH key is a secure identifier stored on your machine.</p>
       <p>It allows Cursor to:</p>
       <ul>
@@ -161,21 +166,15 @@ import content from "../content/steps/02-github-basics.ts";
       </ul>
 
       <h3>Setting Up an SSH Key in Cursor</h3>
-      <ol>
+      <ul>
         <li>Open Cursor</li>
-        <li>Open the Command Palette</li>
-        <li>Search for <strong>“SSH”</strong> or <strong>“Git: Generate SSH Key”</strong></li>
+        <li>Ask cursor to help you set up an SSH key</li>
         <li>Follow the prompts to generate a new key</li>
-        <li>Add the generated public key to your GitHub account</li>
-      </ol>
-      <p>GitHub provides instructions during this step.</p>
+        <li>Add the generated public key to your GitHub account (in the settings)</li>
+      </ul>
 
       <h3>Checking That It Works</h3>
-      <p>To confirm your SSH connection:</p>
-      <ul>
-        <li>Try cloning a repository using the <strong>SSH URL</strong></li>
-        <li>Or run a test connection from the terminal if prompted</li>
-      </ul>
+      <p>To confirm your SSH connection, ask Cursor to test the SSH connection</p>
       <p>If the connection works, no further action is needed.</p>
 
       <h3>Why This Matters</h3>
@@ -212,46 +211,45 @@ import content from "../content/steps/02-github-basics.ts";
       <p>The next module will guide you through running this project locally.</p>
     </CollapsibleSection>
 
-      <section id="github-mark-complete" class="welcome-mark-complete module-mark-complete" aria-label="Mark module complete">
-      <p id="github-mark-complete-confirm" class="system-message welcome-mark-complete-msg" role="status" aria-live="polite" hidden>
-        GitHub basics marked complete. Next module available: LOCALHOST.
-      </p>
-      <div id="github-mark-complete-actions">
-        <button type="button" id="github-mark-complete-btn" class="workshop-btn workshop-btn--primary">
-          Mark GitHub basics complete
-        </button>
       </div>
-      </section>
-
-      <p class="module-next-hint">
-        <em>On completion:</em> Module complete. Access level unchanged. Next module available: LOCALHOST.
-      </p>
     </ModulePageWithTasks>
   </article>
 </MatrixModuleLayout>
 
 <script>
-  import { markModuleComplete, isModuleComplete } from "../lib/progress";
+  import { markModuleComplete, isModuleComplete, clearModuleComplete } from "../lib/progress";
 
+  const MODULE_ID = "github-basics";
   const btn = document.getElementById("github-mark-complete-btn");
-  const confirmEl = document.getElementById("github-mark-complete-confirm");
+  const completedEl = document.getElementById("github-completed");
 
   function showConfirmation() {
-    if (confirmEl) {
-      confirmEl.hidden = false;
-      confirmEl.setAttribute("aria-live", "polite");
-    }
+    if (completedEl) completedEl.hidden = false;
     if (btn) btn.hidden = true;
   }
 
-  if (isModuleComplete("github-basics")) {
+  function showButtonAgain() {
+    if (completedEl) completedEl.hidden = true;
+    if (btn) btn.hidden = false;
+  }
+
+  if (isModuleComplete(MODULE_ID)) {
     showConfirmation();
-  } else if (btn) {
+  }
+  if (btn) {
     btn.addEventListener("click", () => {
-      markModuleComplete("github-basics");
+      markModuleComplete(MODULE_ID);
       document.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      const base = typeof import.meta.env !== "undefined" && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : "/cursor-workshop/";
-      window.location.replace(base);
+      showConfirmation();
     });
   }
+
+  document.addEventListener("workshop-tasks-reset", (e) => {
+    const detail = (e as CustomEvent).detail;
+    if (detail?.moduleId === MODULE_ID) {
+      clearModuleComplete(MODULE_ID);
+      document.dispatchEvent(new CustomEvent("workshop-progress-update"));
+      showButtonAgain();
+    }
+  });
 </script>

@@ -10,21 +10,9 @@ import resourceGroups, { resourcesGoal, resourcesEstimatedTime } from "../conten
   <article class="module-page resources-module">
     <header class="module-header">
       <h1>Resources</h1>
-      <dl class="module-meta" aria-label="Module info">
-        <dt>Module</dt>
-        <dd>RESOURCES</dd>
-        <dt>Access Requirement</dt>
-        <dd>Any</dd>
-        <dt>Completion Unlocks</dt>
-        <dd>None</dd>
-      </dl>
     </header>
 
-    <ModuleGoalPanel goal={resourcesGoal} estimatedTime={resourcesEstimatedTime} />
-
-    <p class="step-intent" aria-label="Status">
-      <em>Reference materials loaded.</em>
-    </p>
+    <ModuleGoalPanel goal={resourcesGoal} estimatedTime={resourcesEstimatedTime} mission="Reference materials loaded." />
 
     <SystemMessage message="Reference materials loaded." typed={true} />
 

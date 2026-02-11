@@ -85,16 +85,17 @@ export const MODULES: Module[] = [
     unlocksWhen: (p) => hasCompleted(p, "explore-cursor"),
     isComplete: (p) => hasCompleted(p, "contribution"),
   },
-  {
-    id: "checklist",
-    title: "Checklist",
-    route: `${BASE}/checklist/`,
-    iconKey: "checklist",
-    appLabel: "CHECKLIST",
-    prerequisiteModuleId: null,
-    unlocksWhen: () => true,
-    isComplete: (p) => hasCompleted(p, "checklist"),
-  },
+  // Checklist module commented out for now
+  // {
+  //   id: "checklist",
+  //   title: "Checklist",
+  //   route: `${BASE}/checklist/`,
+  //   iconKey: "checklist",
+  //   appLabel: "CHECKLIST",
+  //   prerequisiteModuleId: null,
+  //   unlocksWhen: () => true,
+  //   isComplete: (p) => hasCompleted(p, "checklist"),
+  // },
   {
     id: "resources",
     title: "Resources",

@@ -61,6 +61,17 @@ export function isModuleComplete(moduleId: string): boolean {
   return getProgress().completedModuleIds.includes(moduleId);
 }
 
+/**
+ * Clear the completed state for a module (e.g. after resetting its tasks).
+ */
+export function clearModuleComplete(moduleId: string): void {
+  const p = getProgress();
+  const idx = p.completedModuleIds.indexOf(moduleId);
+  if (idx === -1) return;
+  p.completedModuleIds.splice(idx, 1);
+  setProgress(p);
+}
+
 const VISITED_KEY = "cursor-workshop-visited-steps";
 const CHECKLIST_KEY = "cursor-workshop-checklist";
 

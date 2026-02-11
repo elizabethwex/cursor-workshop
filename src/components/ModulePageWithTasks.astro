@@ -17,9 +17,15 @@ const taskCount = tasks.length;
     <slot />
   </div>
   <aside class="module-page__sidebar" aria-label="Task progress">
+    <svg class="absolute top-0 right-0 w-8 h-8 text-[#00FF41]" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M0,2 L30,2 L30,32" fill="none" stroke="currentColor" stroke-width="2" />
+    </svg>
+    <svg class="absolute bottom-0 left-0 w-8 h-8 text-[#00FF41]" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M32,30 L2,30 L2,0" fill="none" stroke="currentColor" stroke-width="2" />
+    </svg>
     <div class="module-task-progress" id={`task-progress-${moduleId}`} role="status" aria-live="polite">
       <div class="module-task-progress__text">
-        <span class="module-task-progress__count" id={`task-progress-count-${moduleId}`}>0 / {tasks.length}</span>
+        <span class="module-task-progress__count"><span id={`task-progress-done-${moduleId}`}>0</span> <span class="text-dim text-lg">/</span> <span id={`task-progress-total-${moduleId}`}>{tasks.length}</span></span>
         <span class="module-task-progress__pct" id={`task-progress-pct-${moduleId}`}>0%</span>
       </div>
       <div class="module-task-progress__bar" aria-hidden="true">
@@ -27,6 +33,9 @@ const taskCount = tasks.length;
       </div>
     </div>
     <StepTasks moduleId={moduleId} tasks={tasks} />
+    <div class="module-sidebar-complete">
+      <slot name="sidebar-complete" />
+    </div>
   </aside>
 </div>
 
@@ -53,10 +62,10 @@ const taskCount = tasks.length;
     const state = getTaskState();
     const done = countCompleted(state, total);
     const pct = Math.round((done / total) * 100);
-    const countEl = document.getElementById(`task-progress-count-${moduleId}`);
+    const doneEl = document.getElementById(`task-progress-done-${moduleId}`);
     const pctEl = document.getElementById(`task-progress-pct-${moduleId}`);
     const fillEl = document.getElementById(`task-progress-fill-${moduleId}`);
-    if (countEl) countEl.textContent = `${done} / ${total}`;
+    if (doneEl) doneEl.textContent = String(done);
     if (pctEl) pctEl.textContent = `${pct}%`;
     if (fillEl) fillEl.style.width = `${pct}%`;
   }

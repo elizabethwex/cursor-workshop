@@ -12,25 +12,23 @@ import content from "../content/steps/04-explore-cursor.ts";
   <article class="module-page cursor-module">
     <header class="module-header">
       <h1>Cursor</h1>
-      <dl class="module-meta" aria-label="Module info">
-        <dt>Module</dt>
-        <dd>CURSOR</dd>
-        <dt>Access Requirement</dt>
-        <dd>Operator</dd>
-        <dt>Completion Unlocks</dt>
-        <dd>(No access change)</dd>
-      </dl>
     </header>
 
-    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} mission={content.intent} />
 
     <ModulePageWithTasks moduleId="explore-cursor" tasks={content.tasks} taskSectionIds={content.taskSectionIds}>
-      <p class="step-intent" aria-label="Status">
-        <em>Cursor interface active.</em>
-      </p>
+      <div slot="sidebar-complete" class="module-sidebar-complete">
+        <p id="cursor-completed" class="module-completed" role="status" aria-live="polite" hidden>Completed</p>
+        <div id="cursor-mark-complete-actions">
+          <button type="button" id="cursor-mark-complete-btn" class="module-btn">
+            <div class="module-btn__fill" aria-hidden="true"></div>
+            <span class="module-btn__text">Mark Cursor exploration complete</span>
+          </button>
+        </div>
+      </div>
+      <SystemMessage message={content.systemMessage} typed={true} systemCheck={true} />
 
-      <SystemMessage message={content.systemMessage} typed={true} />
-
+      <div class="content-stack">
       <section class="step-card" aria-labelledby="working-with-cursor">
       <h2 id="working-with-cursor">Working With Cursor</h2>
       <p>Cursor is the tool you’ll use to explore and modify code.</p>
@@ -152,48 +150,47 @@ import content from "../content/steps/04-explore-cursor.ts";
       <p>The next module will guide you through making a real contribution.</p>
     </CollapsibleSection>
 
-      <CursorPrompts prompts={content.cursorPrompts} />
-
-    <section id="cursor-mark-complete" class="welcome-mark-complete module-mark-complete" aria-label="Mark module complete">
-      <p id="cursor-mark-complete-confirm" class="system-message welcome-mark-complete-msg" role="status" aria-live="polite" hidden>
-        Cursor exploration marked complete. Next module available: CONTRIBUTION.
-      </p>
-      <div id="cursor-mark-complete-actions">
-        <button type="button" id="cursor-mark-complete-btn" class="workshop-btn workshop-btn--primary">
-          Mark Cursor exploration complete
-        </button>
       </div>
-      </section>
 
-      <p class="module-next-hint">
-        <em>On completion:</em> Module complete. Access level unchanged. Next module available: CONTRIBUTION.
-      </p>
+      <CursorPrompts prompts={content.cursorPrompts} />
     </ModulePageWithTasks>
   </article>
 </MatrixModuleLayout>
 
 <script>
-  import { markModuleComplete, isModuleComplete } from "../lib/progress";
+  import { markModuleComplete, isModuleComplete, clearModuleComplete } from "../lib/progress";
 
+  const MODULE_ID = "explore-cursor";
   const btn = document.getElementById("cursor-mark-complete-btn");
-  const confirmEl = document.getElementById("cursor-mark-complete-confirm");
+  const completedEl = document.getElementById("cursor-completed");
 
   function showConfirmation() {
-    if (confirmEl) {
-      confirmEl.hidden = false;
-      confirmEl.setAttribute("aria-live", "polite");
-    }
+    if (completedEl) completedEl.hidden = false;
     if (btn) btn.hidden = true;
   }
 
-  if (isModuleComplete("explore-cursor")) {
+  function showButtonAgain() {
+    if (completedEl) completedEl.hidden = true;
+    if (btn) btn.hidden = false;
+  }
+
+  if (isModuleComplete(MODULE_ID)) {
     showConfirmation();
-  } else if (btn) {
+  }
+  if (btn) {
     btn.addEventListener("click", () => {
-      markModuleComplete("explore-cursor");
+      markModuleComplete(MODULE_ID);
       document.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      const base = typeof import.meta.env !== "undefined" && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : "/cursor-workshop/";
-      window.location.replace(base);
+      showConfirmation();
     });
   }
+
+  document.addEventListener("workshop-tasks-reset", (e) => {
+    const detail = (e as CustomEvent).detail;
+    if (detail?.moduleId === MODULE_ID) {
+      clearModuleComplete(MODULE_ID);
+      document.dispatchEvent(new CustomEvent("workshop-progress-update"));
+      showButtonAgain();
+    }
+  });
 </script>

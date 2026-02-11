@@ -18,21 +18,9 @@ const MODULE_ITEMS = [
   <article class="module-page checklist-module">
     <header class="module-header">
       <h1>Checklist</h1>
-      <dl class="module-meta" aria-label="Module info">
-        <dt>Module</dt>
-        <dd>CHECKLIST</dd>
-        <dt>Access Requirement</dt>
-        <dd>Any</dd>
-        <dt>Completion Unlocks</dt>
-        <dd>Cleared</dd>
-      </dl>
     </header>
 
-    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
-
-    <p class="step-intent" aria-label="Status">
-      <em>System status summary.</em>
-    </p>
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} mission={content.intent} />
 
     <SystemMessage message={content.systemMessage} typed={true} />
 
