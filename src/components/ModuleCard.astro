@@ -5,12 +5,14 @@ interface Props {
   title: string;
   description: string;
   href?: string;
+  /** When set, card gets data-module-id for status script and shows status badge. */
+  moduleId?: string;
 }
 
-const { id, icon, title, description, href = '#' } = Astro.props;
+const { id, icon, title, description, href = '#', moduleId } = Astro.props;
 ---
 
-<a href={href} class="matrix-card group p-6 flex flex-col h-full relative overflow-hidden rounded-sm block no-underline text-inherit focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF41] focus-visible:ring-offset-2 focus-visible:ring-offset-black">
+<a href={href} class="matrix-card group p-6 flex flex-col h-full relative overflow-hidden rounded-sm block no-underline text-inherit focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF41] focus-visible:ring-offset-2 focus-visible:ring-offset-black" data-module-id={moduleId ?? undefined}>
   <div class="absolute top-0 right-0 p-2 opacity-50 text-[10px] text-[#008F11]" aria-hidden="true">{id}</div>
   <div class="w-12 h-12 border border-[#00FF41] flex items-center justify-center mb-6 group-hover:bg-[#00FF41] group-hover:text-black transition-colors text-[#00FF41]">
     <i data-lucide={icon} class="w-6 h-6" aria-hidden="true"></i>
@@ -19,6 +21,9 @@ const { id, icon, title, description, href = '#' } = Astro.props;
   <p class="text-sm text-[#008F11] mb-6 flex-grow leading-relaxed">
     {description}
   </p>
+  {moduleId && (
+    <span class="module-card-status" data-module-status-badge role="status" aria-live="polite"></span>
+  )}
   <span class="inline-flex items-center text-xs tracking-widest group-hover:text-white uppercase text-[#00FF41]">
     Access_Module <span class="ml-2">&gt;&gt;</span>
   </span>

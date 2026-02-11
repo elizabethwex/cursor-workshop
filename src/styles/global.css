@@ -45,6 +45,9 @@
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
 
+  /* Layout: sticky sidebar clears the matrix header (MODULES / AGENTS) */
+  --matrix-header-height: 5rem;
+
   /* Boot overlay uses same tokens (no separate boot-* vars) */
 }
 
@@ -101,7 +104,7 @@ body {
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   /* Chunky pointer cursor for app window (Amiga style); hotspot at tip */
-  cursor: url("/cursor-workshop/icons/pointer.png") 4 4, pointer;
+  cursor: url("../../public/icons/pointer.png") 4 4, pointer;
 }
 
 /* SystemShell – app-wide wrapper: background, optional ambient, typography */
@@ -1461,6 +1464,8 @@ kbd {
   .module-page__sidebar {
     grid-column: span 4;
     padding: var(--space-lg) var(--space-xl);
+    position: sticky;
+    top: var(--matrix-header-height);
   }
 }
 
@@ -1527,12 +1532,6 @@ kbd {
 .collapsible-section.section-complete {
   border-color: var(--color-accent);
   box-shadow: 0 0 0 1px var(--color-accent-soft);
-}
-
-.collapsible-section.section-complete .collapsible-section__summary::after {
-  content: " ✓";
-  color: var(--color-success);
-  font-weight: 700;
 }
 
 .collapsible-section__footer {
@@ -2293,4 +2292,34 @@ html.boot-first-visit .welcome-content {
   .badge-list {
     grid-template-columns: 1fr;
   }
+}
+
+/* Module card status (homepage): not-started, in-progress, completed */
+.module-card-status {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: var(--space-xs) var(--space-sm);
+  margin-bottom: var(--space-md);
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  transition: box-shadow 0.2s ease, color 0.2s ease;
+  width: fit-content;
+}
+
+.matrix-card[data-status="not-started"] .module-card-status {
+  color: #64748b;
+  box-shadow: 0 0 8px rgba(100, 116, 139, 0.5);
+}
+
+.matrix-card[data-status="in-progress"] .module-card-status {
+  color: #eab308;
+  box-shadow: 0 0 10px rgba(234, 179, 8, 0.6);
+}
+
+.matrix-card[data-status="completed"] .module-card-status {
+  color: #00FF41;
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 }

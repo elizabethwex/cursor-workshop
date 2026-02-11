@@ -2,12 +2,10 @@
 interface Props {
   goal: string;
   estimatedTime: string;
-  /** Mission or intent line (e.g. "Get access to GitHub and familiarize yourself with GitHub basics."). */
-  mission?: string;
   summary?: string;
 }
 
-const { goal, estimatedTime, mission, summary } = Astro.props;
+const { goal, estimatedTime, summary } = Astro.props;
 ---
 
 <div class="module-goal-panel" role="region" aria-labelledby="module-goal-heading">
@@ -24,12 +22,6 @@ const { goal, estimatedTime, mission, summary } = Astro.props;
       <span class="module-goal-panel__term text-dim text-sm uppercase">Estimated time</span>
       <span class="module-goal-panel__value text-sm text-[#00FF41]">{estimatedTime}</span>
     </div>
-    {mission && (
-      <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-2 md:gap-4">
-        <span class="module-goal-panel__term text-dim text-sm uppercase">Mission</span>
-        <span class="module-goal-panel__value text-sm text-[#00FF41]">{mission}</span>
-      </div>
-    )}
     {summary && (
       <div class="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-2 md:gap-4">
         <span class="module-goal-panel__term text-dim text-sm uppercase">Summary</span>

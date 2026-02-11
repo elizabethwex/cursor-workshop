@@ -1,12 +1,11 @@
 ---
 import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
 import ContributorWall from "../components/ContributorWall.astro";
-import SystemMessage from "../components/SystemMessage.astro";
 import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
 import CursorPrompts from "../components/CursorPrompts.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
 import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
-import content from "../content/steps/05-contribution.ts";
+import content from "../content/steps/05-contribution";
 ---
 
 <MatrixModuleLayout title="Contribution" description="Make a real contribution. Completion unlocks Contributor.">
@@ -15,7 +14,7 @@ import content from "../content/steps/05-contribution.ts";
       <h1>Contribution</h1>
     </header>
 
-    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} mission={content.intent} />
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
 
     <ModulePageWithTasks moduleId="contribution" tasks={content.tasks} taskSectionIds={content.taskSectionIds}>
       <div slot="sidebar-complete" class="module-sidebar-complete">
@@ -27,8 +26,6 @@ import content from "../content/steps/05-contribution.ts";
           </button>
         </div>
       </div>
-      <SystemMessage message={content.systemMessage} typed={true} systemCheck={true} />
-
       <div class="content-stack">
       <section class="step-card" aria-labelledby="modifying-the-system">
       <h2 id="modifying-the-system">Modifying the System</h2>
@@ -169,6 +166,7 @@ import content from "../content/steps/05-contribution.ts";
 <script>
   import { markModuleComplete, isModuleComplete, clearModuleComplete } from "../lib/progress";
 
+  const baseUrl = import.meta.env.BASE_URL || "/";
   const MODULE_ID = "contribution";
   const btn = document.getElementById("contribution-mark-complete-btn");
   const completedEl = document.getElementById("contribution-completed");
@@ -190,7 +188,7 @@ import content from "../content/steps/05-contribution.ts";
     btn.addEventListener("click", () => {
       markModuleComplete(MODULE_ID);
       document.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      showConfirmation();
+      window.location.href = baseUrl;
     });
   }
 

@@ -72,6 +72,28 @@ export function clearModuleComplete(moduleId: string): void {
   setProgress(p);
 }
 
+const TASKS_KEY_PREFIX = "cursor-workshop-module-";
+const TASKS_KEY_SUFFIX = "-tasks";
+
+/**
+ * Get display status for a module on the homepage: completed (marked complete),
+ * in-progress (some tasks checked), or not-started.
+ */
+export function getModuleStatus(moduleId: string): "not-started" | "in-progress" | "completed" {
+  if (isModuleComplete(moduleId)) return "completed";
+  try {
+    const raw = localStorage.getItem(TASKS_KEY_PREFIX + moduleId + TASKS_KEY_SUFFIX);
+    if (!raw) return "not-started";
+    const state = JSON.parse(raw) as unknown;
+    if (!state || typeof state !== "object") return "not-started";
+    const obj = state as Record<string, unknown>;
+    const count = Object.keys(obj).filter((k) => obj[k] === true).length;
+    return count > 0 ? "in-progress" : "not-started";
+  } catch {
+    return "not-started";
+  }
+}
+
 const VISITED_KEY = "cursor-workshop-visited-steps";
 const CHECKLIST_KEY = "cursor-workshop-checklist";
 

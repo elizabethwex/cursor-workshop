@@ -1,10 +1,9 @@
 ---
 import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
-import SystemMessage from "../components/SystemMessage.astro";
 import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
 import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
-import content from "../content/steps/02-github-basics.ts";
+import content from "../content/steps/02-github-basics";
 ---
 
 <MatrixModuleLayout title="GitHub basics" description="Get access to GitHub and learn the basics. Completion unlocks LOCALHOST.">
@@ -13,7 +12,7 @@ import content from "../content/steps/02-github-basics.ts";
       <h1>GitHub Basics</h1>
     </header>
 
-    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} mission={content.intent} />
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
 
     <ModulePageWithTasks moduleId="github-basics" tasks={content.tasks} taskSectionIds={content.taskSectionIds}>
       <div slot="sidebar-complete" class="module-sidebar-complete">
@@ -25,8 +24,6 @@ import content from "../content/steps/02-github-basics.ts";
           </button>
         </div>
       </div>
-      <SystemMessage message={content.systemMessage} typed={true} systemCheck={true} />
-
       <div class="content-stack">
       <section class="step-card" aria-labelledby="shared-workspaces">
         <h2 id="shared-workspaces">GitHub: Shared Workspaces</h2>
@@ -219,6 +216,7 @@ import content from "../content/steps/02-github-basics.ts";
 <script>
   import { markModuleComplete, isModuleComplete, clearModuleComplete } from "../lib/progress";
 
+  const baseUrl = import.meta.env.BASE_URL || "/";
   const MODULE_ID = "github-basics";
   const btn = document.getElementById("github-mark-complete-btn");
   const completedEl = document.getElementById("github-completed");
@@ -240,7 +238,7 @@ import content from "../content/steps/02-github-basics.ts";
     btn.addEventListener("click", () => {
       markModuleComplete(MODULE_ID);
       document.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      showConfirmation();
+      window.location.href = baseUrl;
     });
   }
 

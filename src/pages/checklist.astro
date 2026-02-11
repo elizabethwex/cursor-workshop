@@ -1,9 +1,8 @@
 ---
 import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
-import SystemMessage from "../components/SystemMessage.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
 import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
-import content from "../content/steps/06-checklist.ts";
+import content from "../content/steps/06-checklist";
 
 const MODULE_ITEMS = [
   { id: "welcome", label: "Welcome", detail: "Enrollment confirmed" },
@@ -20,9 +19,7 @@ const MODULE_ITEMS = [
       <h1>Checklist</h1>
     </header>
 
-    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} mission={content.intent} />
-
-    <SystemMessage message={content.systemMessage} typed={true} />
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
 
     <section class="step-card" aria-labelledby="program-status">
       <h2 id="program-status">Program Status</h2>
