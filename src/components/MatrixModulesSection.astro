@@ -24,6 +24,7 @@ const DESCRIPTIONS: Record<string, string> = {
 
 const cards = MODULES.map((mod) => ({
   id: `MODULE_${mod.appLabel}`,
+  moduleId: mod.id,
   icon: ICON_KEY_TO_LUCIDE[mod.iconKey] ?? "file-code",
   title: mod.title,
   description: DESCRIPTIONS[mod.id] ?? mod.title,
@@ -50,13 +51,41 @@ const cards = MODULES.map((mod) => ({
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {cards.map((card) => (
-        <ModuleCard id={card.id} icon={card.icon} title={card.title} description={card.description} href={card.href} />
+        <ModuleCard id={card.id} moduleId={card.moduleId} icon={card.icon} title={card.title} description={card.description} href={card.href} />
       ))}
     </div>
   </div>
 </section>
 
 <script>
+  import { getModuleStatus } from "../lib/progress";
+
+  const STATUS_LABELS: Record<string, string> = {
+    "not-started": "Not started",
+    "in-progress": "In progress",
+    completed: "Completed",
+  };
+
+  function applyModuleStatuses() {
+    document.querySelectorAll<HTMLElement>("[data-module-id]").forEach((card) => {
+      const moduleId = card.getAttribute("data-module-id");
+      if (!moduleId) return;
+      const status = getModuleStatus(moduleId);
+      card.setAttribute("data-status", status);
+      const badge = card.querySelector("[data-module-status-badge]");
+      if (badge) {
+        badge.textContent = "Status: " + (STATUS_LABELS[status] ?? status);
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyModuleStatuses);
+  } else {
+    applyModuleStatuses();
+  }
+  document.addEventListener("workshop-progress-update", applyModuleStatuses);
+
   const ACCESS_KEY = "cursor-workshop-matrix-access";
   document.getElementById("reset-matrix-experience")?.addEventListener("click", function () {
     try {

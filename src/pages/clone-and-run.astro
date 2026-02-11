@@ -1,11 +1,10 @@
 ---
 import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
 import CopyButton from "../components/CopyButton.astro";
-import SystemMessage from "../components/SystemMessage.astro";
 import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
 import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
-import content from "../content/steps/03-clone-and-run.ts";
+import content from "../content/steps/03-clone-and-run";
 
 const REPO_URL = "https://github.com/elizabethwex/cursor-workshop";
 const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
@@ -17,7 +16,7 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       <h1>Localhost: Clone and run locally</h1>
     </header>
 
-    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} mission={content.intent} />
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
 
     <ModulePageWithTasks moduleId="clone-and-run" tasks={content.tasks} taskSectionIds={content.taskSectionIds}>
       <div slot="sidebar-complete" class="module-sidebar-complete">
@@ -94,13 +93,13 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       <p>These are listed in a file called <code>package.json</code>.</p>
       <p>When you run <code>npm install</code>, your computer downloads those dependencies into a folder called <code>node_modules</code>. You only need to install dependencies once per project (unless they change later).</p>
       </br>
-      <p>Alternatively, you can just ask Cursor to <code>run the project cursor-workshop</code> and it should do all of this for you.</p>
+      <p>Alternatively, you can just ask Cursor to <code>run the project cursor-workshop</code> and it should do all of this for you.</p></br>
       <p>This may take a minute. Cursor might ask your permission to run commands. You can safely keep clicking 'Run'.</p>
       <p>You may see warnings. Warnings are normal.</p>
       <p>If an error appears, pause and read it. Cursor can help you understand what it means.</p>
       </br>
       <p>If successful, the terminal will display a local URL.</p>
-      <p>It usually looks like: <code>http://localhost:5173</code> (the numbers may be different)</p>
+      <p>It usually looks like: <code>http://localhost:5173</code>. The number is called a port. It's just a temporary channel your computer uses to run the app. The exact number may vary.</p>
     </CollapsibleSection>
 
       <CollapsibleSection id="step-4-open" title="Step 3: Open Localhost Browser" stepCard={true} taskIndex={3} moduleId="clone-and-run">
@@ -144,6 +143,8 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
       <ul>
         <li>You can stop the local server at any time by pressing <kbd>Ctrl</kbd> + <kbd>C</kbd> in the terminal</li>
         <li>You can restart it whenever you need</li>
+        <li>Running a project locally does not change GitHub.</li>
+        <li>Your changes stay on your machine until you commit and push them intentionally.</li>
         <li>Running locally is a foundational skill—everything else builds on this</li>
       </ul>
     </CollapsibleSection>
@@ -156,6 +157,7 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
 <script>
   import { markModuleComplete, isModuleComplete, clearModuleComplete } from "../lib/progress";
 
+  const baseUrl = import.meta.env.BASE_URL || "/";
   const MODULE_ID = "clone-and-run";
   const btn = document.getElementById("localhost-mark-complete-btn");
   const completedEl = document.getElementById("localhost-completed");
@@ -177,7 +179,7 @@ const REPO_CLONE_URL = "https://github.com/elizabethwex/cursor-workshop.git";
     btn.addEventListener("click", () => {
       markModuleComplete(MODULE_ID);
       document.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      showConfirmation();
+      window.location.href = baseUrl;
     });
   }
 

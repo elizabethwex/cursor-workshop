@@ -30,9 +30,6 @@ const storageKey = hasTaskBinding ? `cursor-workshop-module-${moduleId}-tasks` :
   <summary id={summaryId} class="collapsible-section__summary">
     <span class="collapsible-section__title">{title}</span>
     <div class="collapsible-section__icons">
-      {hasTaskBinding && (
-        <i data-lucide="check" class="collapsible-section__icon-check w-5 h-5" aria-hidden="true"></i>
-      )}
       <i data-lucide="chevron-down" class="chevron-icon chevron-icon--down w-5 h-5" aria-hidden="true"></i>
       <i data-lucide="chevron-up" class="chevron-icon chevron-icon--up w-5 h-5" aria-hidden="true"></i>
     </div>
@@ -41,43 +38,11 @@ const storageKey = hasTaskBinding ? `cursor-workshop-module-${moduleId}-tasks` :
     <div class="collapsible-section__content-inner">
       <slot />
     </div>
-    {hasTaskBinding && (
-      <footer class="collapsible-section__footer">
-        <button
-          type="button"
-          class="module-btn collapsible-section__mark-complete"
-          data-storage-key={storageKey}
-          data-task-index={taskIndex}
-          data-module-id={moduleId}
-          aria-label="Mark section complete"
-        >
-          <div class="module-btn__fill" aria-hidden="true"></div>
-          <span class="module-btn__text">Mark section complete</span>
-        </button>
-      </footer>
-    )}
   </div>
 </details>
 
 {hasTaskBinding && (
   <script define:vars={{ storageKey, taskIndex, moduleId }}>
-    document.querySelectorAll(`.collapsible-section__mark-complete[data-module-id="${moduleId}"][data-task-index="${taskIndex}"]`).forEach((btn) => {
-      btn.addEventListener("click", () => {
-        try {
-          const raw = localStorage.getItem(storageKey);
-          const state = raw ? JSON.parse(raw) : {};
-          state[String(taskIndex)] = true;
-          localStorage.setItem(storageKey, JSON.stringify(state));
-          const checkbox = document.getElementById(`module-task-${moduleId}-${taskIndex}`);
-          if (checkbox && checkbox instanceof HTMLInputElement) checkbox.checked = true;
-          const item = checkbox?.closest(".step-tasks-item");
-          if (item) item.classList.add("done");
-          const details = btn.closest("details.collapsible-section");
-          if (details) details.classList.add("section-complete");
-          document.dispatchEvent(new CustomEvent("workshop-task-change", { detail: { moduleId } }));
-        } catch {}
-      });
-    });
     const details = document.querySelector(`.collapsible-section[data-module-id="${moduleId}"][data-task-index="${taskIndex}"]`);
     if (details) {
       const state = (() => { try { const raw = localStorage.getItem(storageKey); return raw ? JSON.parse(raw) : {}; } catch { return {}; } })();

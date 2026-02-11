@@ -11,7 +11,7 @@ const { prompts } = Astro.props;
 {prompts.length > 0 && (
   <div class="cursor-prompts">
     <h2>Cursor prompts</h2>
-    <p class="cursor-prompts-intro">Copy and paste into Cursor Chat to try these.</p>
+    <p class="cursor-prompts-intro">Copy and paste into Cursor Chat (using the appropriate mode!) to try these.</p>
     <ul class="cursor-prompts-list">
       {prompts.map((text) => (
         <li class="cursor-prompt-block">

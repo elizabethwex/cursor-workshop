@@ -1,9 +1,8 @@
 ---
 import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
-import SystemMessage from "../components/SystemMessage.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
 import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
-import resourceGroups, { resourcesGoal, resourcesEstimatedTime } from "../content/steps/07-resources.ts";
+import resourceGroups, { resourcesGoal, resourcesEstimatedTime } from "../content/steps/07-resources";
 ---
 
 <MatrixModuleLayout title="Resources" description="Reference materials for Cursor, GitHub, and local development. Access: Any.">
@@ -12,9 +11,7 @@ import resourceGroups, { resourcesGoal, resourcesEstimatedTime } from "../conten
       <h1>Resources</h1>
     </header>
 
-    <ModuleGoalPanel goal={resourcesGoal} estimatedTime={resourcesEstimatedTime} mission="Reference materials loaded." />
-
-    <SystemMessage message="Reference materials loaded." typed={true} />
+    <ModuleGoalPanel goal={resourcesGoal} estimatedTime={resourcesEstimatedTime} />
 
     <section class="step-card" aria-labelledby="resources-intro">
       <h2 id="resources-intro">Resources</h2>

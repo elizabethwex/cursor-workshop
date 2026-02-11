@@ -1,20 +1,19 @@
 ---
 import MatrixModuleLayout from "../layouts/MatrixModuleLayout.astro";
-import SystemMessage from "../components/SystemMessage.astro";
 import ModulePageWithTasks from "../components/ModulePageWithTasks.astro";
 import CursorPrompts from "../components/CursorPrompts.astro";
 import CollapsibleSection from "../components/CollapsibleSection.astro";
 import ModuleGoalPanel from "../components/ModuleGoalPanel.astro";
-import content from "../content/steps/04-explore-cursor.ts";
+import content from "../content/steps/04-explore-cursor";
 ---
 
 <MatrixModuleLayout title="Explore Cursor" description="Learn how Cursor helps you explore and modify code. Completion unlocks CONTRIBUTION.">
   <article class="module-page cursor-module">
     <header class="module-header">
-      <h1>Cursor</h1>
+      <h1>Explore Cursor</h1>
     </header>
 
-    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} mission={content.intent} />
+    <ModuleGoalPanel goal={content.goal} estimatedTime={content.estimatedTime} />
 
     <ModulePageWithTasks moduleId="explore-cursor" tasks={content.tasks} taskSectionIds={content.taskSectionIds}>
       <div slot="sidebar-complete" class="module-sidebar-complete">
@@ -26,24 +25,21 @@ import content from "../content/steps/04-explore-cursor.ts";
           </button>
         </div>
       </div>
-      <SystemMessage message={content.systemMessage} typed={true} systemCheck={true} />
-
       <div class="content-stack">
       <section class="step-card" aria-labelledby="working-with-cursor">
       <h2 id="working-with-cursor">Working With Cursor</h2>
-      <p>Cursor is the tool you’ll use to explore and modify code.</p>
-      <p>It is not here to replace you.</p>
+      <p>Cursor is the tool you’ll use to explore and modify code. It is a code editor (like VS Code) with built-in AI assistance.</p>
+      </br>
+      <p>It is not here to replace you.</p></br>
       <p>It is here to help you move through unfamiliar systems with confidence.</p>
-      <p>You remain in control.</p>
       </section>
 
       <CollapsibleSection id="what-cursor-is-good-at" title="What Cursor Is Good At" stepCard={true}>
-      <h2 id="what-cursor-is-good-at">What Cursor Is Good At</h2>
       <p>Cursor is especially useful for:</p>
       <ul>
         <li>Explaining unfamiliar files</li>
         <li>Finding where things are defined</li>
-        <li>Suggesting small, safe changes</li>
+        <li>Suggesting safe changes</li>
         <li>Helping debug errors</li>
       </ul>
       <p>You don’t need to know the right words.</p>
@@ -51,77 +47,190 @@ import content from "../content/steps/04-explore-cursor.ts";
     </CollapsibleSection>
 
       <CollapsibleSection id="how-cursor-fits" title="How Cursor Fits Into Your Workflow" stepCard={true} taskIndex={1} moduleId="explore-cursor">
-      <h2 id="how-cursor-fits">How Cursor Fits Into Your Workflow</h2>
       <p>Think of Cursor as:</p>
       <ul>
         <li>A guide when you’re lost</li>
         <li>A translator when code feels dense</li>
         <li>A second set of eyes when something breaks</li>
+        <li>An amazing collaborative prototyping tool for adding logic and functionality to your projects!</li>
       </ul>
-      <p>It does not make decisions for you.</p>
-      <p>You decide what changes get made.</p>
+      <p>Cursor suggests changes, but you are responsible for reviewing them.</p>
     </CollapsibleSection>
 
       <CollapsibleSection id="core-actions" title="Core Cursor Actions" stepCard={true} taskIndex={0} moduleId="explore-cursor">
-      <h2 id="core-actions">Core Cursor Actions</h2>
-      <p>You’ll use these actions often. Try each one at least once.</p>
+      <p>You’ll use these actions often. Try each one at least once.</p></br>
 
-      <h3>Open and Read a File</h3>
+      <h3><strong>Open and Read a File</strong></h3>
       <ul>
-        <li>Use the file tree to open any file in the project</li>
-        <li>Skim it without trying to understand everything</li>
-      </ul>
-      <p>Understanding comes later.</p>
+        <li>Go to View > Appearance > Primary Side Bar (it's likely already open)</li>
+        <li>You’ll see folders like <code>src</code>, <code>components</code>, or <code>pages</code>.</li>
+        <li>Use the file tree to open any file in the project. A good place to start is src > pages > explore-cursor.astro</li>
+        <li>You're now looking at the code for this very page!</li>
+      </ul></br>
 
-      <h3>Search the Project</h3>
-      <ul>
-        <li>Use search to find a word or phrase</li>
-        <li>This is often faster than browsing folders</li>
-      </ul>
-      <p>Searching is a valid strategy.</p>
-
-      <h3>Ask Cursor About Code</h3>
-      <p>Select a block of code, then ask Cursor questions like:</p>
+      <h3><strong>Ask Cursor About Code</strong></h3>
+      <p>You can ask Cursor questions like:</p>
       <ul>
         <li>“What does this file do?”</li>
         <li>“How does this affect the UI?”</li>
         <li>“Is this safe to change?”</li>
       </ul>
       <p>Cursor will respond in plain language.</p>
+      <p>Pro Tip: you can right click a file and select "Add to Cursor Chat" to help provide context.</p></br>
 
-      <h3>Ask for a Small Change</h3>
+
+      <h3><strong>Ask for a Small Change</strong></h3>
       <p>You can also ask Cursor to help you make a change.</p>
       <p>For example:</p>
       <ul>
-        <li>“Change this text to be more descriptive”</li>
-        <li>“Update this color value”</li>
-        <li>“Rename this variable to something clearer”</li>
+        <li>“Add a new page to the project that can be used to explore Cursor's features”</li>
+        <li>“Add a new button on this page go to the new page we just created called 'Explore Cursor'”</li>
       </ul>
-      <p>Small changes are encouraged.</p>
+      <p>When you save a file, you are updating the version on your computer. It won’t affect GitHub until you commit and push. You can always undo changes using standard undo (Cmd/Ctrl + Z) or by reverting the file.</p>
+    </CollapsibleSection>
+
+    <CollapsibleSection id="different-modes" title="The Different Modes of Cursor" stepCard={true} taskIndex={1} moduleId="explore-cursor">
+      <p>
+        Cursor has different modes depending on what you want to do.
+        Think of them as levels of involvement. You can change modes in the Cursor Chat panel.
+      </p></br>
+
+        <h3><strong>Ask Mode (Explain, Don’t Change)</strong></h3>
+        <p>Use Ask mode when you want understanding without modifying anything.</p>
+        <p><strong>Best for:</strong></p>
+        <ul>
+          <li>“What does this file do?”</li>
+          <li>“Why is this error happening?”</li>
+          <li>“Is this using the WEX Button component?”</li>
+        </ul>
+        <p>
+          Ask mode does not edit code.
+          It explains and gives guidance.
+          <br />
+          If you feel unsure, start here.
+        </p></br>
+      
+        <h3><strong>Plan Mode (Think Before Changing)</strong></h3>
+        <p>
+          Use Plan mode when a change might affect multiple files or feel risky.
+          Plan mode creates a step-by-step proposal before anything is edited.
+        </p>
+        <p><strong>Best for:</strong></p>
+        <ul>
+          <li>Refactoring a section of the UI</li>
+          <li>Updating shared components</li>
+          <li>Making changes you want to review first</li>
+          <li>When you're unsure what the safest approach is</li>
+        </ul>
+        <p>
+          Plan mode does not apply edits.
+          It outlines what would change and why.
+          <br />
+          This is helpful when you want alignment before execution.
+        </p></br>
+
+        <h3><strong>Agent Mode (Make the Change)</strong></h3>
+        <p>Use Agent mode when you're ready for Cursor to apply edits.</p>
+        <p><strong>Agent mode can:</strong></p>
+        <ul>
+          <li>Edit files</li>
+          <li>Create new files</li>
+          <li>Run searches</li>
+          <li>Apply multi-step changes</li>
+        </ul>
+        <p><strong>Best for:</strong></p>
+        <ul>
+          <li>Renaming variables</li>
+          <li>Replacing a color value across the project</li>
+          <li>Making repetitive changes across files</li>
+        </ul>
+        <p>
+          Agent mode executes changes.
+          You are still responsible for reviewing them.
+        </p></br>
+        <p>
+          <strong>A helpful pattern:</strong>
+          Start in Ask or Plan → switch to Agent to apply the approved change.
+        </p></br>
+
+        <h3><strong>Manual Editing (You Type the Change)</strong></h3>
+        <p>You can always edit files directly.</p>
+        <p><strong>Best for:</strong></p>
+        <ul>
+          <li>Very small, obvious changes</li>
+          <li>When you know exactly what to modify</li>
+          <li>Practicing hands-on familiarity</li>
+        </ul>
+        <p>
+          Manual editing reinforces understanding.
+          Agent mode accelerates execution.
+          <br />
+          Use whichever supports your goal.
+        </p></br>
+
+        <h3><strong>A Simple Rule of Thumb</strong></h3>
+        <ul>
+          <li>If you're confused → Ask</li>
+          <li>If the change affects multiple areas → Plan</li>
+          <li>If you want it implemented → Agent</li>
+          <li>If it’s tiny and obvious → Edit manually</li>
+        </ul>
+        Cursor never removes your control. You choose when something gets applied.
+      </p>
     </CollapsibleSection>
 
     <CollapsibleSection id="safe-experiment" title="A Safe First Experiment" stepCard={true}>
       <h2 id="safe-experiment">A Safe First Experiment</h2>
-      <p>If you’re unsure where to start, try this:</p>
-      <ol>
-        <li>Find a visible piece of text in the UI</li>
-        <li>Use search to locate it in the code</li>
-        <li>Ask Cursor what file controls it</li>
-        <li>Change the text slightly</li>
-        <li>Save the file and refresh the browser</li>
-      </ol>
-      <p>If the UI updates, everything worked.</p>
-      <p>If it doesn’t, nothing is broken.</p>
+      <p>Let’s make a visible change to the running app and connect the UI to the code.</p>
+      <ul>
+        <li>Open the app in your browser (your localhost URL).</li>
+        <li>Using search, we will update the sentence below this list</li>
+        <li>Copy the exact text and use the search to find it in the code</li>
+        <li>
+          In Cursor, open <strong>Global Search</strong>:<br />
+            <span class="kbd">Cmd</span> + <span class="kbd">Shift</span> + <span class="kbd">F</span> (Mac) or
+            <span class="kbd">Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">F</span> (Windows).
+          </li>
+        <li>Paste the text into the search box and press <strong>Enter</strong></li>
+        <li> Click one of the results to open the file where that text appears.</li>
+        <li>Change the text so it says "I'm exploring Cursor!"</li>
+        <li>Save the file. Refresh the browser. The UI should update.</li>
+      </ul></br>
+      
+      <p>[update this text]</p></br>
+
+
+        <p>
+          If the UI updates, you’ve successfully edited a real project.
+          You just completed the core loop:
+          <strong>UI → Code → Save → Browser</strong>.
+        </p></br>
+      
+        <p><strong>If nothing changes:</strong></p>
+        <ul>
+          <li>Make sure the file was saved.</li>
+          <li>Try searching for a shorter version of the text.</li>
+          <li>Open a different search result.</li>
+          <li>Ask Cursor: “Where is this text rendered?”</li>
+        </ul>
+      
+        <p>
+          Changes you make here only affect your local copy.
+          Nothing updates on GitHub until you commit and push.</br></br>
+          Now undo the change so it is back to the original text!!
+        </p>
+      </section>
+      
     </CollapsibleSection>
 
       <CollapsibleSection id="if-stuck" title="If You Feel Stuck" stepCard={true}>
-      <h2 id="if-stuck">If You Feel Stuck</h2>
       <p>That’s expected.</p>
       <p>When this happens:</p>
       <ul>
         <li>Ask Cursor what you’re looking at</li>
         <li>Ask Cursor where to make a change</li>
         <li>Ask Cursor to explain an error message</li>
+        <li>Basically...ask Cursor for help!</li>
       </ul>
       <p>You do not need to solve this alone.</p>
     </CollapsibleSection>
@@ -138,21 +247,17 @@ import content from "../content/steps/04-explore-cursor.ts";
     </CollapsibleSection>
 
       <CollapsibleSection id="complete-module" title="Complete This Module" stepCard={true} taskIndex={3} moduleId="explore-cursor">
-      <h2 id="complete-module">Complete This Module</h2>
       <p>Once you’ve:</p>
       <ul>
         <li>Opened files</li>
-        <li>Used search</li>
         <li>Asked Cursor at least one question</li>
         <li>Made or considered a small change</li>
       </ul>
       <p>You’re ready to move on.</p>
-      <p>The next module will guide you through making a real contribution.</p>
+      <p>The next module will guide you through making your first contribution.</p>
     </CollapsibleSection>
 
       </div>
-
-      <CursorPrompts prompts={content.cursorPrompts} />
     </ModulePageWithTasks>
   </article>
 </MatrixModuleLayout>
@@ -160,6 +265,7 @@ import content from "../content/steps/04-explore-cursor.ts";
 <script>
   import { markModuleComplete, isModuleComplete, clearModuleComplete } from "../lib/progress";
 
+  const baseUrl = import.meta.env.BASE_URL || "/";
   const MODULE_ID = "explore-cursor";
   const btn = document.getElementById("cursor-mark-complete-btn");
   const completedEl = document.getElementById("cursor-completed");
@@ -181,7 +287,7 @@ import content from "../content/steps/04-explore-cursor.ts";
     btn.addEventListener("click", () => {
       markModuleComplete(MODULE_ID);
       document.dispatchEvent(new CustomEvent("workshop-progress-update"));
-      showConfirmation();
+      window.location.href = baseUrl;
     });
   }
 
