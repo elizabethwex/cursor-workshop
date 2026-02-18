@@ -29,11 +29,8 @@ import content from "../content/steps/05-contribution";
       <div class="content-stack">
       <section class="step-card" aria-labelledby="modifying-the-system">
       <h2 id="modifying-the-system">Modifying the System</h2>
-      <p>This module guides you through making a real contribution.</p>
-      <p>Not a simulation.</p>
-      <p>Not a practice run.</p>
-      <p>A real change, proposed through the same workflow used by teams every day.</p>
-      <p>This is how work moves forward.</p>
+      <p>This module is a real contribution using the same workflow teams use every day.
+        Your changes are safe: they won’t affect anyone else until your pull request is reviewed and merged.</p>
       </section>
 
       <CollapsibleSection id="what-contribution-is" title="What a Contribution Is" stepCard={true}>
@@ -41,7 +38,7 @@ import content from "../content/steps/05-contribution";
       <p>A contribution is a proposed change to a shared system.</p>
       <p>It usually involves:</p>
       <ul>
-        <li>Making a small update</li>
+        <li>Making an update</li>
         <li>Recording what changed</li>
         <li>Submitting it for review</li>
       </ul>
@@ -52,10 +49,10 @@ import content from "../content/steps/05-contribution";
       <h2 id="what-youll-do">What You’ll Do</h2>
       <p>In this module, you will:</p>
       <ol>
-        <li>Create a new branch</li>
-        <li>Make a small, safe change</li>
-        <li>Commit your change</li>
-        <li>Submit a pull request</li>
+        <li>Create a new branch (your own safe workspace).</li>
+        <li>Add yourself to the Agents page by adding a standardized ID badge entry.</li>
+        <li>Commit your change with a short message describing what you did.</li>
+        <li>Push your branch and open a pull request on GitHub.</li>
       </ol>
       <p>Once your pull request is open, your contribution is complete.</p>
       <p>It does not need to be merged immediately.</p>
@@ -63,29 +60,28 @@ import content from "../content/steps/05-contribution";
 
       <CollapsibleSection id="step-1-branch" title="Step 1: Create a Branch" stepCard={true} taskIndex={0} moduleId="contribution">
       <h2 id="step-1-branch">Step 1: Create a Branch</h2>
-      <p>Branches give you a safe place to work.</p>
-      <p>In Cursor:</p>
-      <ol>
-        <li>Open the Command Palette</li>
-        <li>Search for <strong>Git: Create Branch</strong></li>
-        <li>Name your branch something descriptive<br /><span class="text-muted">(For example: <code>add-elizabeth-davis</code>)</span></li>
-      </ol>
+      <p>A branch is your personal copy of the project changes. You’ll work here so the main branch stays protected.</p>
+
+      <ul>
+        <li>Watch this short video to see how to create a new branch: https://www.youtube.com/watch?v=MM-ckM4_Hxs</li>
+        <li>Create a new branch called <code>add-yourname</code></li>
+      </ul>
+
+      <p>Note: It's good practice to keep branch names lowercase, short, and use dashes instead of spaces. </p>
       <p>Your changes will live here until they’re reviewed.</p>
     </CollapsibleSection>
 
-      <CollapsibleSection id="step-2-change" title="Step 2: Make a Small Change" stepCard={true} taskIndex={1} moduleId="contribution">
-      <h2 id="step-2-change">Step 2: Make a Small Change</h2>
-      <p>Choose one of the following options.</p>
-
+      <CollapsibleSection id="step-2-change" title="Step 2: Add Yourself to the Agents Page" stepCard={true} taskIndex={1} moduleId="contribution">
       <h3>Option A: Add Yourself to the Contributors Board</h3>
-      <p>Edit the file <code>src/data/contributors.json</code>. Each entry must have exactly four fields:</p>
+      <p>Edit the file <code>src/data/contributors.json</code>. Each entry must have exactly five fields:</p>
       <ul>
         <li><strong>name</strong> — your full name</li>
         <li><strong>team</strong> — your team name</li>
         <li><strong>role</strong> — your role at WEX</li>
-        <li><strong>avatarUrl</strong> — URL to your profile/avatar image, or <code>""</code> if none</li>
+        <li><strong>startDate</strong> — your start date at WEX, month and year (e.g. <code>"January 2024"</code>), or <code>""</code> if you prefer not to show it</li>
+        <li><strong>avatarUrl</strong> — path to your avatar image, or <code>""</code> if none. Add your image under <code>public/avatars/</code> (e.g. <code>yourname.jpg</code>), then set <code>avatarUrl</code> to <code>"/avatars/yourname.jpg"</code>.</li>
       </ul>
-      <p>Keep the array sorted alphabetically by <code>name</code>. Cursor’s project rules (when editing that file) describe the same format.</p>
+      <p>Copy the template entry in that file (the one with “Add yourself here”), paste a new object, then fill in your details. Keep the array sorted alphabetically by <code>name</code>. Cursor’s project rules (when editing that file) describe the same format.</p>
 
       <ContributorWall />
 
