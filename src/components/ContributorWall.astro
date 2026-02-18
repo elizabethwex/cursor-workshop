@@ -1,40 +1,12 @@
 ---
-interface Contributor {
-  name: string;
-  team: string;
-  role: string;
-  avatarUrl?: string;
-}
-
 import contributorsData from "../data/contributors.json";
-const raw = Array.isArray(contributorsData) ? contributorsData : [];
-const contributors: Contributor[] = raw.map((c) => {
-  const o = c && typeof c === "object" ? (c as Record<string, unknown>) : {};
-  return {
-    name: typeof o.name === "string" ? o.name : "",
-    team: typeof o.team === "string" ? o.team : "",
-    role: typeof o.role === "string" ? o.role : "",
-    avatarUrl: typeof o.avatarUrl === "string" ? o.avatarUrl : undefined,
-  };
-}).filter((c) => c.name.length > 0);
+import { getContributorWallHtml } from "../lib/contributor-wall-html";
+
+const baseUrl = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "") || "/";
+const listItemsHtml = getContributorWallHtml(contributorsData, baseUrl);
 ---
 
 <section class="contributor-wall" aria-label="Contributors">
   <h2 class="contributor-wall-title">Contributors</h2>
-  <ul class="contributor-wall-list">
-    {contributors.map((c) => (
-      <li class="contributor-wall-item">
-        {c.avatarUrl ? (
-          <img src={c.avatarUrl} alt="" class="contributor-wall-avatar" width="64" height="64" loading="lazy" />
-        ) : (
-          <span class="contributor-wall-avatar contributor-wall-avatar--placeholder" aria-hidden="true">
-            {c.name.charAt(0).toUpperCase()}
-          </span>
-        )}
-        <span class="contributor-wall-name">{c.name}</span>
-        {c.team ? <span class="contributor-wall-team">{c.team}</span> : null}
-        {c.role ? <span class="contributor-wall-role">{c.role}</span> : null}
-      </li>
-    ))}
-  </ul>
+  <ul class="contributor-wall-list" set:html={listItemsHtml} />
 </section>

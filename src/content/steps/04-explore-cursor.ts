@@ -24,7 +24,6 @@ const content: StepContent = {
     "Is this safe to change?",
     "Change this text to be more descriptive",
     "Update this color value",
-    "Rename this variable to something clearer",
   ],
   successList: [
     "You've opened files, used search, and asked Cursor at least one question.",

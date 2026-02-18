@@ -28,7 +28,7 @@ export interface Module {
   isComplete: (progress: Progress) => boolean;
 }
 
-const BASE = "/cursor-workshop";
+const BASE = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "") || "";
 
 function hasCompleted(progress: Progress, moduleId: string): boolean {
   return progress.completedModuleIds.includes(moduleId);
