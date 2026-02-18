@@ -139,7 +139,34 @@ const taskCount = 3;
       } else {
         initLucide();
       }
-    </script> <script type="module">(function(){const o="cursor-workshop-visited-steps";function c(){try{const t=localStorage.getItem(o);return t?JSON.parse(t):[]}catch{return[]}}function n(t){try{localStorage.setItem(o,JSON.stringify(t))}catch{}}const s=window.location.pathname.replace(/\/$/,"")||"/cursor-workshop",e=c();e.includes(s)||(e.push(s),n(e))})();</script> <script>(function(){const base = "/cursor-workshop/";
+    </script> <script>(function(){const base = "/cursor-workshop/";
+
+      (function () {
+        const VISITED_KEY = "cursor-workshop-visited-steps";
+
+        function getVisited() {
+          try {
+            const raw = localStorage.getItem(VISITED_KEY);
+            return raw ? JSON.parse(raw) : [];
+          } catch {
+            return [];
+          }
+        }
+
+        function setVisited(paths) {
+          try {
+            localStorage.setItem(VISITED_KEY, JSON.stringify(paths));
+          } catch (_) {}
+        }
+
+        const pathname = window.location.pathname.replace(/\/$/, "") || (base || "/").replace(/\/$/, "") || "/";
+        const visited = getVisited();
+        if (!visited.includes(pathname)) {
+          visited.push(pathname);
+          setVisited(visited);
+        }
+      })();
+    })();</script> <script>(function(){const base = "/cursor-workshop/";
 
       (function () {
         function isTextInput(el) {
