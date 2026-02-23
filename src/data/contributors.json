@@ -5,5 +5,12 @@
     "role": "",
     "startDate": "",
     "avatarUrl": ""
+  },
+  {
+    "name": "Elizabeth Davis",
+    "team": "The Bosses",
+    "role": "Senior UX Designer",
+    "startDate": "August 2019",
+    "avatarUrl": "/avatars/agent-elizabeth-davis.png"
   }
 ]
