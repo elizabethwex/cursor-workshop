@@ -14,14 +14,14 @@ const content: StepContent = {
   ],
   tasks: [
     "Create a new branch (e.g. add-yourname)",
-    "Add yourself to the contributors board (name, team, role, startDate, avatarUrl) or make a minor UI change",
+    "Add yourself to the Agents page by adding a standardized ID badge entry (name, team, role, startDate, avatarUrl)",
     "Commit your change with a short message",
     "Submit a pull request",
   ],
   cursorPrompts: [
-    "What is a safe, beginner-friendly change I can make in this project?",
     "Add me to the contributors board. Use the project rules for the exact file and format (name, team, role, startDate, avatarUrl).",
-    "Where is the contributors file and what format should my entry be? (name, team, role, startDate, avatarUrl). Where do I put my avatar image?",
+    "Where is the contributors file and what format should my entry be? (name, team, role, startDate, avatarUrl).",
+    "Where do I put my avatar image?",
     "How do I create a new branch in this repo?",
     "Give me the git commands to add, commit, push, and open a PR.",
   ],

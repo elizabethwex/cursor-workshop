@@ -33,8 +33,7 @@ import content from "../content/steps/05-contribution";
         Your changes are safe: they won’t affect anyone else until your pull request is reviewed and merged.</p>
       </section>
 
-      <CollapsibleSection id="what-contribution-is" title="What a Contribution Is" stepCard={true}>
-      <h2 id="what-contribution-is">What a Contribution Is</h2>
+      <CollapsibleSection id="what-contribution-is" title="What is a Contribution?" stepCard={true}>
       <p>A contribution is a proposed change to a shared system.</p>
       <p>It usually involves:</p>
       <ul>
@@ -48,22 +47,21 @@ import content from "../content/steps/05-contribution";
       <CollapsibleSection id="what-youll-do" title="What You'll Do" stepCard={true}>
       <h2 id="what-youll-do">What You’ll Do</h2>
       <p>In this module, you will:</p>
-      <ol>
+      <ul>
         <li>Create a new branch (your own safe workspace).</li>
         <li>Add yourself to the Agents page by adding a standardized ID badge entry.</li>
         <li>Commit your change with a short message describing what you did.</li>
         <li>Push your branch and open a pull request on GitHub.</li>
-      </ol>
+      </ul>
       <p>Once your pull request is open, your contribution is complete.</p>
       <p>It does not need to be merged immediately.</p>
     </CollapsibleSection>
 
       <CollapsibleSection id="step-1-branch" title="Step 1: Create a Branch" stepCard={true} taskIndex={0} moduleId="contribution">
-      <h2 id="step-1-branch">Step 1: Create a Branch</h2>
       <p>A branch is your personal copy of the project changes. You’ll work here so the main branch stays protected.</p>
 
       <ul>
-        <li>Watch this short video to see how to create a new branch: https://www.youtube.com/watch?v=MM-ckM4_Hxs</li>
+        <li>Watch this short video to see how to create a new branch: <a href="https://www.youtube.com/watch?v=MM-ckM4_Hxs" target="_blank">https://www.youtube.com/watch?v=MM-ckM4_Hxs</a></li>
         <li>Create a new branch called <code>add-yourname</code></li>
       </ul>
 
@@ -72,58 +70,71 @@ import content from "../content/steps/05-contribution";
     </CollapsibleSection>
 
       <CollapsibleSection id="step-2-change" title="Step 2: Add Yourself to the Agents Page" stepCard={true} taskIndex={1} moduleId="contribution">
-      <h3>Option A: Add Yourself to the Contributors Board</h3>
-      <p>Edit the file <code>src/data/contributors.json</code>. Each entry must have exactly five fields:</p>
+      <p>You’ll add a standardized ID badge entry (name, team, avatar, and WEX start date).
+        The Agents page is generated from a data file—your job is to add one entry.</p>
+
+        <p> Ask Cursor AI Chat to edit the file <code>src/data/contributors.json</code>. Provide it with the following details: </p>
       <ul>
         <li><strong>name</strong> — your full name</li>
         <li><strong>team</strong> — your team name</li>
         <li><strong>role</strong> — your role at WEX</li>
-        <li><strong>startDate</strong> — your start date at WEX, month and year (e.g. <code>"January 2024"</code>), or <code>""</code> if you prefer not to show it</li>
-        <li><strong>avatarUrl</strong> — path to your avatar image, or <code>""</code> if none. Add your image under <code>public/avatars/</code> (e.g. <code>yourname.jpg</code>), then set <code>avatarUrl</code> to <code>"/avatars/yourname.jpg"</code>.</li>
-      </ul>
-      <p>Copy the template entry in that file (the one with “Add yourself here”), paste a new object, then fill in your details. Keep the array sorted alphabetically by <code>name</code>. Cursor’s project rules (when editing that file) describe the same format.</p>
-
-      <ContributorWall />
-
-      <p class="text-muted">The wall above is built from that data file. Add your entry and you’ll show up once your PR is merged.</p>
-
-      <h3>Option B: Make a Minor UI Change</h3>
-      <ul>
-        <li>Update a short piece of text</li>
-        <li>Adjust a small visual detail</li>
-        <li>Make a change that is easy to review</li>
+        <li><strong>startDate</strong> — your start date at WEX, month and year</li>
+        <li><strong>avatarUrl</strong> — path to your avatar image (manually add the image to the public/avatars folder)</li>
       </ul>
 
-      <p>If you’re unsure what to change, ask Cursor:</p>
-      <blockquote>“What is a safe, beginner-friendly change I can make in this project?”</blockquote>
+      <p>Here is a full prompt example: </p>
+      <blockquote>
+        "Add me to the contributors board. Use the project rules for the exact file and format (name, team, role, startDate, avatarUrl).
+        My name is Rocket Davis, I'm a UX Designer Cat on the The Bosses team, and I started at WEX in December 2023.
+        My avatar image is in the public/avatars folder as rocket-davis.jpg.
+        Add my entry to the contributors.json file."
+      </blockquote>
+
     </CollapsibleSection>
 
-      <CollapsibleSection id="step-3-commit" title="Step 3: Commit Your Change" stepCard={true} taskIndex={2} moduleId="contribution">
-      <h2 id="step-3-commit">Step 3: Commit Your Change</h2>
+    <CollapsibleSection id="step-3-confirm" title="Step 3: Confirm Your Change" stepCard={true} taskIndex={2} moduleId="contribution">
       <p>Once your change is ready:</p>
-      <ol>
-        <li>Open the Source Control panel in Cursor</li>
-        <li>Review the changed files</li>
-        <li>Write a short commit message describing what you did<br /><span class="text-muted">(For example: “Add contributor entry”)</span></li>
-        <li>Commit the change</li>
-      </ol>
-      <p>This records your work.</p>
+      <ul>
+        <li>Save the file.</li>
+        <li>Check your running app in the browser.</li>
+        <li>Go to the Agents page.</li>
+        <li>Confirm your badge appears with the correct name, team, avatar, and start date.</li>
+        <li>If everything looks good, you can proceed keep the changes Cursor made to the file and move on to the next step.</li>
+      </ul>
+
+      <p>If your badge doesn’t show up:</p>
+    <ul>
+      <li>Refresh the browser.</li>
+      <li>Double-check your entry matches the file format exactly.</li>
+      <li>Ask Cursor (using ASK mode): “Why isn’t my new agent entry appearing on the Agents page?”</li>
+    </ul>
     </CollapsibleSection>
 
-      <CollapsibleSection id="step-4-pr" title="Step 4: Submit a Pull Request" stepCard={true} taskIndex={3} moduleId="contribution">
-      <h2 id="step-4-pr">Step 4: Submit a Pull Request</h2>
+      <CollapsibleSection id="step-4-commit" title="Step 4: Commit Your Change" stepCard={true} taskIndex={2} moduleId="contribution">
+      <p>A commit is a saved snapshot of your work, with a short message describing what changed.</p>
+      <p>Once your change is ready:</p>
+      <ul>
+        <li>Ask Cursor (using ASK mode): “What changes did you make to the contributors.json file?”</li>
+        <li>Review the changes.</li>
+        <li>Write a short commit message describing what you did (For example: “Add contributor entry”)</li>
+        <li>Using AGENT mode, ask Cursor to commit and push the changes to your branch</li>
+      </ul>
+    </CollapsibleSection>
+
+      <CollapsibleSection id="step-5-pr" title="Step 5: Submit a Pull Request" stepCard={true} taskIndex={3} moduleId="contribution">
       <p>Now it’s time to propose your change.</p>
-      <ol>
-        <li>Push your branch to GitHub when prompted</li>
-        <li>Open the pull request link</li>
-        <li>Review the summary</li>
-        <li>Submit the pull request</li>
-      </ol>
-      <p>That’s it.</p>
+      <ul>
+        <li>After you push your changes, your branch will appear in the list of branches in the repository in GitHub</li>
+        <li>Click on your branch to open it</li>
+        <li>Click the "Create pull request" button</li>
+        <li>Add Elizabeth Davis or Fernanda Helenco as reviewers</li>
+        <li>Add a title and description for your pull request</li>
+        <li>Click the "Create pull request" button</li>
+      </ul>
+      <p>That’s it! Your pull request is now open.</p>
     </CollapsibleSection>
 
       <CollapsibleSection id="what-happens-next" title="What Happens Next" stepCard={true}>
-      <h2 id="what-happens-next">What Happens Next</h2>
       <p>Your pull request may receive:</p>
       <ul>
         <li>Comments</li>
@@ -132,24 +143,19 @@ import content from "../content/steps/05-contribution";
       </ul>
       <p>This is normal.</p>
       <p>Feedback is part of collaboration, not correction.</p>
+      <p>After your pull request is reviewed and merged, you’ve completed the program’s core workflow. Your changes will now be live on the Agents page.</p>
     </CollapsibleSection>
 
-      <CollapsibleSection id="if-unclear" title="If Something Feels Unclear" stepCard={true}>
-      <h2 id="if-unclear">If Something Feels Unclear</h2>
-      <p>That’s expected.</p>
+      <CollapsibleSection id="troubleshooting" title="Troubleshooting" stepCard={true}>
+      <p>If something goes wrong, that’s the name of the game when it comes to code and AI.</p>
       <p>You can:</p>
       <ul>
         <li>Ask Cursor to explain what you’re seeing</li>
         <li>Ask Cursor what to do next</li>
         <li>Ask Cursor how to fix a problem</li>
+        <li>Remember to use different modes of Cursor (ASK, AGENT, PLAN) to help you troubleshoot</li>
       </ul>
       <p>Use the tools you’ve already practiced with.</p>
-    </CollapsibleSection>
-
-    <CollapsibleSection id="complete-module" title="Complete This Module" stepCard={true}>
-      <h2 id="complete-module">Complete This Module</h2>
-      <p>Once your pull request is open, you’ve completed the program’s core workflow.</p>
-      <p>Regardless of outcome, you’ve participated correctly.</p>
     </CollapsibleSection>
 
       </div>
